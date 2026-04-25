@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Индекс клева ручьевой форели</title>
     <link rel="stylesheet" href="./styles.css" />
-    <script src="./mock-data.js"></script>
   </head>
   <body>
     <main class="app-shell">
@@ -16,12 +15,11 @@
         </div>
         <div class="top-actions">
           <div class="mode-switch" aria-label="Режим данных">
-            <button class="mode-button active" type="button" data-mode="mock">Демо</button>
-            <button class="mode-button" type="button" data-mode="live">Реальная погода</button>
+            <button class="mode-button active" type="button" data-mode="live">Реальная погода</button>
           </div>
           <div class="data-status">
             <span class="status-dot"></span>
-            <span id="dataStatusText">Данные: mock</span>
+            <span id="dataStatusText">Данные: загружаю погоду...</span>
           </div>
         </div>
       </header>

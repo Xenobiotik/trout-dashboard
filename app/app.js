@@ -57,7 +57,7 @@ const CONFIDENCE_LABELS = {
 };
 
 let appData;
-let dataMode = "mock";
+let dataMode = "live";
 let onlineData;
 let onlineStatus = "idle";
 let selectedRegionId = "south_west";
@@ -213,22 +213,18 @@ function getCurrentDay() {
 }
 
 function getDataForMode(mode) {
-  if (mode === "live" && onlineData) {
+  if (onlineData) {
     return onlineData;
   }
 
-  if (mode === "live" && window.LIVE_RESULTS) {
+  if (window.LIVE_RESULTS) {
     return window.LIVE_RESULTS;
   }
 
-  return window.MOCK_RESULTS;
+  return null;
 }
 
 async function loadDataForMode(mode) {
-  if (mode === "mock") {
-    return window.MOCK_RESULTS;
-  }
-
   if (onlineData) return onlineData;
   if (!window.fetchOnlineResults) return window.LIVE_RESULTS;
 
@@ -251,13 +247,10 @@ function renderModeSwitch() {
     button.classList.toggle("active", button.dataset.mode === dataMode);
   });
 
-  let label = "mock";
-  if (dataMode === "live") {
-    if (onlineStatus === "loading") label = "загружаю погоду...";
-    else if (onlineStatus === "online") label = "онлайн Open-Meteo";
-    else if (onlineStatus === "fallback") label = "сохраненная реальная погода";
-    else label = "реальная погода";
-  }
+  let label = "реальная погода";
+  if (onlineStatus === "loading") label = "загружаю погоду...";
+  else if (onlineStatus === "online") label = "онлайн Open-Meteo";
+  else if (onlineStatus === "fallback") label = "сохраненная реальная погода";
   elements.dataStatusText.textContent = `Данные: ${label}`;
 }
 
@@ -432,14 +425,7 @@ async function init() {
   try {
     setupModeSwitch();
 
-    if (window.MOCK_RESULTS) {
-      appData = await loadDataForMode(dataMode);
-      render();
-      return;
-    }
-
-    const response = await fetch("../data/mock-results.json");
-    appData = await response.json();
+    appData = await loadDataForMode(dataMode);
     render();
   } catch (error) {
     document.body.innerHTML = `

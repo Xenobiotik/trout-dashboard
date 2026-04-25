@@ -13,7 +13,7 @@ const FACTOR_WEIGHTS = {
 const FACTOR_LABELS = {
   waterTemperature: "Температура воды",
   season: "Сезонная фаза",
-  weatherChange: "Резкие изменения погоды",
+  weatherChange: "Изменение погоды",
   pressure: "Атмосферное давление",
   waterClarity: "Прозрачность воды",
   light: "Освещенность",

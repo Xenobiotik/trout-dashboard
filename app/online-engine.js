@@ -9,7 +9,7 @@
 
   const HOURLY = ["temperature_2m", "pressure_msl", "precipitation", "cloud_cover", "wind_speed_10m", "wind_direction_10m", "wind_gusts_10m"];
   const WEIGHTS = { waterTemperature: 0.22, season: 0.21, weatherChange: 0.16, pressure: 0.13, waterClarity: 0.10, light: 0.08, wind: 0.05, waterLevel: 0.03, moon: 0.02 };
-  const LABELS = { waterTemperature: "Температура воды", season: "Сезонная фаза", weatherChange: "Резкие изменения погоды", pressure: "Атмосферное давление", waterClarity: "Прозрачность воды", light: "Освещенность", wind: "Ветер", waterLevel: "Уровень воды", moon: "Луна" };
+  const LABELS = { waterTemperature: "Температура воды", season: "Сезонная фаза", weatherChange: "Изменение погоды", pressure: "Атмосферное давление", waterClarity: "Прозрачность воды", light: "Освещенность", wind: "Ветер", waterLevel: "Уровень воды", moon: "Луна" };
   const HINTS = {
     waterTemperature: ["температурный фон воды близок к рабочей зоне форели", "температура воды снижает активность форели", "температура воды рабочая, но не идеальная"],
     season: ["сезонная фаза поддерживает кормовую активность", "сезонная фаза ограничивает активность рыбы", "сезонная фаза еще не дает максимальной активности"],
