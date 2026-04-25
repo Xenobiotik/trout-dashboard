@@ -202,7 +202,7 @@ function getDetailedAnalytics(day) {
   }
 
   if (day.appliedCaps?.length) {
-    parts.push(`Индекс ограничен правилом модели: ${day.appliedCaps.map((cap) => cap.reason).join("; ")}.`);
+    parts.push(`Индекс скорректирован правилом модели: ${day.appliedCaps.map((cap) => cap.reason).join("; ")}.`);
   }
 
   return parts.slice(0, 4);

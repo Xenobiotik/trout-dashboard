@@ -133,6 +133,7 @@ function getFactorExplanation(id, score) {
 
 function applyCaps(indexRaw, conditions) {
   const caps = [];
+  const penalties = [];
   const raw = conditions.raw || {};
   const explicitCaps = conditions.caps || [];
   let index = indexRaw;
@@ -154,10 +155,10 @@ function applyCaps(indexRaw, conditions) {
   }
 
   if (raw.waterLevel === "flood_risk" || explicitCaps.includes("flood_cap_35")) {
-    caps.push({
-      id: "flood_cap_35",
-      limit: 35,
-      reason: "есть признаки паводкового уровня"
+    penalties.push({
+      id: "flood_risk_penalty_12",
+      value: 12,
+      reason: "есть признаки паводкового уровня, поэтому индекс снижен мягким штрафом"
     });
   }
 
@@ -165,9 +166,18 @@ function applyCaps(indexRaw, conditions) {
     index = Math.min(index, cap.limit);
   }
 
+  for (const penalty of penalties) {
+    index -= penalty.value;
+  }
+
+  index = clamp(index, 0, 100);
+
   return {
     index,
-    appliedCaps: caps.filter((cap) => cap.limit < indexRaw)
+    appliedCaps: [
+      ...caps.filter((cap) => cap.limit < indexRaw),
+      ...penalties.filter((penalty) => penalty.value > 0)
+    ]
   };
 }
 
