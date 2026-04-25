@@ -1,0 +1,57 @@
+[
+  {
+    "id": "south_west",
+    "direction": "Юго-запад Ленинградской области",
+    "settlement": "Систо-Палкино",
+    "displayName": "Юго-запад: Систо-Палкино",
+    "latitude": 59.800096,
+    "longitude": 28.915934,
+    "description": "Опорная точка для мониторинга юго-западного направления.",
+    "active": true,
+    "priority": 1
+  },
+  {
+    "id": "south",
+    "direction": "Юг Ленинградской области",
+    "settlement": "Сиверский",
+    "displayName": "Юг: Сиверский",
+    "latitude": 59.354888,
+    "longitude": 30.067071,
+    "description": "Опорная точка для мониторинга южного направления.",
+    "active": true,
+    "priority": 2
+  },
+  {
+    "id": "north_east",
+    "direction": "Северо-восток Ленинградской области",
+    "settlement": "Сосново, Приозерский район",
+    "displayName": "Северо-восток: Сосново",
+    "latitude": 60.557705,
+    "longitude": 30.253624,
+    "description": "Опорная точка для мониторинга северо-восточного направления.",
+    "active": true,
+    "priority": 3
+  },
+  {
+    "id": "north",
+    "direction": "Север Ленинградской области",
+    "settlement": "Приозерск",
+    "displayName": "Север: Приозерск",
+    "latitude": 61.035979,
+    "longitude": 30.115589,
+    "description": "Опорная точка для мониторинга северного направления.",
+    "active": true,
+    "priority": 4
+  },
+  {
+    "id": "north_west",
+    "direction": "Северо-запад Ленинградской области",
+    "settlement": "Выборг",
+    "displayName": "Северо-запад: Выборг",
+    "latitude": 60.710496,
+    "longitude": 28.749781,
+    "description": "Опорная точка для мониторинга северо-западного направления.",
+    "active": true,
+    "priority": 5
+  }
+]

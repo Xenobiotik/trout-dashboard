@@ -1,0 +1,92 @@
+[
+  {
+    "id": "air_temperature",
+    "name": "Температура воздуха",
+    "category": "weather",
+    "mvp": true,
+    "dataAvailability": "high",
+    "measurement": "Погодный API",
+    "effect": "Косвенно влияет на температуру воды, насекомых и активность форели."
+  },
+  {
+    "id": "estimated_water_temperature",
+    "name": "Расчетная температура воды",
+    "category": "hydrology_proxy",
+    "mvp": true,
+    "dataAvailability": "medium",
+    "measurement": "Модель по температуре воздуха, сезону и типу водотока",
+    "effect": "Один из главных факторов активности, но в MVP оценивается приближенно."
+  },
+  {
+    "id": "pressure_trend",
+    "name": "Давление и тренд давления",
+    "category": "weather",
+    "mvp": true,
+    "dataAvailability": "high",
+    "measurement": "Погодный API и расчет изменения за 6-24 часа",
+    "effect": "Стабильное давление предпочтительнее резких скачков."
+  },
+  {
+    "id": "precipitation",
+    "name": "Осадки",
+    "category": "weather",
+    "mvp": true,
+    "dataAvailability": "high",
+    "measurement": "Погодный API, текущие и накопленные осадки",
+    "effect": "Умеренный дождь может помогать, сильные осадки повышают риск мутности и паводка."
+  },
+  {
+    "id": "wind",
+    "name": "Ветер",
+    "category": "weather",
+    "mvp": true,
+    "dataAvailability": "high",
+    "measurement": "Погодный API",
+    "effect": "Сильный ветер ухудшает ловлю и может снижать активность поверхностного корма."
+  },
+  {
+    "id": "cloud_cover",
+    "name": "Облачность",
+    "category": "weather",
+    "mvp": true,
+    "dataAvailability": "high",
+    "measurement": "Погодный API",
+    "effect": "Умеренная облачность часто улучшает условия за счет меньшей освещенности."
+  },
+  {
+    "id": "season",
+    "name": "Сезон",
+    "category": "calendar",
+    "mvp": true,
+    "dataAvailability": "high",
+    "measurement": "Календарная модель",
+    "effect": "Задает базовый биологический фон: прогрев, нерест, кормовая база, летний стресс."
+  },
+  {
+    "id": "sunlight",
+    "name": "Освещенность и длина дня",
+    "category": "astronomy",
+    "mvp": true,
+    "dataAvailability": "high",
+    "measurement": "Астрономический расчет или API",
+    "effect": "Определяет утренние и вечерние окна, а также общий сезонный режим активности."
+  },
+  {
+    "id": "moon",
+    "name": "Луна",
+    "category": "astronomy",
+    "mvp": true,
+    "dataAvailability": "high",
+    "measurement": "Астрономический расчет или API",
+    "effect": "Вторичный фактор: фаза и освещенность могут использоваться как слабый поправочный сигнал."
+  },
+  {
+    "id": "water_level_risk",
+    "name": "Риск высокого уровня и мутности",
+    "category": "hydrology_proxy",
+    "mvp": true,
+    "dataAvailability": "medium",
+    "measurement": "Косвенно по накопленным осадкам за 24-72 часа",
+    "effect": "Слишком высокий уровень и мутность снижают эффективность визуальной охоты форели."
+  }
+]

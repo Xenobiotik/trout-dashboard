@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Индекс клева ручьевой форели</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <script src="./mock-data.js"></script>
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Ленинградская область</p>
+          <h1>Индекс клева ручьевой форели</h1>
+        </div>
+        <div class="top-actions">
+          <div class="mode-switch" aria-label="Режим данных">
+            <button class="mode-button active" type="button" data-mode="mock">Демо</button>
+            <button class="mode-button" type="button" data-mode="live">Реальная погода</button>
+          </div>
+          <div class="data-status">
+            <span class="status-dot"></span>
+            <span id="dataStatusText">Данные: mock</span>
+          </div>
+        </div>
+      </header>
+
+      <nav class="region-tabs" aria-label="Районы мониторинга" id="regionTabs"></nav>
+
+      <section class="dashboard-grid">
+        <article class="index-panel" id="indexPanel"></article>
+
+        <aside class="side-panel">
+          <section class="panel-block positive-block">
+            <h2>Главные плюсы</h2>
+            <ul class="driver-list" id="positiveDrivers"></ul>
+          </section>
+          <section class="panel-block risk-block">
+            <h2>Главные риски</h2>
+            <ul class="driver-list" id="negativeDrivers"></ul>
+          </section>
+        </aside>
+      </section>
+
+      <section class="forecast-section">
+        <div class="section-header">
+          <h2>Прогноз на 5 дней</h2>
+          <p>Выбери день, чтобы посмотреть факторы и рекомендации.</p>
+        </div>
+        <div class="forecast-strip" id="forecastStrip"></div>
+      </section>
+
+      <section class="content-grid">
+        <article class="panel">
+          <div class="section-header compact">
+            <h2>Факторы индекса</h2>
+            <p>Вес, балл и вклад каждого фактора.</p>
+          </div>
+          <div class="factors-list" id="factorsList"></div>
+        </article>
+
+        <aside class="panel">
+          <div class="section-header compact">
+            <h2>Рекомендации</h2>
+            <p>Тактика, приманки и предупреждения.</p>
+          </div>
+          <div id="warningsBlock"></div>
+          <ul class="recommendation-list" id="recommendationsList"></ul>
+        </aside>
+      </section>
+    </main>
+
+    <script src="./live-data.js"></script>
+    <script src="./online-engine.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>

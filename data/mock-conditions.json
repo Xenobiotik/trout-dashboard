@@ -1,0 +1,809 @@
+{
+  "metadata": {
+    "version": "0.1",
+    "dataType": "mock",
+    "createdFor": "MVP dashboard prototype",
+    "modelVersion": "0.4",
+    "notes": "Synthetic scenarios for UI and index-model testing. These values are not real forecasts."
+  },
+  "days": [
+    {
+      "date": "2026-05-18",
+      "label": "Сегодня"
+    },
+    {
+      "date": "2026-05-19",
+      "label": "Завтра"
+    },
+    {
+      "date": "2026-05-20",
+      "label": "+2 дня"
+    },
+    {
+      "date": "2026-05-21",
+      "label": "+3 дня"
+    },
+    {
+      "date": "2026-05-22",
+      "label": "+4 дня"
+    }
+  ],
+  "regions": {
+    "south_west": {
+      "summary": "Юго-западный район с хорошим сезоном, но риском мутности после дождей.",
+      "forecast": [
+        {
+          "date": "2026-05-18",
+          "confidence": "medium",
+          "raw": {
+            "estimatedWaterTemperatureC": 11.8,
+            "airTemperatureC": 15.4,
+            "pressureHPa": 1009,
+            "pressureChange24hHPa": -2,
+            "precipitation24hMm": 4,
+            "precipitation72hMm": 12,
+            "cloudCoverPercent": 72,
+            "windDirection": "SW",
+            "windSpeedMs": 3.2,
+            "waterClarity": "slightly_tea_clear",
+            "waterLevel": "normal",
+            "moonPhase": "waxing_crescent"
+          },
+          "factorScores": {
+            "waterTemperature": 96,
+            "season": 90,
+            "weatherChange": 84,
+            "pressure": 88,
+            "waterClarity": 95,
+            "light": 92,
+            "wind": 95,
+            "waterLevel": 90,
+            "moon": 62
+          },
+          "flags": ["stable_weather", "good_clarity", "soft_light", "favorable_wind"]
+        },
+        {
+          "date": "2026-05-19",
+          "confidence": "medium",
+          "raw": {
+            "estimatedWaterTemperatureC": 12.2,
+            "airTemperatureC": 16.1,
+            "pressureHPa": 1005,
+            "pressureChange24hHPa": -4,
+            "precipitation24hMm": 9,
+            "precipitation72hMm": 18,
+            "cloudCoverPercent": 88,
+            "windDirection": "W",
+            "windSpeedMs": 4.5,
+            "waterClarity": "slightly_colored_clear",
+            "waterLevel": "slightly_high",
+            "moonPhase": "waxing_crescent"
+          },
+          "factorScores": {
+            "waterTemperature": 97,
+            "season": 90,
+            "weatherChange": 72,
+            "pressure": 72,
+            "waterClarity": 86,
+            "light": 90,
+            "wind": 82,
+            "waterLevel": 84,
+            "moon": 62
+          },
+          "flags": ["good_temperature", "cloudy", "moderate_rain_risk"]
+        },
+        {
+          "date": "2026-05-20",
+          "confidence": "medium",
+          "raw": {
+            "estimatedWaterTemperatureC": 12.4,
+            "airTemperatureC": 14.8,
+            "pressureHPa": 998,
+            "pressureChange24hHPa": -7,
+            "precipitation24hMm": 18,
+            "precipitation72hMm": 32,
+            "cloudCoverPercent": 96,
+            "windDirection": "NE",
+            "windSpeedMs": 6.8,
+            "waterClarity": "moderately_muddy",
+            "waterLevel": "high",
+            "moonPhase": "first_quarter"
+          },
+          "factorScores": {
+            "waterTemperature": 96,
+            "season": 90,
+            "weatherChange": 42,
+            "pressure": 58,
+            "waterClarity": 48,
+            "light": 74,
+            "wind": 38,
+            "waterLevel": 44,
+            "moon": 56
+          },
+          "flags": ["pressure_falling", "muddy_risk", "unfavorable_wind", "high_water"]
+        },
+        {
+          "date": "2026-05-21",
+          "confidence": "low",
+          "raw": {
+            "estimatedWaterTemperatureC": 11.5,
+            "airTemperatureC": 12.9,
+            "pressureHPa": 992,
+            "pressureChange24hHPa": -6,
+            "precipitation24hMm": 22,
+            "precipitation72hMm": 45,
+            "cloudCoverPercent": 100,
+            "windDirection": "N",
+            "windSpeedMs": 8.4,
+            "waterClarity": "strongly_muddy",
+            "waterLevel": "flood_risk",
+            "moonPhase": "first_quarter"
+          },
+          "factorScores": {
+            "waterTemperature": 92,
+            "season": 90,
+            "weatherChange": 28,
+            "pressure": 38,
+            "waterClarity": 22,
+            "light": 64,
+            "wind": 24,
+            "waterLevel": 18,
+            "moon": 56
+          },
+          "caps": ["flood_cap_35"],
+          "flags": ["flood_risk", "strong_muddy_risk", "low_pressure", "strong_wind"]
+        },
+        {
+          "date": "2026-05-22",
+          "confidence": "medium",
+          "raw": {
+            "estimatedWaterTemperatureC": 11.7,
+            "airTemperatureC": 14.2,
+            "pressureHPa": 1001,
+            "pressureChange24hHPa": 9,
+            "precipitation24hMm": 2,
+            "precipitation72hMm": 42,
+            "cloudCoverPercent": 64,
+            "windDirection": "NW",
+            "windSpeedMs": 4.0,
+            "waterClarity": "moderately_muddy",
+            "waterLevel": "high",
+            "moonPhase": "waxing_gibbous"
+          },
+          "factorScores": {
+            "waterTemperature": 94,
+            "season": 90,
+            "weatherChange": 55,
+            "pressure": 64,
+            "waterClarity": 50,
+            "light": 82,
+            "wind": 66,
+            "waterLevel": 50,
+            "moon": 58
+          },
+          "flags": ["recovering_after_rain", "clarity_uncertain", "water_still_high"]
+        }
+      ]
+    },
+    "south": {
+      "summary": "Южное направление с сильным сезонным фоном и стабильной погодой.",
+      "forecast": [
+        {
+          "date": "2026-05-18",
+          "confidence": "medium",
+          "raw": {
+            "estimatedWaterTemperatureC": 13.1,
+            "airTemperatureC": 17.0,
+            "pressureHPa": 1014,
+            "pressureChange24hHPa": 1,
+            "precipitation24hMm": 0,
+            "precipitation72hMm": 3,
+            "cloudCoverPercent": 55,
+            "windDirection": "W",
+            "windSpeedMs": 2.6,
+            "waterClarity": "clear",
+            "waterLevel": "normal",
+            "moonPhase": "waxing_crescent"
+          },
+          "factorScores": {
+            "waterTemperature": 100,
+            "season": 92,
+            "weatherChange": 94,
+            "pressure": 96,
+            "waterClarity": 88,
+            "light": 88,
+            "wind": 96,
+            "waterLevel": 90,
+            "moon": 62
+          },
+          "flags": ["excellent_temperature", "stable_weather", "good_pressure"]
+        },
+        {
+          "date": "2026-05-19",
+          "confidence": "medium",
+          "raw": {
+            "estimatedWaterTemperatureC": 13.8,
+            "airTemperatureC": 18.6,
+            "pressureHPa": 1016,
+            "pressureChange24hHPa": 2,
+            "precipitation24hMm": 0,
+            "precipitation72hMm": 1,
+            "cloudCoverPercent": 22,
+            "windDirection": "SW",
+            "windSpeedMs": 2.2,
+            "waterClarity": "crystal_clear",
+            "waterLevel": "slightly_low",
+            "moonPhase": "waxing_crescent"
+          },
+          "factorScores": {
+            "waterTemperature": 100,
+            "season": 92,
+            "weatherChange": 92,
+            "pressure": 96,
+            "waterClarity": 78,
+            "light": 64,
+            "wind": 96,
+            "waterLevel": 82,
+            "moon": 62
+          },
+          "flags": ["bright_sun", "clear_low_water", "favorable_wind"]
+        },
+        {
+          "date": "2026-05-20",
+          "confidence": "medium",
+          "raw": {
+            "estimatedWaterTemperatureC": 14.6,
+            "airTemperatureC": 20.1,
+            "pressureHPa": 1012,
+            "pressureChange24hHPa": -4,
+            "precipitation24hMm": 1,
+            "precipitation72hMm": 1,
+            "cloudCoverPercent": 38,
+            "windDirection": "S",
+            "windSpeedMs": 3.8,
+            "waterClarity": "clear",
+            "waterLevel": "normal",
+            "moonPhase": "first_quarter"
+          },
+          "factorScores": {
+            "waterTemperature": 98,
+            "season": 92,
+            "weatherChange": 82,
+            "pressure": 92,
+            "waterClarity": 88,
+            "light": 76,
+            "wind": 92,
+            "waterLevel": 88,
+            "moon": 56
+          },
+          "flags": ["warm_good_water", "mild_sun", "stable_enough"]
+        },
+        {
+          "date": "2026-05-21",
+          "confidence": "medium",
+          "raw": {
+            "estimatedWaterTemperatureC": 15.1,
+            "airTemperatureC": 21.4,
+            "pressureHPa": 1003,
+            "pressureChange24hHPa": -9,
+            "precipitation24hMm": 6,
+            "precipitation72hMm": 7,
+            "cloudCoverPercent": 76,
+            "windDirection": "E",
+            "windSpeedMs": 5.1,
+            "waterClarity": "slightly_colored_clear",
+            "waterLevel": "normal",
+            "moonPhase": "first_quarter"
+          },
+          "factorScores": {
+            "waterTemperature": 94,
+            "season": 92,
+            "weatherChange": 48,
+            "pressure": 68,
+            "waterClarity": 84,
+            "light": 88,
+            "wind": 42,
+            "waterLevel": 86,
+            "moon": 56
+          },
+          "flags": ["pressure_falling", "east_wind", "cloudy"]
+        },
+        {
+          "date": "2026-05-22",
+          "confidence": "medium",
+          "raw": {
+            "estimatedWaterTemperatureC": 14.4,
+            "airTemperatureC": 17.9,
+            "pressureHPa": 1006,
+            "pressureChange24hHPa": 3,
+            "precipitation24hMm": 4,
+            "precipitation72hMm": 11,
+            "cloudCoverPercent": 84,
+            "windDirection": "SW",
+            "windSpeedMs": 3.4,
+            "waterClarity": "slightly_tea_clear",
+            "waterLevel": "normal",
+            "moonPhase": "waxing_gibbous"
+          },
+          "factorScores": {
+            "waterTemperature": 98,
+            "season": 92,
+            "weatherChange": 76,
+            "pressure": 78,
+            "waterClarity": 94,
+            "light": 92,
+            "wind": 94,
+            "waterLevel": 88,
+            "moon": 58
+          },
+          "flags": ["soft_light", "tea_clear_water", "favorable_wind"]
+        }
+      ]
+    },
+    "north_east": {
+      "summary": "Северо-восток прохладнее; хороший температурный фон, но возможны яркое солнце и локально низкая вода.",
+      "forecast": [
+        {
+          "date": "2026-05-18",
+          "confidence": "medium",
+          "raw": {
+            "estimatedWaterTemperatureC": 9.6,
+            "airTemperatureC": 13.2,
+            "pressureHPa": 1022,
+            "pressureChange24hHPa": 3,
+            "precipitation24hMm": 0,
+            "precipitation72hMm": 2,
+            "cloudCoverPercent": 18,
+            "windDirection": "NE",
+            "windSpeedMs": 2.8,
+            "waterClarity": "crystal_clear",
+            "waterLevel": "slightly_low",
+            "moonPhase": "waxing_crescent"
+          },
+          "factorScores": {
+            "waterTemperature": 82,
+            "season": 84,
+            "weatherChange": 78,
+            "pressure": 84,
+            "waterClarity": 76,
+            "light": 48,
+            "wind": 34,
+            "waterLevel": 78,
+            "moon": 62
+          },
+          "flags": ["bright_sun", "north_east_wind", "clear_low_water"]
+        },
+        {
+          "date": "2026-05-19",
+          "confidence": "medium",
+          "raw": {
+            "estimatedWaterTemperatureC": 10.4,
+            "airTemperatureC": 15.0,
+            "pressureHPa": 1019,
+            "pressureChange24hHPa": -3,
+            "precipitation24hMm": 0,
+            "precipitation72hMm": 1,
+            "cloudCoverPercent": 46,
+            "windDirection": "W",
+            "windSpeedMs": 3.1,
+            "waterClarity": "clear",
+            "waterLevel": "normal",
+            "moonPhase": "waxing_crescent"
+          },
+          "factorScores": {
+            "waterTemperature": 92,
+            "season": 86,
+            "weatherChange": 84,
+            "pressure": 92,
+            "waterClarity": 88,
+            "light": 80,
+            "wind": 96,
+            "waterLevel": 88,
+            "moon": 62
+          },
+          "flags": ["improving_temperature", "favorable_wind", "good_pressure"]
+        },
+        {
+          "date": "2026-05-20",
+          "confidence": "medium",
+          "raw": {
+            "estimatedWaterTemperatureC": 11.0,
+            "airTemperatureC": 15.8,
+            "pressureHPa": 1015,
+            "pressureChange24hHPa": -4,
+            "precipitation24hMm": 3,
+            "precipitation72hMm": 4,
+            "cloudCoverPercent": 82,
+            "windDirection": "SW",
+            "windSpeedMs": 4.0,
+            "waterClarity": "slightly_tea_clear",
+            "waterLevel": "normal",
+            "moonPhase": "first_quarter"
+          },
+          "factorScores": {
+            "waterTemperature": 95,
+            "season": 86,
+            "weatherChange": 82,
+            "pressure": 96,
+            "waterClarity": 94,
+            "light": 92,
+            "wind": 94,
+            "waterLevel": 88,
+            "moon": 56
+          },
+          "flags": ["soft_light", "tea_clear_water", "excellent_setup"]
+        },
+        {
+          "date": "2026-05-21",
+          "confidence": "medium",
+          "raw": {
+            "estimatedWaterTemperatureC": 11.2,
+            "airTemperatureC": 14.6,
+            "pressureHPa": 1006,
+            "pressureChange24hHPa": -9,
+            "precipitation24hMm": 8,
+            "precipitation72hMm": 12,
+            "cloudCoverPercent": 92,
+            "windDirection": "S",
+            "windSpeedMs": 5.7,
+            "waterClarity": "slightly_colored_clear",
+            "waterLevel": "slightly_high",
+            "moonPhase": "first_quarter"
+          },
+          "factorScores": {
+            "waterTemperature": 95,
+            "season": 86,
+            "weatherChange": 46,
+            "pressure": 78,
+            "waterClarity": 82,
+            "light": 90,
+            "wind": 76,
+            "waterLevel": 80,
+            "moon": 56
+          },
+          "flags": ["pressure_falling", "weather_change", "cloudy"]
+        },
+        {
+          "date": "2026-05-22",
+          "confidence": "medium",
+          "raw": {
+            "estimatedWaterTemperatureC": 10.8,
+            "airTemperatureC": 13.9,
+            "pressureHPa": 1008,
+            "pressureChange24hHPa": 2,
+            "precipitation24hMm": 2,
+            "precipitation72hMm": 13,
+            "cloudCoverPercent": 68,
+            "windDirection": "NW",
+            "windSpeedMs": 3.6,
+            "waterClarity": "slightly_colored_clear",
+            "waterLevel": "normal",
+            "moonPhase": "waxing_gibbous"
+          },
+          "factorScores": {
+            "waterTemperature": 94,
+            "season": 86,
+            "weatherChange": 76,
+            "pressure": 84,
+            "waterClarity": 84,
+            "light": 86,
+            "wind": 66,
+            "waterLevel": 86,
+            "moon": 58
+          },
+          "flags": ["recovering_stability", "good_temperature"]
+        }
+      ]
+    },
+    "north": {
+      "summary": "Северный район с более холодной водой; сезон еще набирает силу.",
+      "forecast": [
+        {
+          "date": "2026-05-18",
+          "confidence": "medium",
+          "raw": {
+            "estimatedWaterTemperatureC": 7.8,
+            "airTemperatureC": 10.9,
+            "pressureHPa": 1018,
+            "pressureChange24hHPa": 1,
+            "precipitation24hMm": 0,
+            "precipitation72hMm": 5,
+            "cloudCoverPercent": 60,
+            "windDirection": "W",
+            "windSpeedMs": 3.5,
+            "waterClarity": "clear",
+            "waterLevel": "normal",
+            "moonPhase": "waxing_crescent"
+          },
+          "factorScores": {
+            "waterTemperature": 72,
+            "season": 72,
+            "weatherChange": 90,
+            "pressure": 94,
+            "waterClarity": 88,
+            "light": 86,
+            "wind": 94,
+            "waterLevel": 88,
+            "moon": 62
+          },
+          "flags": ["cold_water", "stable_weather", "good_pressure"]
+        },
+        {
+          "date": "2026-05-19",
+          "confidence": "medium",
+          "raw": {
+            "estimatedWaterTemperatureC": 8.6,
+            "airTemperatureC": 12.7,
+            "pressureHPa": 1017,
+            "pressureChange24hHPa": -1,
+            "precipitation24hMm": 1,
+            "precipitation72hMm": 2,
+            "cloudCoverPercent": 74,
+            "windDirection": "SW",
+            "windSpeedMs": 3.0,
+            "waterClarity": "slightly_tea_clear",
+            "waterLevel": "normal",
+            "moonPhase": "waxing_crescent"
+          },
+          "factorScores": {
+            "waterTemperature": 78,
+            "season": 76,
+            "weatherChange": 90,
+            "pressure": 94,
+            "waterClarity": 94,
+            "light": 92,
+            "wind": 96,
+            "waterLevel": 88,
+            "moon": 62
+          },
+          "flags": ["warming_water", "soft_light", "favorable_wind"]
+        },
+        {
+          "date": "2026-05-20",
+          "confidence": "medium",
+          "raw": {
+            "estimatedWaterTemperatureC": 9.4,
+            "airTemperatureC": 14.3,
+            "pressureHPa": 1011,
+            "pressureChange24hHPa": -6,
+            "precipitation24hMm": 5,
+            "precipitation72hMm": 8,
+            "cloudCoverPercent": 86,
+            "windDirection": "S",
+            "windSpeedMs": 4.6,
+            "waterClarity": "slightly_colored_clear",
+            "waterLevel": "normal",
+            "moonPhase": "first_quarter"
+          },
+          "factorScores": {
+            "waterTemperature": 82,
+            "season": 78,
+            "weatherChange": 68,
+            "pressure": 90,
+            "waterClarity": 84,
+            "light": 90,
+            "wind": 82,
+            "waterLevel": 86,
+            "moon": 56
+          },
+          "flags": ["warming_water", "moderate_weather_change"]
+        },
+        {
+          "date": "2026-05-21",
+          "confidence": "medium",
+          "raw": {
+            "estimatedWaterTemperatureC": 9.2,
+            "airTemperatureC": 11.8,
+            "pressureHPa": 999,
+            "pressureChange24hHPa": -12,
+            "precipitation24hMm": 14,
+            "precipitation72hMm": 22,
+            "cloudCoverPercent": 98,
+            "windDirection": "NE",
+            "windSpeedMs": 7.2,
+            "waterClarity": "moderately_muddy",
+            "waterLevel": "high",
+            "moonPhase": "first_quarter"
+          },
+          "factorScores": {
+            "waterTemperature": 80,
+            "season": 78,
+            "weatherChange": 24,
+            "pressure": 58,
+            "waterClarity": 45,
+            "light": 72,
+            "wind": 30,
+            "waterLevel": 42,
+            "moon": 56
+          },
+          "flags": ["sharp_pressure_drop", "unfavorable_wind", "muddy_risk", "high_water"]
+        },
+        {
+          "date": "2026-05-22",
+          "confidence": "medium",
+          "raw": {
+            "estimatedWaterTemperatureC": 8.9,
+            "airTemperatureC": 12.2,
+            "pressureHPa": 1004,
+            "pressureChange24hHPa": 5,
+            "precipitation24hMm": 2,
+            "precipitation72hMm": 21,
+            "cloudCoverPercent": 72,
+            "windDirection": "NW",
+            "windSpeedMs": 4.2,
+            "waterClarity": "slightly_colored_clear",
+            "waterLevel": "slightly_high",
+            "moonPhase": "waxing_gibbous"
+          },
+          "factorScores": {
+            "waterTemperature": 78,
+            "season": 78,
+            "weatherChange": 68,
+            "pressure": 70,
+            "waterClarity": 80,
+            "light": 86,
+            "wind": 64,
+            "waterLevel": 78,
+            "moon": 58
+          },
+          "flags": ["recovering_after_front", "still_cool_water"]
+        }
+      ]
+    },
+    "north_west": {
+      "summary": "Северо-запад с влиянием ветра и переменной погоды; возможны хорошие окна при западном ветре и мягкой облачности.",
+      "forecast": [
+        {
+          "date": "2026-05-18",
+          "confidence": "medium",
+          "raw": {
+            "estimatedWaterTemperatureC": 10.6,
+            "airTemperatureC": 13.8,
+            "pressureHPa": 1010,
+            "pressureChange24hHPa": -3,
+            "precipitation24hMm": 2,
+            "precipitation72hMm": 8,
+            "cloudCoverPercent": 78,
+            "windDirection": "W",
+            "windSpeedMs": 5.0,
+            "waterClarity": "slightly_tea_clear",
+            "waterLevel": "normal",
+            "moonPhase": "waxing_crescent"
+          },
+          "factorScores": {
+            "waterTemperature": 94,
+            "season": 86,
+            "weatherChange": 80,
+            "pressure": 90,
+            "waterClarity": 94,
+            "light": 92,
+            "wind": 82,
+            "waterLevel": 88,
+            "moon": 62
+          },
+          "flags": ["good_temperature", "west_wind", "soft_light"]
+        },
+        {
+          "date": "2026-05-19",
+          "confidence": "medium",
+          "raw": {
+            "estimatedWaterTemperatureC": 11.1,
+            "airTemperatureC": 15.2,
+            "pressureHPa": 1007,
+            "pressureChange24hHPa": -3,
+            "precipitation24hMm": 5,
+            "precipitation72hMm": 10,
+            "cloudCoverPercent": 84,
+            "windDirection": "SW",
+            "windSpeedMs": 4.4,
+            "waterClarity": "slightly_colored_clear",
+            "waterLevel": "normal",
+            "moonPhase": "waxing_crescent"
+          },
+          "factorScores": {
+            "waterTemperature": 95,
+            "season": 88,
+            "weatherChange": 78,
+            "pressure": 82,
+            "waterClarity": 84,
+            "light": 92,
+            "wind": 86,
+            "waterLevel": 86,
+            "moon": 62
+          },
+          "flags": ["favorable_wind", "cloudy", "slightly_falling_pressure"]
+        },
+        {
+          "date": "2026-05-20",
+          "confidence": "medium",
+          "raw": {
+            "estimatedWaterTemperatureC": 11.4,
+            "airTemperatureC": 16.5,
+            "pressureHPa": 1001,
+            "pressureChange24hHPa": -6,
+            "precipitation24hMm": 12,
+            "precipitation72hMm": 20,
+            "cloudCoverPercent": 96,
+            "windDirection": "S",
+            "windSpeedMs": 6.0,
+            "waterClarity": "moderately_muddy",
+            "waterLevel": "slightly_high",
+            "moonPhase": "first_quarter"
+          },
+          "factorScores": {
+            "waterTemperature": 95,
+            "season": 88,
+            "weatherChange": 60,
+            "pressure": 64,
+            "waterClarity": 52,
+            "light": 78,
+            "wind": 72,
+            "waterLevel": 76,
+            "moon": 56
+          },
+          "flags": ["rain_muddy_risk", "falling_pressure", "wind_moderate"]
+        },
+        {
+          "date": "2026-05-21",
+          "confidence": "low",
+          "raw": {
+            "estimatedWaterTemperatureC": 10.2,
+            "airTemperatureC": 12.0,
+            "pressureHPa": 990,
+            "pressureChange24hHPa": -11,
+            "precipitation24hMm": 20,
+            "precipitation72hMm": 36,
+            "cloudCoverPercent": 100,
+            "windDirection": "E",
+            "windSpeedMs": 8.8,
+            "waterClarity": "strongly_muddy",
+            "waterLevel": "high",
+            "moonPhase": "first_quarter"
+          },
+          "factorScores": {
+            "waterTemperature": 90,
+            "season": 88,
+            "weatherChange": 22,
+            "pressure": 32,
+            "waterClarity": 22,
+            "light": 60,
+            "wind": 20,
+            "waterLevel": 36,
+            "moon": 56
+          },
+          "flags": ["low_pressure", "sharp_pressure_drop", "east_wind", "strong_muddy_risk"]
+        },
+        {
+          "date": "2026-05-22",
+          "confidence": "medium",
+          "raw": {
+            "estimatedWaterTemperatureC": 10.8,
+            "airTemperatureC": 14.4,
+            "pressureHPa": 1002,
+            "pressureChange24hHPa": 12,
+            "precipitation24hMm": 1,
+            "precipitation72hMm": 33,
+            "cloudCoverPercent": 70,
+            "windDirection": "W",
+            "windSpeedMs": 4.8,
+            "waterClarity": "moderately_muddy",
+            "waterLevel": "slightly_high",
+            "moonPhase": "waxing_gibbous"
+          },
+          "factorScores": {
+            "waterTemperature": 94,
+            "season": 88,
+            "weatherChange": 52,
+            "pressure": 66,
+            "waterClarity": 50,
+            "light": 84,
+            "wind": 82,
+            "waterLevel": 72,
+            "moon": 58
+          },
+          "flags": ["recovering_pressure", "water_clarity_uncertain", "west_wind"]
+        }
+      ]
+    }
+  }
+}
