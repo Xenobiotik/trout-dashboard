@@ -1,8 +1,8 @@
 const FACTOR_WEIGHTS = {
   waterTemperature: 0.22,
   season: 0.21,
-  weatherChange: 0.16,
-  pressure: 0.13,
+  weatherChange: 0.22,
+  pressure: 0.07,
   waterClarity: 0.10,
   light: 0.08,
   wind: 0.05,
@@ -32,8 +32,8 @@ const FACTOR_HINTS = {
     negative: "сезонная фаза ограничивает активность рыбы"
   },
   weatherChange: {
-    positive: "погода достаточно стабильна",
-    negative: "резкие изменения погоды ухудшают прогноз"
+    positive: "динамика погоды поддерживает прогноз",
+    negative: "нестабильная динамика погоды ухудшает прогноз"
   },
   pressure: {
     positive: "давление находится в хорошем диапазоне",
@@ -104,15 +104,15 @@ function calculateFactorContributions(factorScores) {
 
 function getFactorExplanation(id, score) {
   if (id === "weatherChange") {
-    if (score >= 75) return "погода достаточно стабильна";
-    if (score >= 50) return "есть заметные изменения погоды, прогноз требует осторожности";
-    return "резкие изменения погоды ухудшают прогноз";
+    if (score >= 80) return "давление и погода меняются в благоприятном или стабильном режиме";
+    if (score >= 60) return "есть заметные изменения погоды, прогноз требует осторожности";
+    return "динамика давления, ветра или фронта ухудшает прогноз";
   }
 
   if (id === "pressure") {
-    if (score >= 75) return "давление находится в хорошем для ручья диапазоне";
-    if (score >= 50) return "давление нейтральное или контекстно зависимое";
-    return "давление неблагоприятно для клева";
+    if (score >= 75) return "текущий барометрический фон комфортный";
+    if (score >= 50) return "текущий уровень давления нейтральный или контекстно зависимый";
+    return "текущий уровень давления неблагоприятен, особенно в сочетании с резкой сменой погоды";
   }
 
   if (score >= 75) return FACTOR_HINTS[id].positive;
@@ -281,8 +281,16 @@ function getRecommendations(conditions) {
     recommendations.push("Подача: легкая рябь и мягкий свет позволяют ловить активнее: равномерная проводка вращалки или воблера поперек/на снос будет хорошей стартовой схемой.");
   }
 
-  if (stable && raw.pressureHPa >= 1006 && raw.pressureHPa <= 1020) {
-    recommendations.push("Поведение рыбы: стабильная погода и хорошее давление снижают риск внезапного провала клева, поэтому можно больше перемещаться и проверять активные точки.");
+  if (hasFlag(conditions, "prefrontal_window")) {
+    recommendations.push("Поведение рыбы: плавное снижение давления похоже на предфронтовое окно. При облачности и влажности форель может смелее выходить из укрытий, но следи за мутностью воды.");
+  }
+
+  if (hasFlag(conditions, "anticyclone_clear")) {
+    recommendations.push("Поведение рыбы: антициклональный сценарий с высоким давлением и ярким светом повышает осторожность. Делай дальние первые забросы, выбирай тень и натуральные цвета.");
+  }
+
+  if (stable && (raw.pressureAmplitude72hMmHg ?? 99) <= 2) {
+    recommendations.push("Поведение рыбы: давление стабильно, рыба успевает адаптироваться к фону, поэтому прогноз надежнее, чем при резких скачках.");
   }
 
   if (recommendations.length === 0) {
@@ -372,12 +380,16 @@ function getWarnings(conditions, appliedCaps) {
     warnings.push("очень низкое атмосферное давление может указывать на сильный циклональный режим");
   }
 
-  if (raw.pressureChange24hHPa <= -10) {
+  if ((raw.pressureChange24hMmHg ?? raw.pressureChange24hHPa * 0.750062) <= -7) {
     warnings.push("давление резко падает, это может дать короткое окно активности и последующий провал");
   }
 
-  if (raw.pressureChange24hHPa >= 9) {
+  if ((raw.pressureChange24hMmHg ?? raw.pressureChange24hHPa * 0.750062) >= 7) {
     warnings.push("давление резко растет после смены погоды, это неблагоприятный сигнал");
+  }
+
+  if (raw.pressureTrendKind === "saw" || raw.pressureTrendKind === "strong_saw") {
+    warnings.push(`давление идет пилой: амплитуда ${raw.pressureAmplitude72hMmHg ?? "?"} мм за 48-72 ч и ${raw.pressureDirectionChanges72h ?? "?"} смены направления`);
   }
 
   if ((raw.windDirectionChangeDegrees ?? 0) >= 90 || Math.abs(raw.windSpeedChange24hMs ?? 0) >= 4) {

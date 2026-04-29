@@ -127,6 +127,63 @@ function pressureDeltaToMmHg(hPaDelta) {
   return formatDelta(Math.round(hPaDelta * 0.750062), "мм");
 }
 
+function pressureDeltaLabel(raw) {
+  if (typeof raw.pressureChange24hMmHg === "number") {
+    return formatDelta(raw.pressureChange24hMmHg, "мм");
+  }
+
+  return pressureDeltaToMmHg(raw.pressureChange24hHPa);
+}
+
+function pressureTrendLabel(raw) {
+  const amplitude = raw.pressureAmplitude72hMmHg;
+  const changes = raw.pressureDirectionChanges72h;
+  if (typeof amplitude !== "number") return "нет данных за 48-72 ч";
+
+  if (amplitude <= 2) return `стабильно, амплитуда ${amplitude} мм`;
+  if (raw.pressureTrendKind === "strong_saw") return `сильная пила: ${amplitude} мм, смен направления ${changes}`;
+  if (raw.pressureTrendKind === "saw") return `пила: ${amplitude} мм, смен направления ${changes}`;
+  if (raw.pressureTrendKind === "unstable") return `легкая нестабильность: ${amplitude} мм, смен направления ${changes}`;
+  return `направленное изменение: амплитуда ${amplitude} мм`;
+}
+
+function getPressureWeatherInterpretation(raw) {
+  const delta = raw.pressureChange24hMmHg;
+  const bright = (raw.cloudCoverPercent ?? 100) < 30;
+  const cloudy = (raw.cloudCoverPercent ?? 0) >= 60;
+  const clearWater = raw.waterClarity === "clear" || raw.waterClarity === "crystal_clear";
+
+  if (raw.pressureTrendKind === "saw" || raw.pressureTrendKind === "strong_saw") {
+    return `Барометрическая "пила" (${pressureTrendLabel(raw)}) означает нестабильный фон: форель хуже адаптируется к смене условий.`;
+  }
+
+  if (typeof delta === "number" && delta >= 7) {
+    return `Давление резко растет (${formatDelta(delta, "мм")}): это похоже на переход к антициклону после фронта, часто один из худших сценариев для активности.`;
+  }
+
+  if (typeof delta === "number" && delta > 1) {
+    return `Давление растет (${formatDelta(delta, "мм")}): вероятен переход к более антициклонической погоде; при ясном небе форель может стать осторожнее.`;
+  }
+
+  if (typeof delta === "number" && delta <= -7) {
+    return `Давление резко падает (${formatDelta(delta, "мм")}): возможен короткий предфронтовый всплеск, но общий погодный режим становится рискованным.`;
+  }
+
+  if (typeof delta === "number" && delta < -1 && delta >= -4 && cloudy) {
+    return `Давление плавно снижается (${formatDelta(delta, "мм")}): это похоже на предфронтовое окно с мягким светом, когда форель может активнее выходить из укрытий.`;
+  }
+
+  if ((raw.pressureAmplitude72hMmHg ?? 99) <= 2) {
+    return `Давление стабильно за 48-72 часа: рыба успевает адаптироваться к фону, поэтому прогноз надежнее.`;
+  }
+
+  if ((raw.pressureMmHg ?? pressureToMmHg(raw.pressureHPa)) >= 766 && bright && clearWater) {
+    return `Антициклональный сценарий: высокое давление, яркий свет и прозрачная вода повышают осторожность форели.`;
+  }
+
+  return "";
+}
+
 function formatWindChange(raw) {
   const previous = raw.windDirectionPrevious ? windLabel(raw.windDirectionPrevious) : null;
   const current = raw.windDirection ? windLabel(raw.windDirection) : null;
@@ -154,7 +211,7 @@ function getFactorPrimaryInfo(factor, day) {
   const info = {
     waterTemperature: `${raw.estimatedWaterTemperatureC ?? "-"} °C расчетной температуры воды, воздух ${raw.airTemperatureC ?? "-"} °C`,
     season: getSeasonText(day.date, score),
-    weatherChange: `давление за 24 ч: ${pressureDeltaToMmHg(raw.pressureChange24hHPa)}, ветер: ${formatWindChange(raw)}, осадки за 72 ч: ${raw.precipitation72hMm ?? "-"} мм`,
+    weatherChange: `давление за 24 ч: ${pressureDeltaLabel(raw)}, ${pressureTrendLabel(raw)}, ветер: ${formatWindChange(raw)}, осадки за 72 ч: ${raw.precipitation72hMm ?? "-"} мм`,
     pressure: `${pressureToMmHg(raw.pressureHPa)} мм рт. ст. (${raw.pressureHPa ?? "-"} гПа)`,
     waterClarity: `${CLARITY_LABELS[raw.waterClarity] || "нет оценки"}, осадки за 24 ч: ${raw.precipitation24hMm ?? "-"} мм`,
     light: `облачность ${raw.cloudCoverPercent ?? "-"}%`,
@@ -178,9 +235,14 @@ function getDetailedAnalytics(day) {
   }
 
   if (factor.pressure >= 75 && factor.weatherChange >= 75) {
-    parts.push(`Давление ${pressureToMmHg(raw.pressureHPa)} мм рт. ст. и отсутствие резких изменений дают устойчивый погодный фон.`);
+    parts.push(`Давление ${pressureToMmHg(raw.pressureHPa)} мм рт. ст. и спокойная динамика дают устойчивый погодный фон.`);
   } else if (factor.pressure < 60 || factor.weatherChange < 60) {
-    parts.push(`Погодный блок слабый: давление ${pressureToMmHg(raw.pressureHPa)} мм рт. ст., изменение за сутки ${pressureDeltaToMmHg(raw.pressureChange24hHPa)}.`);
+    parts.push(`Погодный блок слабый: давление ${pressureToMmHg(raw.pressureHPa)} мм рт. ст., изменение за сутки ${pressureDeltaLabel(raw)}.`);
+  }
+
+  const pressureInterpretation = getPressureWeatherInterpretation(raw);
+  if (pressureInterpretation) {
+    parts.push(pressureInterpretation);
   }
 
   if ((raw.windDirectionChangeDegrees ?? 0) >= 90 || Math.abs(raw.windSpeedChange24hMs ?? 0) >= 4) {

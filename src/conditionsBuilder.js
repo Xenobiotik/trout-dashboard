@@ -54,7 +54,10 @@ function buildDayConditions(region, day, index, forecastDays) {
     pressureHPa: day.pressureMeanHPa,
     pressureMmHg: day.pressureMeanMmHg,
     pressureChange24hHPa,
-    pressureChange24hMmHg: round(pressureChange24hHPa * 0.750062),
+    pressureChange24hMmHg: day.pressureChange24hMmHg ?? round(pressureChange24hHPa * 0.750062),
+    pressureAmplitude72hMmHg: day.pressureAmplitude72hMmHg ?? 0,
+    pressureDirectionChanges72h: day.pressureDirectionChanges72h ?? 0,
+    pressureTrendKind: day.pressureTrendKind || "unknown",
     temperatureChange24hC,
     precipitation24hMm: day.precipitation24hMm,
     precipitation72hMm: day.precipitation72hMm,
@@ -77,6 +80,10 @@ function buildDayConditions(region, day, index, forecastDays) {
     season: scoreSeason(day.date, estimatedWaterTemperatureC),
     weatherChange: scoreWeatherChange({
       pressureChange24hHPa,
+      pressureChange24hMmHg: raw.pressureChange24hMmHg,
+      pressureAmplitude72hMmHg: raw.pressureAmplitude72hMmHg,
+      pressureDirectionChanges72h: raw.pressureDirectionChanges72h,
+      pressureTrendKind: raw.pressureTrendKind,
       temperatureChange24hC,
       windDirection,
       previousWindDirection,
@@ -189,6 +196,10 @@ function scoreSeason(date, estimatedWaterTemperatureC) {
 
 function scoreWeatherChange({
   pressureChange24hHPa,
+  pressureChange24hMmHg,
+  pressureAmplitude72hMmHg,
+  pressureDirectionChanges72h,
+  pressureTrendKind,
   temperatureChange24hC,
   windDirection,
   previousWindDirection,
@@ -196,32 +207,59 @@ function scoreWeatherChange({
   windGustsMs,
   precipitation24hMm
 }) {
-  let score = 100;
-  const pressureChange = pressureChange24hHPa ?? 0;
+  const pressureChangeMmHg =
+    typeof pressureChange24hMmHg === "number"
+      ? pressureChange24hMmHg
+      : (pressureChange24hHPa ?? 0) * 0.750062;
   const tempChange = Math.abs(temperatureChange24hC ?? 0);
   const windShift = previousWindDirection ? compassShiftDegrees(previousWindDirection, windDirection) : 0;
+  const amplitude = pressureAmplitude72hMmHg ?? 0;
+  const directionChanges = pressureDirectionChanges72h ?? 0;
+  let pressureTrendScore = 92;
+  let stabilityScore = 88;
+  let windScore = 100;
+  let temperatureScore = 92;
+  let precipitationScore = 88;
 
-  if (pressureChange <= -10) score -= 34;
-  else if (pressureChange <= -6) score -= 18;
-  else if (pressureChange <= -1) score += 4;
-  else if (pressureChange >= 9) score -= 30;
-  else if (pressureChange >= 5) score -= 18;
-  else if (pressureChange >= 1) score -= 4;
+  if (Math.abs(pressureChangeMmHg) <= 1) pressureTrendScore = 98;
+  else if (pressureChangeMmHg < -1 && pressureChangeMmHg >= -4) pressureTrendScore = 100;
+  else if (pressureChangeMmHg < -4 && pressureChangeMmHg >= -7) pressureTrendScore = 72;
+  else if (pressureChangeMmHg < -7) pressureTrendScore = 52;
+  else if (pressureChangeMmHg > 1 && pressureChangeMmHg <= 4) pressureTrendScore = 76;
+  else if (pressureChangeMmHg > 4 && pressureChangeMmHg <= 7) pressureTrendScore = 50;
+  else if (pressureChangeMmHg > 7) pressureTrendScore = 28;
 
-  if (tempChange >= 10) score -= 25;
-  else if (tempChange >= 7) score -= 16;
-  else if (tempChange >= 5) score -= 9;
+  if (amplitude <= 2) stabilityScore = 98;
+  else if (pressureTrendKind === "strong_saw" || (directionChanges >= 2 && amplitude >= 10)) stabilityScore = 25;
+  else if (pressureTrendKind === "saw" || (directionChanges >= 2 && amplitude >= 6)) stabilityScore = 45;
+  else if (pressureTrendKind === "unstable" || (directionChanges >= 1 && amplitude >= 3)) stabilityScore = 72;
+  else if (amplitude >= 10) stabilityScore = 50;
+  else if (amplitude >= 6) stabilityScore = 68;
 
-  if (windShift >= 135) score -= 24;
-  else if (windShift >= 90) score -= 14;
-
+  if (windShift >= 135) windScore -= 30;
+  else if (windShift >= 90) windScore -= 18;
   const windSpeedChange = Math.abs(windSpeedChange24hMs ?? 0);
-  if (windSpeedChange >= 6) score -= 22;
-  else if (windSpeedChange >= 4) score -= 16;
-  else if (windSpeedChange >= 2.5) score -= 6;
+  if (windSpeedChange >= 6) windScore -= 24;
+  else if (windSpeedChange >= 4) windScore -= 16;
+  else if (windSpeedChange >= 2.5) windScore -= 8;
+  if ((windGustsMs ?? 0) >= 14) windScore -= 12;
 
-  if ((windGustsMs ?? 0) >= 14) score -= 12;
-  if ((precipitation24hMm ?? 0) >= 15) score -= 12;
+  if (tempChange >= 10) temperatureScore = 25;
+  else if (tempChange >= 7) temperatureScore = 40;
+  else if (tempChange >= 5) temperatureScore = 60;
+  else if (tempChange >= 3) temperatureScore = 75;
+
+  if ((precipitation24hMm ?? 0) >= 25) precipitationScore = 30;
+  else if ((precipitation24hMm ?? 0) >= 15) precipitationScore = 42;
+  else if ((precipitation24hMm ?? 0) >= 9) precipitationScore = 62;
+  else if ((precipitation24hMm ?? 0) >= 3) precipitationScore = 78;
+
+  const score =
+    pressureTrendScore * 0.4 +
+    stabilityScore * 0.2 +
+    clamp(windScore, 0, 100) * 0.2 +
+    temperatureScore * 0.1 +
+    precipitationScore * 0.1;
 
   return Math.round(clamp(score, 0, 100));
 }
@@ -231,12 +269,13 @@ function scorePressure(pressureHPa) {
   const pressureMmHg = pressureHPa * 0.750062;
 
   if (pressureMmHg < 730) return 45;
-  if (pressureMmHg < 742) return interpolate(pressureMmHg, 730, 741, 55, 75);
-  if (pressureMmHg <= 758) return interpolate(pressureMmHg, 742, 758, 88, 100);
-  if (pressureMmHg <= 765) return interpolate(pressureMmHg, 759, 765, 88, 78);
-  if (pressureMmHg <= 768) return interpolate(pressureMmHg, 766, 768, 72, 58);
-  if (pressureMmHg <= 780) return interpolate(pressureMmHg, 769, 780, 55, 30);
-  return 28;
+  if (pressureMmHg < 735) return interpolate(pressureMmHg, 730, 734, 60, 72);
+  if (pressureMmHg < 742) return interpolate(pressureMmHg, 735, 741, 75, 88);
+  if (pressureMmHg <= 758) return interpolate(pressureMmHg, 742, 758, 90, 100);
+  if (pressureMmHg <= 765) return interpolate(pressureMmHg, 759, 765, 88, 76);
+  if (pressureMmHg <= 772) return interpolate(pressureMmHg, 766, 772, 75, 60);
+  if (pressureMmHg <= 780) return interpolate(pressureMmHg, 773, 780, 58, 45);
+  return 40;
 }
 
 function scoreWaterClarity(clarity) {
@@ -307,7 +346,13 @@ function buildFlags(raw, factorScores) {
   const flags = [];
 
   if (factorScores.weatherChange >= 75) flags.push("stable_weather");
-  if (raw.pressureChange24hHPa <= -10) flags.push("sharp_pressure_drop");
+  if (Math.abs(raw.pressureChange24hMmHg ?? 0) <= 1 && (raw.pressureAmplitude72hMmHg ?? 0) <= 2) flags.push("stable_pressure");
+  if ((raw.pressureChange24hMmHg ?? 0) <= -1 && (raw.pressureChange24hMmHg ?? 0) >= -4) flags.push("smooth_pressure_fall");
+  if ((raw.pressureChange24hMmHg ?? 0) <= -7) flags.push("sharp_pressure_drop");
+  if ((raw.pressureChange24hMmHg ?? 0) >= 7) flags.push("sharp_pressure_rise");
+  if (raw.pressureTrendKind === "saw" || raw.pressureTrendKind === "strong_saw") flags.push("pressure_saw");
+  if ((raw.pressureChange24hMmHg ?? 0) < -1 && raw.cloudCoverPercent >= 60) flags.push("prefrontal_window");
+  if ((raw.pressureMmHg ?? 0) >= 766 && raw.cloudCoverPercent < 30) flags.push("anticyclone_clear");
   if ((raw.windDirectionChangeDegrees ?? 0) >= 90) flags.push("wind_direction_shift");
   if (Math.abs(raw.windSpeedChange24hMs ?? 0) >= 4) flags.push("wind_speed_shift");
   if (raw.pressureHPa < 995) flags.push("low_pressure");

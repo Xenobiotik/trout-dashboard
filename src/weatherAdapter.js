@@ -140,15 +140,54 @@ function buildDailyForecast(hourly) {
   return days.map((day, index) => {
     const previousDay = days[index - 1];
     const previous3Days = days.slice(Math.max(0, index - 3), index);
+    const pressureTrend = calculatePressureTrendStats(days, index);
 
     return {
       ...day,
       pressureChange24hHPa: previousDay ? round(day.pressureMeanHPa - previousDay.pressureMeanHPa) : null,
+      pressureChange24hMmHg: previousDay ? round((day.pressureMeanHPa - previousDay.pressureMeanHPa) * 0.750062) : null,
+      pressureAmplitude72hMmHg: pressureTrend.amplitudeMmHg,
+      pressureDirectionChanges72h: pressureTrend.directionChanges,
+      pressureTrendKind: pressureTrend.kind,
       temperatureChange24hC: previousDay ? round(day.temperatureMeanC - previousDay.temperatureMeanC) : null,
       precipitation24hMm: day.precipitationSumMm,
       precipitation72hMm: round(day.precipitationSumMm + sum(previous3Days.map((item) => item.precipitationSumMm || 0)))
     };
   });
+}
+
+function calculatePressureTrendStats(days, index) {
+  const window = days.slice(Math.max(0, index - 3), index + 1);
+  const values = window
+    .map((day) => day.pressureMeanMmHg)
+    .filter((value) => typeof value === "number" && Number.isFinite(value));
+
+  if (values.length < 2) {
+    return { amplitudeMmHg: 0, directionChanges: 0, kind: "unknown" };
+  }
+
+  const amplitudeMmHg = Math.round(Math.max(...values) - Math.min(...values));
+  const signs = [];
+
+  for (let i = 1; i < values.length; i += 1) {
+    const delta = values[i] - values[i - 1];
+    if (Math.abs(delta) >= 2) {
+      signs.push(Math.sign(delta));
+    }
+  }
+
+  let directionChanges = 0;
+  for (let i = 1; i < signs.length; i += 1) {
+    if (signs[i] !== signs[i - 1]) directionChanges += 1;
+  }
+
+  let kind = "directional";
+  if (amplitudeMmHg <= 2) kind = "stable";
+  else if (directionChanges >= 2 && amplitudeMmHg >= 10) kind = "strong_saw";
+  else if (directionChanges >= 2 && amplitudeMmHg >= 6) kind = "saw";
+  else if (directionChanges >= 1 && amplitudeMmHg >= 3) kind = "unstable";
+
+  return { amplitudeMmHg, directionChanges, kind };
 }
 
 function valueAt(values, index) {

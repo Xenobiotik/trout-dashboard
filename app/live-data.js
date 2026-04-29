@@ -3,7 +3,7 @@ window.LIVE_RESULTS = {
     "version": "0.1",
     "dataType": "live-results-sample",
     "modelVersion": "0.4",
-    "generatedAt": "2026-04-25T17:06:39.397Z",
+    "generatedAt": "2026-04-29T13:42:31.405Z",
     "source": "data/live-conditions-sample.json"
   },
   "regions": {
@@ -11,697 +11,9 @@ window.LIVE_RESULTS = {
       "summary": "Юго-запад Ленинградской области: Систо-Палкино. Реальные погодные данные, гидрология рассчитана косвенно.",
       "forecast": [
         {
-          "date": "2026-04-25",
-          "index": 68,
-          "indexRaw": 68.21,
-          "rating": "перспективно",
-          "confidence": "medium",
-          "summary": "Есть рабочие условия, но прогноз не без слабых мест. Главный риск: Прозрачность воды.",
-          "factors": [
-            {
-              "id": "waterTemperature",
-              "label": "Температура воды",
-              "weight": 0.22,
-              "weightPercent": 22,
-              "score": 65,
-              "contribution": 14.3,
-              "status": "нейтрально",
-              "explanation": "температура воды рабочая, но не идеальная"
-            },
-            {
-              "id": "season",
-              "label": "Сезонная фаза",
-              "weight": 0.21,
-              "weightPercent": 21,
-              "score": 55,
-              "contribution": 11.55,
-              "status": "нейтрально",
-              "explanation": "сезонная фаза ограничивает активность рыбы"
-            },
-            {
-              "id": "weatherChange",
-              "label": "Изменение погоды",
-              "weight": 0.16,
-              "weightPercent": 16,
-              "score": 68,
-              "contribution": 10.88,
-              "status": "нейтрально",
-              "explanation": "есть заметные изменения погоды, прогноз требует осторожности"
-            },
-            {
-              "id": "pressure",
-              "label": "Атмосферное давление",
-              "weight": 0.13,
-              "weightPercent": 13,
-              "score": 91,
-              "contribution": 11.83,
-              "status": "помогает",
-              "explanation": "давление находится в хорошем для ручья диапазоне"
-            },
-            {
-              "id": "waterClarity",
-              "label": "Прозрачность воды",
-              "weight": 0.1,
-              "weightPercent": 10,
-              "score": 52,
-              "contribution": 5.2,
-              "status": "нейтрально",
-              "explanation": "мутность или чрезмерная прозрачность ухудшают условия"
-            },
-            {
-              "id": "light",
-              "label": "Освещенность",
-              "weight": 0.08,
-              "weightPercent": 8,
-              "score": 78,
-              "contribution": 6.24,
-              "status": "помогает",
-              "explanation": "освещенность мягкая и не делает рыбу излишне осторожной"
-            },
-            {
-              "id": "wind",
-              "label": "Ветер",
-              "weight": 0.05,
-              "weightPercent": 5,
-              "score": 93,
-              "contribution": 4.65,
-              "status": "помогает",
-              "explanation": "ветер по направлению и силе благоприятен"
-            },
-            {
-              "id": "waterLevel",
-              "label": "Уровень воды",
-              "weight": 0.03,
-              "weightPercent": 3,
-              "score": 82,
-              "contribution": 2.46,
-              "status": "помогает",
-              "explanation": "уровень воды без крайних отклонений"
-            },
-            {
-              "id": "moon",
-              "label": "Луна",
-              "weight": 0.02,
-              "weightPercent": 2,
-              "score": 55,
-              "contribution": 1.1,
-              "status": "нейтрально",
-              "explanation": "лунный фактор не поддерживает прогноз"
-            }
-          ],
-          "positiveDrivers": [
-            {
-              "factor": "Атмосферное давление",
-              "score": 91,
-              "reason": "давление находится в хорошем для ручья диапазоне"
-            },
-            {
-              "factor": "Ветер",
-              "score": 93,
-              "reason": "ветер по направлению и силе благоприятен"
-            },
-            {
-              "factor": "Уровень воды",
-              "score": 82,
-              "reason": "уровень воды без крайних отклонений"
-            }
-          ],
-          "negativeDrivers": [
-            {
-              "factor": "Прозрачность воды",
-              "score": 52,
-              "reason": "мутность или чрезмерная прозрачность ухудшают условия"
-            },
-            {
-              "factor": "Сезонная фаза",
-              "score": 55,
-              "reason": "сезонная фаза ограничивает активность рыбы"
-            }
-          ],
-          "recommendations": [
-            "Когда ловить: лучше день и ближе к вечеру, когда вода успевает немного прогреться; раннее утро менее перспективно.",
-            "Дальность и скрытность: из-за мутности форель видит хуже, поэтому можно подходить ближе, но заброс должен попадать точнее к укрытиям, кромкам струи и спокойным карманам.",
-            "Модель ловли: видимость снижена, поэтому ставка на заметность. Используй вращающиеся блесны, небольшие колебалки или воблеры с выраженной игрой, веди приманку чуть медленнее и ближе к перспективным укрытиям.",
-            "Приманки: при умеренной мутности добавь контраст, яркую точку атаки, вращалку с вибрацией или воблер с более заметной игрой.",
-            "Проводка: при холодной воде лучше искать более теплые дневные окна, вести медленно и давать приманке паузы у дна или на границе струи."
-          ],
-          "warnings": [
-            "ветер заметно меняется по направлению или силе, погодный режим нестабилен"
-          ],
-          "appliedCaps": [],
-          "flags": [
-            "wind_direction_shift",
-            "cloudy",
-            "favorable_wind",
-            "strong_gusts",
-            "muddy_risk"
-          ],
-          "raw": {
-            "estimatedWaterTemperatureC": 6.8,
-            "airTemperatureC": 2.7,
-            "pressureHPa": 995.3,
-            "pressureMmHg": 747,
-            "pressureChange24hHPa": -8.7,
-            "pressureChange24hMmHg": -6.5,
-            "temperatureChange24hC": -1.4,
-            "precipitation24hMm": 13,
-            "precipitation72hMm": 13.6,
-            "cloudCoverPercent": 91,
-            "windDirection": "S",
-            "windDirectionDegrees": 198,
-            "windSpeedMs": 3,
-            "windGustsMs": 12.7,
-            "waterClarity": "moderately_muddy",
-            "waterClarityLabel": "умеренно мутная",
-            "waterLevel": "slightly_high",
-            "windDirectionPrevious": "W",
-            "windDirectionChangeDegrees": 90,
-            "windSpeedChange24hMs": 0.3,
-            "moonPhase": "unknown"
-          }
-        },
-        {
-          "date": "2026-04-26",
-          "index": 60,
-          "indexRaw": 60.44,
-          "rating": "перспективно",
-          "confidence": "low",
-          "summary": "Есть рабочие условия, но прогноз не без слабых мест. Главный риск: Изменение погоды.",
-          "factors": [
-            {
-              "id": "waterTemperature",
-              "label": "Температура воды",
-              "weight": 0.22,
-              "weightPercent": 22,
-              "score": 63,
-              "contribution": 13.86,
-              "status": "нейтрально",
-              "explanation": "температура воды рабочая, но не идеальная"
-            },
-            {
-              "id": "season",
-              "label": "Сезонная фаза",
-              "weight": 0.21,
-              "weightPercent": 21,
-              "score": 55,
-              "contribution": 11.55,
-              "status": "нейтрально",
-              "explanation": "сезонная фаза ограничивает активность рыбы"
-            },
-            {
-              "id": "weatherChange",
-              "label": "Изменение погоды",
-              "weight": 0.16,
-              "weightPercent": 16,
-              "score": 40,
-              "contribution": 6.4,
-              "status": "мешает",
-              "explanation": "резкие изменения погоды ухудшают прогноз"
-            },
-            {
-              "id": "pressure",
-              "label": "Атмосферное давление",
-              "weight": 0.13,
-              "weightPercent": 13,
-              "score": 90,
-              "contribution": 11.7,
-              "status": "помогает",
-              "explanation": "давление находится в хорошем для ручья диапазоне"
-            },
-            {
-              "id": "waterClarity",
-              "label": "Прозрачность воды",
-              "weight": 0.1,
-              "weightPercent": 10,
-              "score": 52,
-              "contribution": 5.2,
-              "status": "нейтрально",
-              "explanation": "мутность или чрезмерная прозрачность ухудшают условия"
-            },
-            {
-              "id": "light",
-              "label": "Освещенность",
-              "weight": 0.08,
-              "weightPercent": 8,
-              "score": 78,
-              "contribution": 6.24,
-              "status": "помогает",
-              "explanation": "освещенность мягкая и не делает рыбу излишне осторожной"
-            },
-            {
-              "id": "wind",
-              "label": "Ветер",
-              "weight": 0.05,
-              "weightPercent": 5,
-              "score": 59,
-              "contribution": 2.95,
-              "status": "нейтрально",
-              "explanation": "ветер ухудшает условия или связан с неблагоприятным режимом"
-            },
-            {
-              "id": "waterLevel",
-              "label": "Уровень воды",
-              "weight": 0.03,
-              "weightPercent": 3,
-              "score": 48,
-              "contribution": 1.44,
-              "status": "мешает",
-              "explanation": "уровень или сила потока близки к крайним значениям"
-            },
-            {
-              "id": "moon",
-              "label": "Луна",
-              "weight": 0.02,
-              "weightPercent": 2,
-              "score": 55,
-              "contribution": 1.1,
-              "status": "нейтрально",
-              "explanation": "лунный фактор не поддерживает прогноз"
-            }
-          ],
-          "positiveDrivers": [
-            {
-              "factor": "Атмосферное давление",
-              "score": 90,
-              "reason": "давление находится в хорошем для ручья диапазоне"
-            }
-          ],
-          "negativeDrivers": [
-            {
-              "factor": "Изменение погоды",
-              "score": 40,
-              "reason": "резкие изменения погоды ухудшают прогноз"
-            },
-            {
-              "factor": "Уровень воды",
-              "score": 48,
-              "reason": "уровень или сила потока близки к крайним значениям"
-            },
-            {
-              "factor": "Прозрачность воды",
-              "score": 52,
-              "reason": "мутность или чрезмерная прозрачность ухудшают условия"
-            }
-          ],
-          "recommendations": [
-            "Когда ловить: лучше день и ближе к вечеру, когда вода успевает немного прогреться; раннее утро менее перспективно.",
-            "Дальность и скрытность: из-за мутности форель видит хуже, поэтому можно подходить ближе, но заброс должен попадать точнее к укрытиям, кромкам струи и спокойным карманам.",
-            "Модель ловли: видимость снижена, поэтому ставка на заметность. Используй вращающиеся блесны, небольшие колебалки или воблеры с выраженной игрой, веди приманку чуть медленнее и ближе к перспективным укрытиям.",
-            "Приманки: при умеренной мутности добавь контраст, яркую точку атаки, вращалку с вибрацией или воблер с более заметной игрой.",
-            "Сильный ветер лучше обходить лесными и закрытыми участками, работая на короткой дистанции.",
-            "Проводка: при холодной воде лучше искать более теплые дневные окна, вести медленно и давать приманке паузы у дна или на границе струи."
-          ],
-          "warnings": [
-            "ветер заметно меняется по направлению или силе, погодный режим нестабилен"
-          ],
-          "appliedCaps": [],
-          "flags": [
-            "wind_direction_shift",
-            "wind_speed_shift",
-            "low_pressure",
-            "cloudy",
-            "strong_gusts",
-            "muddy_risk"
-          ],
-          "raw": {
-            "estimatedWaterTemperatureC": 6.5,
-            "airTemperatureC": 2,
-            "pressureHPa": 993.6,
-            "pressureMmHg": 745,
-            "pressureChange24hHPa": -1.7,
-            "pressureChange24hMmHg": -1.3,
-            "temperatureChange24hC": -0.7,
-            "precipitation24hMm": 16.8,
-            "precipitation72hMm": 29.8,
-            "cloudCoverPercent": 100,
-            "windDirection": "NW",
-            "windDirectionDegrees": 320,
-            "windSpeedMs": 7.3,
-            "windGustsMs": 18.8,
-            "waterClarity": "moderately_muddy",
-            "waterClarityLabel": "умеренно мутная",
-            "waterLevel": "high",
-            "windDirectionPrevious": "S",
-            "windDirectionChangeDegrees": 135,
-            "windSpeedChange24hMs": 4.3,
-            "moonPhase": "unknown"
-          }
-        },
-        {
-          "date": "2026-04-27",
-          "index": 67,
-          "indexRaw": 66.94,
-          "rating": "перспективно",
-          "confidence": "low",
-          "summary": "Есть рабочие условия, но прогноз не без слабых мест. Главный риск: Прозрачность воды.",
-          "factors": [
-            {
-              "id": "waterTemperature",
-              "label": "Температура воды",
-              "weight": 0.22,
-              "weightPercent": 22,
-              "score": 65,
-              "contribution": 14.3,
-              "status": "нейтрально",
-              "explanation": "температура воды рабочая, но не идеальная"
-            },
-            {
-              "id": "season",
-              "label": "Сезонная фаза",
-              "weight": 0.21,
-              "weightPercent": 21,
-              "score": 55,
-              "contribution": 11.55,
-              "status": "нейтрально",
-              "explanation": "сезонная фаза ограничивает активность рыбы"
-            },
-            {
-              "id": "weatherChange",
-              "label": "Изменение погоды",
-              "weight": 0.16,
-              "weightPercent": 16,
-              "score": 58,
-              "contribution": 9.28,
-              "status": "нейтрально",
-              "explanation": "есть заметные изменения погоды, прогноз требует осторожности"
-            },
-            {
-              "id": "pressure",
-              "label": "Атмосферное давление",
-              "weight": 0.13,
-              "weightPercent": 13,
-              "score": 98,
-              "contribution": 12.74,
-              "status": "помогает",
-              "explanation": "давление находится в хорошем для ручья диапазоне"
-            },
-            {
-              "id": "waterClarity",
-              "label": "Прозрачность воды",
-              "weight": 0.1,
-              "weightPercent": 10,
-              "score": 52,
-              "contribution": 5.2,
-              "status": "нейтрально",
-              "explanation": "мутность или чрезмерная прозрачность ухудшают условия"
-            },
-            {
-              "id": "light",
-              "label": "Освещенность",
-              "weight": 0.08,
-              "weightPercent": 8,
-              "score": 92,
-              "contribution": 7.36,
-              "status": "помогает",
-              "explanation": "освещенность мягкая и не делает рыбу излишне осторожной"
-            },
-            {
-              "id": "wind",
-              "label": "Ветер",
-              "weight": 0.05,
-              "weightPercent": 5,
-              "score": 59,
-              "contribution": 2.95,
-              "status": "нейтрально",
-              "explanation": "ветер ухудшает условия или связан с неблагоприятным режимом"
-            },
-            {
-              "id": "waterLevel",
-              "label": "Уровень воды",
-              "weight": 0.03,
-              "weightPercent": 3,
-              "score": 82,
-              "contribution": 2.46,
-              "status": "помогает",
-              "explanation": "уровень воды без крайних отклонений"
-            },
-            {
-              "id": "moon",
-              "label": "Луна",
-              "weight": 0.02,
-              "weightPercent": 2,
-              "score": 55,
-              "contribution": 1.1,
-              "status": "нейтрально",
-              "explanation": "лунный фактор не поддерживает прогноз"
-            }
-          ],
-          "positiveDrivers": [
-            {
-              "factor": "Атмосферное давление",
-              "score": 98,
-              "reason": "давление находится в хорошем для ручья диапазоне"
-            },
-            {
-              "factor": "Освещенность",
-              "score": 92,
-              "reason": "освещенность мягкая и не делает рыбу излишне осторожной"
-            },
-            {
-              "factor": "Уровень воды",
-              "score": 82,
-              "reason": "уровень воды без крайних отклонений"
-            }
-          ],
-          "negativeDrivers": [
-            {
-              "factor": "Прозрачность воды",
-              "score": 52,
-              "reason": "мутность или чрезмерная прозрачность ухудшают условия"
-            },
-            {
-              "factor": "Сезонная фаза",
-              "score": 55,
-              "reason": "сезонная фаза ограничивает активность рыбы"
-            },
-            {
-              "factor": "Изменение погоды",
-              "score": 58,
-              "reason": "есть заметные изменения погоды, прогноз требует осторожности"
-            }
-          ],
-          "recommendations": [
-            "Когда ловить: лучше день и ближе к вечеру, когда вода успевает немного прогреться; раннее утро менее перспективно.",
-            "Дальность и скрытность: из-за мутности форель видит хуже, поэтому можно подходить ближе, но заброс должен попадать точнее к укрытиям, кромкам струи и спокойным карманам.",
-            "Модель ловли: видимость снижена, поэтому ставка на заметность. Используй вращающиеся блесны, небольшие колебалки или воблеры с выраженной игрой, веди приманку чуть медленнее и ближе к перспективным укрытиям.",
-            "Приманки: при умеренной мутности добавь контраст, яркую точку атаки, вращалку с вибрацией или воблер с более заметной игрой.",
-            "Сильный ветер лучше обходить лесными и закрытыми участками, работая на короткой дистанции.",
-            "Проводка: при холодной воде лучше искать более теплые дневные окна, вести медленно и давать приманке паузы у дна или на границе струи."
-          ],
-          "warnings": [
-            "давление резко растет после смены погоды, это неблагоприятный сигнал"
-          ],
-          "appliedCaps": [],
-          "flags": [
-            "strong_gusts",
-            "muddy_risk"
-          ],
-          "raw": {
-            "estimatedWaterTemperatureC": 6.8,
-            "airTemperatureC": 4.5,
-            "pressureHPa": 1006.3,
-            "pressureMmHg": 755,
-            "pressureChange24hHPa": 12.7,
-            "pressureChange24hMmHg": 9.5,
-            "temperatureChange24hC": 2.5,
-            "precipitation24hMm": 0,
-            "precipitation72hMm": 29.8,
-            "cloudCoverPercent": 51,
-            "windDirection": "NW",
-            "windDirectionDegrees": 331,
-            "windSpeedMs": 7.5,
-            "windGustsMs": 17.8,
-            "waterClarity": "moderately_muddy",
-            "waterClarityLabel": "умеренно мутная",
-            "waterLevel": "slightly_high",
-            "windDirectionPrevious": "NW",
-            "windDirectionChangeDegrees": 0,
-            "windSpeedChange24hMs": 0.2,
-            "moonPhase": "unknown"
-          }
-        },
-        {
-          "date": "2026-04-28",
-          "index": 71,
-          "indexRaw": 70.81,
-          "rating": "хорошо",
-          "confidence": "low",
-          "summary": "Условия хорошие, но стоит следить за локальными особенностями ручья. Главный плюс: Изменение погоды.",
-          "factors": [
-            {
-              "id": "waterTemperature",
-              "label": "Температура воды",
-              "weight": 0.22,
-              "weightPercent": 22,
-              "score": 65,
-              "contribution": 14.3,
-              "status": "нейтрально",
-              "explanation": "температура воды рабочая, но не идеальная"
-            },
-            {
-              "id": "season",
-              "label": "Сезонная фаза",
-              "weight": 0.21,
-              "weightPercent": 21,
-              "score": 55,
-              "contribution": 11.55,
-              "status": "нейтрально",
-              "explanation": "сезонная фаза ограничивает активность рыбы"
-            },
-            {
-              "id": "weatherChange",
-              "label": "Изменение погоды",
-              "weight": 0.16,
-              "weightPercent": 16,
-              "score": 84,
-              "contribution": 13.44,
-              "status": "помогает",
-              "explanation": "погода достаточно стабильна"
-            },
-            {
-              "id": "pressure",
-              "label": "Атмосферное давление",
-              "weight": 0.13,
-              "weightPercent": 13,
-              "score": 100,
-              "contribution": 13,
-              "status": "помогает",
-              "explanation": "давление находится в хорошем для ручья диапазоне"
-            },
-            {
-              "id": "waterClarity",
-              "label": "Прозрачность воды",
-              "weight": 0.1,
-              "weightPercent": 10,
-              "score": 52,
-              "contribution": 5.2,
-              "status": "нейтрально",
-              "explanation": "мутность или чрезмерная прозрачность ухудшают условия"
-            },
-            {
-              "id": "light",
-              "label": "Освещенность",
-              "weight": 0.08,
-              "weightPercent": 8,
-              "score": 92,
-              "contribution": 7.36,
-              "status": "помогает",
-              "explanation": "освещенность мягкая и не делает рыбу излишне осторожной"
-            },
-            {
-              "id": "wind",
-              "label": "Ветер",
-              "weight": 0.05,
-              "weightPercent": 5,
-              "score": 48,
-              "contribution": 2.4,
-              "status": "мешает",
-              "explanation": "ветер ухудшает условия или связан с неблагоприятным режимом"
-            },
-            {
-              "id": "waterLevel",
-              "label": "Уровень воды",
-              "weight": 0.03,
-              "weightPercent": 3,
-              "score": 82,
-              "contribution": 2.46,
-              "status": "помогает",
-              "explanation": "уровень воды без крайних отклонений"
-            },
-            {
-              "id": "moon",
-              "label": "Луна",
-              "weight": 0.02,
-              "weightPercent": 2,
-              "score": 55,
-              "contribution": 1.1,
-              "status": "нейтрально",
-              "explanation": "лунный фактор не поддерживает прогноз"
-            }
-          ],
-          "positiveDrivers": [
-            {
-              "factor": "Изменение погоды",
-              "score": 84,
-              "reason": "погода достаточно стабильна"
-            },
-            {
-              "factor": "Атмосферное давление",
-              "score": 100,
-              "reason": "давление находится в хорошем для ручья диапазоне"
-            },
-            {
-              "factor": "Освещенность",
-              "score": 92,
-              "reason": "освещенность мягкая и не делает рыбу излишне осторожной"
-            }
-          ],
-          "negativeDrivers": [
-            {
-              "factor": "Ветер",
-              "score": 48,
-              "reason": "ветер ухудшает условия или связан с неблагоприятным режимом"
-            },
-            {
-              "factor": "Прозрачность воды",
-              "score": 52,
-              "reason": "мутность или чрезмерная прозрачность ухудшают условия"
-            },
-            {
-              "factor": "Сезонная фаза",
-              "score": 55,
-              "reason": "сезонная фаза ограничивает активность рыбы"
-            }
-          ],
-          "recommendations": [
-            "Когда ловить: лучше день и ближе к вечеру, когда вода успевает немного прогреться; раннее утро менее перспективно.",
-            "Дальность и скрытность: из-за мутности форель видит хуже, поэтому можно подходить ближе, но заброс должен попадать точнее к укрытиям, кромкам струи и спокойным карманам.",
-            "Модель ловли: видимость снижена, поэтому ставка на заметность. Используй вращающиеся блесны, небольшие колебалки или воблеры с выраженной игрой, веди приманку чуть медленнее и ближе к перспективным укрытиям.",
-            "Приманки: при умеренной мутности добавь контраст, яркую точку атаки, вращалку с вибрацией или воблер с более заметной игрой.",
-            "Сильный ветер лучше обходить лесными и закрытыми участками, работая на короткой дистанции.",
-            "При северном или восточном ветре снизь ожидания и выбирай участки с более спокойной подачей.",
-            "Проводка: при холодной воде лучше искать более теплые дневные окна, вести медленно и давать приманке паузы у дна или на границе струи.",
-            "Поведение рыбы: стабильная погода и хорошее давление снижают риск внезапного провала клева, поэтому можно больше перемещаться и проверять активные точки."
-          ],
-          "warnings": [
-            "сильный ветер может мешать забросу и проводке"
-          ],
-          "appliedCaps": [],
-          "flags": [
-            "stable_weather",
-            "cloudy",
-            "unfavorable_wind",
-            "strong_gusts",
-            "muddy_risk"
-          ],
-          "raw": {
-            "estimatedWaterTemperatureC": 6.8,
-            "airTemperatureC": 3.7,
-            "pressureHPa": 1010.1,
-            "pressureMmHg": 758,
-            "pressureChange24hHPa": 3.8,
-            "pressureChange24hMmHg": 2.9,
-            "temperatureChange24hC": -0.8,
-            "precipitation24hMm": 0.1,
-            "precipitation72hMm": 29.9,
-            "cloudCoverPercent": 88,
-            "windDirection": "N",
-            "windDirectionDegrees": 340,
-            "windSpeedMs": 8,
-            "windGustsMs": 21.4,
-            "waterClarity": "moderately_muddy",
-            "waterClarityLabel": "умеренно мутная",
-            "waterLevel": "slightly_high",
-            "windDirectionPrevious": "NW",
-            "windDirectionChangeDegrees": 45,
-            "windSpeedChange24hMs": 0.5,
-            "moonPhase": "unknown"
-          }
-        },
-        {
           "date": "2026-04-29",
-          "index": 68,
-          "indexRaw": 68.2,
+          "index": 69,
+          "indexRaw": 68.51,
           "rating": "перспективно",
           "confidence": "medium",
           "summary": "Есть рабочие условия, но прогноз не без слабых мест. Главный риск: Сезонная фаза.",
@@ -729,22 +41,22 @@ window.LIVE_RESULTS = {
             {
               "id": "weatherChange",
               "label": "Изменение погоды",
-              "weight": 0.16,
-              "weightPercent": 16,
-              "score": 64,
-              "contribution": 10.24,
+              "weight": 0.22,
+              "weightPercent": 22,
+              "score": 66,
+              "contribution": 14.52,
               "status": "нейтрально",
               "explanation": "есть заметные изменения погоды, прогноз требует осторожности"
             },
             {
               "id": "pressure",
               "label": "Атмосферное давление",
-              "weight": 0.13,
-              "weightPercent": 13,
-              "score": 79,
-              "contribution": 10.27,
-              "status": "помогает",
-              "explanation": "давление находится в хорошем для ручья диапазоне"
+              "weight": 0.07,
+              "weightPercent": 7,
+              "score": 74,
+              "contribution": 5.18,
+              "status": "нейтрально",
+              "explanation": "текущий уровень давления нейтральный или контекстно зависимый"
             },
             {
               "id": "waterClarity",
@@ -761,8 +73,8 @@ window.LIVE_RESULTS = {
               "label": "Освещенность",
               "weight": 0.08,
               "weightPercent": 8,
-              "score": 78,
-              "contribution": 6.24,
+              "score": 92,
+              "contribution": 7.36,
               "status": "помогает",
               "explanation": "освещенность мягкая и не делает рыбу излишне осторожной"
             },
@@ -804,6 +116,11 @@ window.LIVE_RESULTS = {
               "reason": "прозрачность воды помогает рыбе видеть приманку"
             },
             {
+              "factor": "Освещенность",
+              "score": 92,
+              "reason": "освещенность мягкая и не делает рыбу излишне осторожной"
+            },
+            {
               "factor": "Уровень воды",
               "score": 90,
               "reason": "уровень воды без крайних отклонений"
@@ -822,46 +139,42 @@ window.LIVE_RESULTS = {
             "Модель ловли: вода холодная, рыба может быть вялой. Лучше медленная подача: микроколебалка на снос, силикон на легкой головке, короткие паузы и облов глубоких ям.",
             "Проводка: при холодной воде лучше искать более теплые дневные окна, вести медленно и давать приманке паузы у дна или на границе струи."
           ],
-          "warnings": [
-            "давление резко растет после смены погоды, это неблагоприятный сигнал"
-          ],
+          "warnings": [],
           "appliedCaps": [],
           "flags": [
-            "cloudy"
+            "strong_gusts"
           ],
           "raw": {
-            "estimatedWaterTemperatureC": 6.8,
-            "airTemperatureC": 3.5,
-            "pressureHPa": 1019.3,
-            "pressureMmHg": 765,
-            "pressureChange24hHPa": 9.2,
-            "pressureChange24hMmHg": 6.9,
-            "temperatureChange24hC": -0.2,
-            "precipitation24hMm": 0.9,
-            "precipitation72hMm": 17.8,
-            "cloudCoverPercent": 97,
+            "estimatedWaterTemperatureC": 6.7,
+            "airTemperatureC": 3.6,
+            "pressureHPa": 1021.6,
+            "pressureMmHg": 766,
+            "pressureChange24hHPa": 8.7,
+            "pressureChange24hMmHg": 6.5,
+            "pressureAmplitude72hMmHg": 21,
+            "pressureDirectionChanges72h": 0,
+            "pressureTrendKind": "directional",
+            "temperatureChange24hC": 0.6,
+            "precipitation24hMm": 0,
+            "precipitation72hMm": 14.3,
+            "cloudCoverPercent": 68,
             "windDirection": "NW",
-            "windDirectionDegrees": 331,
-            "windSpeedMs": 4.4,
-            "windGustsMs": 11.7,
+            "windDirectionDegrees": 318,
+            "windSpeedMs": 4.6,
+            "windGustsMs": 12.9,
             "waterClarity": "slightly_colored_clear",
             "waterClarityLabel": "слегка окрашенная прозрачная",
             "waterLevel": "normal",
-            "windDirectionPrevious": "N",
-            "windDirectionChangeDegrees": 45,
-            "windSpeedChange24hMs": -3.6,
+            "windDirectionPrevious": "NW",
+            "windDirectionChangeDegrees": 0,
+            "windSpeedChange24hMs": -2.7,
             "moonPhase": "unknown"
           }
-        }
-      ]
-    },
-    "south": {
-      "summary": "Юг Ленинградской области: Сиверский. Реальные погодные данные, гидрология рассчитана косвенно.",
-      "forecast": [
+        },
         {
-          "date": "2026-04-25",
-          "index": 76,
-          "indexRaw": 75.51,
+          "date": "2026-04-30",
+          "index": 75,
+          "indexRaw": 74.68,
           "rating": "хорошо",
           "confidence": "medium",
           "summary": "Условия хорошие, но стоит следить за локальными особенностями ручья. Главный плюс: Изменение погоды.",
@@ -889,30 +202,30 @@ window.LIVE_RESULTS = {
             {
               "id": "weatherChange",
               "label": "Изменение погоды",
-              "weight": 0.16,
-              "weightPercent": 16,
+              "weight": 0.22,
+              "weightPercent": 22,
               "score": 82,
-              "contribution": 13.12,
+              "contribution": 18.04,
               "status": "помогает",
-              "explanation": "погода достаточно стабильна"
+              "explanation": "давление и погода меняются в благоприятном или стабильном режиме"
             },
             {
               "id": "pressure",
               "label": "Атмосферное давление",
-              "weight": 0.13,
-              "weightPercent": 13,
-              "score": 92,
-              "contribution": 11.96,
-              "status": "помогает",
-              "explanation": "давление находится в хорошем для ручья диапазоне"
+              "weight": 0.07,
+              "weightPercent": 7,
+              "score": 73,
+              "contribution": 5.11,
+              "status": "нейтрально",
+              "explanation": "текущий уровень давления нейтральный или контекстно зависимый"
             },
             {
               "id": "waterClarity",
               "label": "Прозрачность воды",
               "weight": 0.1,
               "weightPercent": 10,
-              "score": 84,
-              "contribution": 8.4,
+              "score": 95,
+              "contribution": 9.5,
               "status": "помогает",
               "explanation": "прозрачность воды помогает рыбе видеть приманку"
             },
@@ -961,17 +274,17 @@ window.LIVE_RESULTS = {
             {
               "factor": "Изменение погоды",
               "score": 82,
-              "reason": "погода достаточно стабильна"
-            },
-            {
-              "factor": "Атмосферное давление",
-              "score": 92,
-              "reason": "давление находится в хорошем для ручья диапазоне"
+              "reason": "давление и погода меняются в благоприятном или стабильном режиме"
             },
             {
               "factor": "Прозрачность воды",
-              "score": 84,
+              "score": 95,
               "reason": "прозрачность воды помогает рыбе видеть приманку"
+            },
+            {
+              "factor": "Освещенность",
+              "score": 92,
+              "reason": "освещенность мягкая и не делает рыбу излишне осторожной"
             }
           ],
           "negativeDrivers": [
@@ -985,46 +298,552 @@ window.LIVE_RESULTS = {
             "Когда ловить: лучше день и ближе к вечеру, когда вода успевает немного прогреться; раннее утро менее перспективно.",
             "Дальность и скрытность: слегка окрашенная вода или рябь маскируют рыболова. Дистанция нужна умеренная, можно активнее проверять ближние карманы перед дальними забросами.",
             "Модель ловли: вода холодная, рыба может быть вялой. Лучше медленная подача: микроколебалка на снос, силикон на легкой головке, короткие паузы и облов глубоких ям.",
+            "Приманки: слегка чайная прозрачная вода хороша для меди, золота, темных силуэтов, маленьких колебалок и минноу с умеренным контрастом.",
             "Проводка: при холодной воде лучше искать более теплые дневные окна, вести медленно и давать приманке паузы у дна или на границе струи."
+          ],
+          "warnings": [
+            "ветер заметно меняется по направлению или силе, погодный режим нестабилен"
+          ],
+          "appliedCaps": [],
+          "flags": [
+            "stable_weather",
+            "wind_direction_shift",
+            "cloudy",
+            "favorable_wind",
+            "tea_clear_water"
+          ],
+          "raw": {
+            "estimatedWaterTemperatureC": 6.9,
+            "airTemperatureC": 3.7,
+            "pressureHPa": 1022.1,
+            "pressureMmHg": 767,
+            "pressureChange24hHPa": 0.5,
+            "pressureChange24hMmHg": 0.4,
+            "pressureAmplitude72hMmHg": 12,
+            "pressureDirectionChanges72h": 0,
+            "pressureTrendKind": "directional",
+            "temperatureChange24hC": 0.1,
+            "precipitation24hMm": 0,
+            "precipitation72hMm": 1.4,
+            "cloudCoverPercent": 83,
+            "windDirection": "SW",
+            "windDirectionDegrees": 238,
+            "windSpeedMs": 2.1,
+            "windGustsMs": 7.6,
+            "waterClarity": "slightly_tea_clear",
+            "waterClarityLabel": "слегка чайная прозрачная",
+            "waterLevel": "normal",
+            "windDirectionPrevious": "NW",
+            "windDirectionChangeDegrees": 90,
+            "windSpeedChange24hMs": -2.5,
+            "moonPhase": "unknown"
+          }
+        },
+        {
+          "date": "2026-05-01",
+          "index": 86,
+          "indexRaw": 85.56,
+          "rating": "отлично",
+          "confidence": "medium",
+          "summary": "Очень сильное сочетание условий. Главный плюс: Изменение погоды.",
+          "factors": [
+            {
+              "id": "waterTemperature",
+              "label": "Температура воды",
+              "weight": 0.22,
+              "weightPercent": 22,
+              "score": 77,
+              "contribution": 16.94,
+              "status": "помогает",
+              "explanation": "температурный фон воды близок к рабочей зоне форели"
+            },
+            {
+              "id": "season",
+              "label": "Сезонная фаза",
+              "weight": 0.21,
+              "weightPercent": 21,
+              "score": 86,
+              "contribution": 18.06,
+              "status": "помогает",
+              "explanation": "сезонная фаза поддерживает кормовую активность"
+            },
+            {
+              "id": "weatherChange",
+              "label": "Изменение погоды",
+              "weight": 0.22,
+              "weightPercent": 22,
+              "score": 91,
+              "contribution": 20.02,
+              "status": "помогает",
+              "explanation": "давление и погода меняются в благоприятном или стабильном режиме"
+            },
+            {
+              "id": "pressure",
+              "label": "Атмосферное давление",
+              "weight": 0.07,
+              "weightPercent": 7,
+              "score": 76,
+              "contribution": 5.32,
+              "status": "помогает",
+              "explanation": "текущий барометрический фон комфортный"
+            },
+            {
+              "id": "waterClarity",
+              "label": "Прозрачность воды",
+              "weight": 0.1,
+              "weightPercent": 10,
+              "score": 95,
+              "contribution": 9.5,
+              "status": "помогает",
+              "explanation": "прозрачность воды помогает рыбе видеть приманку"
+            },
+            {
+              "id": "light",
+              "label": "Освещенность",
+              "weight": 0.08,
+              "weightPercent": 8,
+              "score": 92,
+              "contribution": 7.36,
+              "status": "помогает",
+              "explanation": "освещенность мягкая и не делает рыбу излишне осторожной"
+            },
+            {
+              "id": "wind",
+              "label": "Ветер",
+              "weight": 0.05,
+              "weightPercent": 5,
+              "score": 96,
+              "contribution": 4.8,
+              "status": "помогает",
+              "explanation": "ветер по направлению и силе благоприятен"
+            },
+            {
+              "id": "waterLevel",
+              "label": "Уровень воды",
+              "weight": 0.03,
+              "weightPercent": 3,
+              "score": 82,
+              "contribution": 2.46,
+              "status": "помогает",
+              "explanation": "уровень воды без крайних отклонений"
+            },
+            {
+              "id": "moon",
+              "label": "Луна",
+              "weight": 0.02,
+              "weightPercent": 2,
+              "score": 55,
+              "contribution": 1.1,
+              "status": "нейтрально",
+              "explanation": "лунный фактор не поддерживает прогноз"
+            }
+          ],
+          "positiveDrivers": [
+            {
+              "factor": "Изменение погоды",
+              "score": 91,
+              "reason": "давление и погода меняются в благоприятном или стабильном режиме"
+            },
+            {
+              "factor": "Сезонная фаза",
+              "score": 86,
+              "reason": "сезонная фаза поддерживает кормовую активность"
+            },
+            {
+              "factor": "Прозрачность воды",
+              "score": 95,
+              "reason": "прозрачность воды помогает рыбе видеть приманку"
+            }
+          ],
+          "negativeDrivers": [],
+          "recommendations": [
+            "Когда ловить: лучше день и ближе к вечеру, когда вода успевает немного прогреться; раннее утро менее перспективно.",
+            "Дальность и скрытность: осторожность повышена. Начинай издалека, двигайся медленно, используй береговые укрытия и не становись силуэтом на фоне неба.",
+            "Модель ловли: форель будет осторожнее обычного. Подходи ниже по течению, держи дистанцию, делай первые забросы издалека и начинай с натуральных воблеров, микроколебалок или мягкой резины без лишнего блеска.",
+            "Приманки: слегка чайная прозрачная вода хороша для меди, золота, темных силуэтов, маленьких колебалок и минноу с умеренным контрастом.",
+            "На низкой воде ищи ямки, тень, укрытия и локальные стоянки, не заходи в воду без необходимости.",
+            "Проводка: при холодной воде лучше искать более теплые дневные окна, вести медленно и давать приманке паузы у дна или на границе струи.",
+            "Поведение рыбы: плавное снижение давления похоже на предфронтовое окно. При облачности и влажности форель может смелее выходить из укрытий, но следи за мутностью воды."
           ],
           "warnings": [],
           "appliedCaps": [],
           "flags": [
             "stable_weather",
-            "cloudy",
-            "favorable_wind"
+            "smooth_pressure_fall",
+            "prefrontal_window",
+            "favorable_wind",
+            "tea_clear_water",
+            "clear_low_water"
           ],
           "raw": {
-            "estimatedWaterTemperatureC": 6.9,
-            "airTemperatureC": 3,
-            "pressureHPa": 996.5,
-            "pressureMmHg": 747,
-            "pressureChange24hHPa": -7.2,
-            "pressureChange24hMmHg": -5.4,
-            "temperatureChange24hC": -0.5,
-            "precipitation24hMm": 5.1,
-            "precipitation72hMm": 6,
-            "cloudCoverPercent": 80,
+            "estimatedWaterTemperatureC": 8.6,
+            "airTemperatureC": 8.3,
+            "pressureHPa": 1019.9,
+            "pressureMmHg": 765,
+            "pressureChange24hHPa": -2.2,
+            "pressureChange24hMmHg": -1.7,
+            "pressureAmplitude72hMmHg": 7,
+            "pressureDirectionChanges72h": 1,
+            "pressureTrendKind": "unstable",
+            "temperatureChange24hC": 4.6,
+            "precipitation24hMm": 0.1,
+            "precipitation72hMm": 0.1,
+            "cloudCoverPercent": 67,
             "windDirection": "SW",
-            "windDirectionDegrees": 203,
-            "windSpeedMs": 3.5,
-            "windGustsMs": 10.5,
-            "waterClarity": "slightly_colored_clear",
-            "waterClarityLabel": "слегка окрашенная прозрачная",
-            "waterLevel": "normal",
-            "windDirectionPrevious": "W",
-            "windDirectionChangeDegrees": 45,
-            "windSpeedChange24hMs": 0.7,
+            "windDirectionDegrees": 240,
+            "windSpeedMs": 2,
+            "windGustsMs": 7.4,
+            "waterClarity": "slightly_tea_clear",
+            "waterClarityLabel": "слегка чайная прозрачная",
+            "waterLevel": "slightly_low",
+            "windDirectionPrevious": "SW",
+            "windDirectionChangeDegrees": 0,
+            "windSpeedChange24hMs": -0.1,
             "moonPhase": "unknown"
           }
         },
         {
-          "date": "2026-04-26",
-          "index": 71,
-          "indexRaw": 71.08,
+          "date": "2026-05-02",
+          "index": 85,
+          "indexRaw": 85.38,
           "rating": "хорошо",
           "confidence": "medium",
-          "summary": "Условия хорошие, но стоит следить за локальными особенностями ручья. Главный плюс: Изменение погоды.",
+          "summary": "Условия хорошие, но стоит следить за локальными особенностями ручья. Главный плюс: Температура воды.",
+          "factors": [
+            {
+              "id": "waterTemperature",
+              "label": "Температура воды",
+              "weight": 0.22,
+              "weightPercent": 22,
+              "score": 98,
+              "contribution": 21.56,
+              "status": "помогает",
+              "explanation": "температурный фон воды близок к рабочей зоне форели"
+            },
+            {
+              "id": "season",
+              "label": "Сезонная фаза",
+              "weight": 0.21,
+              "weightPercent": 21,
+              "score": 86,
+              "contribution": 18.06,
+              "status": "помогает",
+              "explanation": "сезонная фаза поддерживает кормовую активность"
+            },
+            {
+              "id": "weatherChange",
+              "label": "Изменение погоды",
+              "weight": 0.22,
+              "weightPercent": 22,
+              "score": 80,
+              "contribution": 17.6,
+              "status": "помогает",
+              "explanation": "давление и погода меняются в благоприятном или стабильном режиме"
+            },
+            {
+              "id": "pressure",
+              "label": "Атмосферное давление",
+              "weight": 0.07,
+              "weightPercent": 7,
+              "score": 88,
+              "contribution": 6.16,
+              "status": "помогает",
+              "explanation": "текущий барометрический фон комфортный"
+            },
+            {
+              "id": "waterClarity",
+              "label": "Прозрачность воды",
+              "weight": 0.1,
+              "weightPercent": 10,
+              "score": 95,
+              "contribution": 9.5,
+              "status": "помогает",
+              "explanation": "прозрачность воды помогает рыбе видеть приманку"
+            },
+            {
+              "id": "light",
+              "label": "Освещенность",
+              "weight": 0.08,
+              "weightPercent": 8,
+              "score": 58,
+              "contribution": 4.64,
+              "status": "нейтрально",
+              "explanation": "освещенность делает рыбу осторожнее"
+            },
+            {
+              "id": "wind",
+              "label": "Ветер",
+              "weight": 0.05,
+              "weightPercent": 5,
+              "score": 86,
+              "contribution": 4.3,
+              "status": "помогает",
+              "explanation": "ветер по направлению и силе благоприятен"
+            },
+            {
+              "id": "waterLevel",
+              "label": "Уровень воды",
+              "weight": 0.03,
+              "weightPercent": 3,
+              "score": 82,
+              "contribution": 2.46,
+              "status": "помогает",
+              "explanation": "уровень воды без крайних отклонений"
+            },
+            {
+              "id": "moon",
+              "label": "Луна",
+              "weight": 0.02,
+              "weightPercent": 2,
+              "score": 55,
+              "contribution": 1.1,
+              "status": "нейтрально",
+              "explanation": "лунный фактор не поддерживает прогноз"
+            }
+          ],
+          "positiveDrivers": [
+            {
+              "factor": "Температура воды",
+              "score": 98,
+              "reason": "температурный фон воды близок к рабочей зоне форели"
+            },
+            {
+              "factor": "Сезонная фаза",
+              "score": 86,
+              "reason": "сезонная фаза поддерживает кормовую активность"
+            },
+            {
+              "factor": "Изменение погоды",
+              "score": 80,
+              "reason": "давление и погода меняются в благоприятном или стабильном режиме"
+            }
+          ],
+          "negativeDrivers": [
+            {
+              "factor": "Освещенность",
+              "score": 58,
+              "reason": "освещенность делает рыбу осторожнее"
+            }
+          ],
+          "recommendations": [
+            "Когда ловить: при ярком солнце лучше утро или вечер; днем выбирай тень, нависающие берега и закрытые лесом участки.",
+            "Дальность и скрытность: осторожность повышена. Начинай издалека, двигайся медленно, используй береговые укрытия и не становись силуэтом на фоне неба.",
+            "Модель ловли: форель будет осторожнее обычного. Подходи ниже по течению, держи дистанцию, делай первые забросы издалека и начинай с натуральных воблеров, микроколебалок или мягкой резины без лишнего блеска.",
+            "При ярком солнце держи дистанцию, облавливай тень и используй более естественные цвета.",
+            "Приманки: слегка чайная прозрачная вода хороша для меди, золота, темных силуэтов, маленьких колебалок и минноу с умеренным контрастом.",
+            "На низкой воде ищи ямки, тень, укрытия и локальные стоянки, не заходи в воду без необходимости."
+          ],
+          "warnings": [],
+          "appliedCaps": [],
+          "flags": [
+            "stable_weather",
+            "bright_sun",
+            "favorable_wind",
+            "tea_clear_water",
+            "clear_low_water"
+          ],
+          "raw": {
+            "estimatedWaterTemperatureC": 9.4,
+            "airTemperatureC": 11,
+            "pressureHPa": 1011.3,
+            "pressureMmHg": 759,
+            "pressureChange24hHPa": -8.6,
+            "pressureChange24hMmHg": -6.5,
+            "pressureAmplitude72hMmHg": 8,
+            "pressureDirectionChanges72h": 0,
+            "pressureTrendKind": "directional",
+            "temperatureChange24hC": 2.7,
+            "precipitation24hMm": 0,
+            "precipitation72hMm": 0.1,
+            "cloudCoverPercent": 21,
+            "windDirection": "SW",
+            "windDirectionDegrees": 240,
+            "windSpeedMs": 4.2,
+            "windGustsMs": 11.8,
+            "waterClarity": "slightly_tea_clear",
+            "waterClarityLabel": "слегка чайная прозрачная",
+            "waterLevel": "slightly_low",
+            "windDirectionPrevious": "SW",
+            "windDirectionChangeDegrees": 0,
+            "windSpeedChange24hMs": 2.2,
+            "moonPhase": "unknown"
+          }
+        },
+        {
+          "date": "2026-05-03",
+          "index": 91,
+          "indexRaw": 91.06,
+          "rating": "отлично",
+          "confidence": "medium",
+          "summary": "Очень сильное сочетание условий. Главный плюс: Температура воды.",
+          "factors": [
+            {
+              "id": "waterTemperature",
+              "label": "Температура воды",
+              "weight": 0.22,
+              "weightPercent": 22,
+              "score": 98,
+              "contribution": 21.56,
+              "status": "помогает",
+              "explanation": "температурный фон воды близок к рабочей зоне форели"
+            },
+            {
+              "id": "season",
+              "label": "Сезонная фаза",
+              "weight": 0.21,
+              "weightPercent": 21,
+              "score": 86,
+              "contribution": 18.06,
+              "status": "помогает",
+              "explanation": "сезонная фаза поддерживает кормовую активность"
+            },
+            {
+              "id": "weatherChange",
+              "label": "Изменение погоды",
+              "weight": 0.22,
+              "weightPercent": 22,
+              "score": 88,
+              "contribution": 19.36,
+              "status": "помогает",
+              "explanation": "давление и погода меняются в благоприятном или стабильном режиме"
+            },
+            {
+              "id": "pressure",
+              "label": "Атмосферное давление",
+              "weight": 0.07,
+              "weightPercent": 7,
+              "score": 98,
+              "contribution": 6.86,
+              "status": "помогает",
+              "explanation": "текущий барометрический фон комфортный"
+            },
+            {
+              "id": "waterClarity",
+              "label": "Прозрачность воды",
+              "weight": 0.1,
+              "weightPercent": 10,
+              "score": 95,
+              "contribution": 9.5,
+              "status": "помогает",
+              "explanation": "прозрачность воды помогает рыбе видеть приманку"
+            },
+            {
+              "id": "light",
+              "label": "Освещенность",
+              "weight": 0.08,
+              "weightPercent": 8,
+              "score": 92,
+              "contribution": 7.36,
+              "status": "помогает",
+              "explanation": "освещенность мягкая и не делает рыбу излишне осторожной"
+            },
+            {
+              "id": "wind",
+              "label": "Ветер",
+              "weight": 0.05,
+              "weightPercent": 5,
+              "score": 96,
+              "contribution": 4.8,
+              "status": "помогает",
+              "explanation": "ветер по направлению и силе благоприятен"
+            },
+            {
+              "id": "waterLevel",
+              "label": "Уровень воды",
+              "weight": 0.03,
+              "weightPercent": 3,
+              "score": 82,
+              "contribution": 2.46,
+              "status": "помогает",
+              "explanation": "уровень воды без крайних отклонений"
+            },
+            {
+              "id": "moon",
+              "label": "Луна",
+              "weight": 0.02,
+              "weightPercent": 2,
+              "score": 55,
+              "contribution": 1.1,
+              "status": "нейтрально",
+              "explanation": "лунный фактор не поддерживает прогноз"
+            }
+          ],
+          "positiveDrivers": [
+            {
+              "factor": "Температура воды",
+              "score": 98,
+              "reason": "температурный фон воды близок к рабочей зоне форели"
+            },
+            {
+              "factor": "Изменение погоды",
+              "score": 88,
+              "reason": "давление и погода меняются в благоприятном или стабильном режиме"
+            },
+            {
+              "factor": "Сезонная фаза",
+              "score": 86,
+              "reason": "сезонная фаза поддерживает кормовую активность"
+            }
+          ],
+          "negativeDrivers": [],
+          "recommendations": [
+            "Когда ловить: утро, день и вечер рабочие; мягкая облачность и стабильная погода позволяют не привязываться жестко ко времени.",
+            "Дальность и скрытность: осторожность повышена. Начинай издалека, двигайся медленно, используй береговые укрытия и не становись силуэтом на фоне неба.",
+            "Модель ловли: рыба должна быть достаточно активной. Начни с маленького воблера-минноу или вращающейся блесны, облавливай перекаты, кромки струи и входы в ямы.",
+            "Приманки: слегка чайная прозрачная вода хороша для меди, золота, темных силуэтов, маленьких колебалок и минноу с умеренным контрастом.",
+            "На низкой воде ищи ямки, тень, укрытия и локальные стоянки, не заходи в воду без необходимости.",
+            "Подача: легкая рябь и мягкий свет позволяют ловить активнее: равномерная проводка вращалки или воблера поперек/на снос будет хорошей стартовой схемой.",
+            "Поведение рыбы: плавное снижение давления похоже на предфронтовое окно. При облачности и влажности форель может смелее выходить из укрытий, но следи за мутностью воды."
+          ],
+          "warnings": [],
+          "appliedCaps": [],
+          "flags": [
+            "stable_weather",
+            "smooth_pressure_fall",
+            "prefrontal_window",
+            "favorable_wind",
+            "tea_clear_water",
+            "clear_low_water"
+          ],
+          "raw": {
+            "estimatedWaterTemperatureC": 9.4,
+            "airTemperatureC": 9.9,
+            "pressureHPa": 1007.3,
+            "pressureMmHg": 756,
+            "pressureChange24hHPa": -4,
+            "pressureChange24hMmHg": -3,
+            "pressureAmplitude72hMmHg": 11,
+            "pressureDirectionChanges72h": 0,
+            "pressureTrendKind": "directional",
+            "temperatureChange24hC": -1.1,
+            "precipitation24hMm": 0,
+            "precipitation72hMm": 0.1,
+            "cloudCoverPercent": 66,
+            "windDirection": "SW",
+            "windDirectionDegrees": 244,
+            "windSpeedMs": 3.8,
+            "windGustsMs": 11,
+            "waterClarity": "slightly_tea_clear",
+            "waterClarityLabel": "слегка чайная прозрачная",
+            "waterLevel": "slightly_low",
+            "windDirectionPrevious": "SW",
+            "windDirectionChangeDegrees": 0,
+            "windSpeedChange24hMs": -0.4,
+            "moonPhase": "unknown"
+          }
+        }
+      ]
+    },
+    "south": {
+      "summary": "Юг Ленинградской области: Сиверский. Реальные погодные данные, гидрология рассчитана косвенно.",
+      "forecast": [
+        {
+          "date": "2026-04-29",
+          "index": 67,
+          "indexRaw": 66.88,
+          "rating": "перспективно",
+          "confidence": "medium",
+          "summary": "Есть рабочие условия, но прогноз не без слабых мест. Главный риск: Сезонная фаза.",
           "factors": [
             {
               "id": "waterTemperature",
@@ -1049,22 +868,846 @@ window.LIVE_RESULTS = {
             {
               "id": "weatherChange",
               "label": "Изменение погоды",
-              "weight": 0.16,
-              "weightPercent": 16,
-              "score": 92,
-              "contribution": 14.72,
-              "status": "помогает",
-              "explanation": "погода достаточно стабильна"
+              "weight": 0.22,
+              "weightPercent": 22,
+              "score": 58,
+              "contribution": 12.76,
+              "status": "нейтрально",
+              "explanation": "динамика давления, ветра или фронта ухудшает прогноз"
             },
             {
               "id": "pressure",
               "label": "Атмосферное давление",
-              "weight": 0.13,
-              "weightPercent": 13,
-              "score": 90,
-              "contribution": 11.7,
+              "weight": 0.07,
+              "weightPercent": 7,
+              "score": 75,
+              "contribution": 5.25,
               "status": "помогает",
-              "explanation": "давление находится в хорошем для ручья диапазоне"
+              "explanation": "текущий барометрический фон комфортный"
+            },
+            {
+              "id": "waterClarity",
+              "label": "Прозрачность воды",
+              "weight": 0.1,
+              "weightPercent": 10,
+              "score": 84,
+              "contribution": 8.4,
+              "status": "помогает",
+              "explanation": "прозрачность воды помогает рыбе видеть приманку"
+            },
+            {
+              "id": "light",
+              "label": "Освещенность",
+              "weight": 0.08,
+              "weightPercent": 8,
+              "score": 92,
+              "contribution": 7.36,
+              "status": "помогает",
+              "explanation": "освещенность мягкая и не делает рыбу излишне осторожной"
+            },
+            {
+              "id": "wind",
+              "label": "Ветер",
+              "weight": 0.05,
+              "weightPercent": 5,
+              "score": 78,
+              "contribution": 3.9,
+              "status": "помогает",
+              "explanation": "ветер по направлению и силе благоприятен"
+            },
+            {
+              "id": "waterLevel",
+              "label": "Уровень воды",
+              "weight": 0.03,
+              "weightPercent": 3,
+              "score": 90,
+              "contribution": 2.7,
+              "status": "помогает",
+              "explanation": "уровень воды без крайних отклонений"
+            },
+            {
+              "id": "moon",
+              "label": "Луна",
+              "weight": 0.02,
+              "weightPercent": 2,
+              "score": 55,
+              "contribution": 1.1,
+              "status": "нейтрально",
+              "explanation": "лунный фактор не поддерживает прогноз"
+            }
+          ],
+          "positiveDrivers": [
+            {
+              "factor": "Прозрачность воды",
+              "score": 84,
+              "reason": "прозрачность воды помогает рыбе видеть приманку"
+            },
+            {
+              "factor": "Освещенность",
+              "score": 92,
+              "reason": "освещенность мягкая и не делает рыбу излишне осторожной"
+            },
+            {
+              "factor": "Уровень воды",
+              "score": 90,
+              "reason": "уровень воды без крайних отклонений"
+            }
+          ],
+          "negativeDrivers": [
+            {
+              "factor": "Сезонная фаза",
+              "score": 55,
+              "reason": "сезонная фаза ограничивает активность рыбы"
+            },
+            {
+              "factor": "Изменение погоды",
+              "score": 58,
+              "reason": "динамика давления, ветра или фронта ухудшает прогноз"
+            }
+          ],
+          "recommendations": [
+            "Когда ловить: лучше день и ближе к вечеру, когда вода успевает немного прогреться; раннее утро менее перспективно.",
+            "Дальность и скрытность: слегка окрашенная вода или рябь маскируют рыболова. Дистанция нужна умеренная, можно активнее проверять ближние карманы перед дальними забросами.",
+            "Модель ловли: вода холодная, рыба может быть вялой. Лучше медленная подача: микроколебалка на снос, силикон на легкой головке, короткие паузы и облов глубоких ям.",
+            "Проводка: при холодной воде лучше искать более теплые дневные окна, вести медленно и давать приманке паузы у дна или на границе струи."
+          ],
+          "warnings": [
+            "давление резко растет после смены погоды, это неблагоприятный сигнал"
+          ],
+          "appliedCaps": [],
+          "flags": [
+            "sharp_pressure_rise",
+            "cloudy"
+          ],
+          "raw": {
+            "estimatedWaterTemperatureC": 6.4,
+            "airTemperatureC": 2.3,
+            "pressureHPa": 1020.8,
+            "pressureMmHg": 766,
+            "pressureChange24hHPa": 9.9,
+            "pressureChange24hMmHg": 7.4,
+            "pressureAmplitude72hMmHg": 22,
+            "pressureDirectionChanges72h": 0,
+            "pressureTrendKind": "directional",
+            "temperatureChange24hC": 0.5,
+            "precipitation24hMm": 0,
+            "precipitation72hMm": 17.7,
+            "cloudCoverPercent": 72,
+            "windDirection": "NW",
+            "windDirectionDegrees": 323,
+            "windSpeedMs": 3.6,
+            "windGustsMs": 8.9,
+            "waterClarity": "slightly_colored_clear",
+            "waterClarityLabel": "слегка окрашенная прозрачная",
+            "waterLevel": "normal",
+            "windDirectionPrevious": "NW",
+            "windDirectionChangeDegrees": 0,
+            "windSpeedChange24hMs": -2.5,
+            "moonPhase": "unknown"
+          }
+        },
+        {
+          "date": "2026-04-30",
+          "index": 73,
+          "indexRaw": 73.48,
+          "rating": "хорошо",
+          "confidence": "medium",
+          "summary": "Условия хорошие, но стоит следить за локальными особенностями ручья. Главный плюс: Прозрачность воды.",
+          "factors": [
+            {
+              "id": "waterTemperature",
+              "label": "Температура воды",
+              "weight": 0.22,
+              "weightPercent": 22,
+              "score": 65,
+              "contribution": 14.3,
+              "status": "нейтрально",
+              "explanation": "температура воды рабочая, но не идеальная"
+            },
+            {
+              "id": "season",
+              "label": "Сезонная фаза",
+              "weight": 0.21,
+              "weightPercent": 21,
+              "score": 55,
+              "contribution": 11.55,
+              "status": "нейтрально",
+              "explanation": "сезонная фаза ограничивает активность рыбы"
+            },
+            {
+              "id": "weatherChange",
+              "label": "Изменение погоды",
+              "weight": 0.22,
+              "weightPercent": 22,
+              "score": 78,
+              "contribution": 17.16,
+              "status": "помогает",
+              "explanation": "есть заметные изменения погоды, прогноз требует осторожности"
+            },
+            {
+              "id": "pressure",
+              "label": "Атмосферное давление",
+              "weight": 0.07,
+              "weightPercent": 7,
+              "score": 73,
+              "contribution": 5.11,
+              "status": "нейтрально",
+              "explanation": "текущий уровень давления нейтральный или контекстно зависимый"
+            },
+            {
+              "id": "waterClarity",
+              "label": "Прозрачность воды",
+              "weight": 0.1,
+              "weightPercent": 10,
+              "score": 95,
+              "contribution": 9.5,
+              "status": "помогает",
+              "explanation": "прозрачность воды помогает рыбе видеть приманку"
+            },
+            {
+              "id": "light",
+              "label": "Освещенность",
+              "weight": 0.08,
+              "weightPercent": 8,
+              "score": 92,
+              "contribution": 7.36,
+              "status": "помогает",
+              "explanation": "освещенность мягкая и не делает рыбу излишне осторожной"
+            },
+            {
+              "id": "wind",
+              "label": "Ветер",
+              "weight": 0.05,
+              "weightPercent": 5,
+              "score": 94,
+              "contribution": 4.7,
+              "status": "помогает",
+              "explanation": "ветер по направлению и силе благоприятен"
+            },
+            {
+              "id": "waterLevel",
+              "label": "Уровень воды",
+              "weight": 0.03,
+              "weightPercent": 3,
+              "score": 90,
+              "contribution": 2.7,
+              "status": "помогает",
+              "explanation": "уровень воды без крайних отклонений"
+            },
+            {
+              "id": "moon",
+              "label": "Луна",
+              "weight": 0.02,
+              "weightPercent": 2,
+              "score": 55,
+              "contribution": 1.1,
+              "status": "нейтрально",
+              "explanation": "лунный фактор не поддерживает прогноз"
+            }
+          ],
+          "positiveDrivers": [
+            {
+              "factor": "Прозрачность воды",
+              "score": 95,
+              "reason": "прозрачность воды помогает рыбе видеть приманку"
+            },
+            {
+              "factor": "Освещенность",
+              "score": 92,
+              "reason": "освещенность мягкая и не делает рыбу излишне осторожной"
+            },
+            {
+              "factor": "Ветер",
+              "score": 94,
+              "reason": "ветер по направлению и силе благоприятен"
+            }
+          ],
+          "negativeDrivers": [
+            {
+              "factor": "Сезонная фаза",
+              "score": 55,
+              "reason": "сезонная фаза ограничивает активность рыбы"
+            }
+          ],
+          "recommendations": [
+            "Когда ловить: лучше день и ближе к вечеру, когда вода успевает немного прогреться; раннее утро менее перспективно.",
+            "Дальность и скрытность: слегка окрашенная вода или рябь маскируют рыболова. Дистанция нужна умеренная, можно активнее проверять ближние карманы перед дальними забросами.",
+            "Модель ловли: вода холодная, рыба может быть вялой. Лучше медленная подача: микроколебалка на снос, силикон на легкой головке, короткие паузы и облов глубоких ям.",
+            "Приманки: слегка чайная прозрачная вода хороша для меди, золота, темных силуэтов, маленьких колебалок и минноу с умеренным контрастом.",
+            "Проводка: при холодной воде лучше искать более теплые дневные окна, вести медленно и давать приманке паузы у дна или на границе струи."
+          ],
+          "warnings": [],
+          "appliedCaps": [],
+          "flags": [
+            "stable_weather",
+            "cloudy",
+            "favorable_wind",
+            "tea_clear_water"
+          ],
+          "raw": {
+            "estimatedWaterTemperatureC": 6.8,
+            "airTemperatureC": 3.8,
+            "pressureHPa": 1022.2,
+            "pressureMmHg": 767,
+            "pressureChange24hHPa": 1.4,
+            "pressureChange24hMmHg": 1.1,
+            "pressureAmplitude72hMmHg": 14,
+            "pressureDirectionChanges72h": 0,
+            "pressureTrendKind": "directional",
+            "temperatureChange24hC": 1.5,
+            "precipitation24hMm": 0.3,
+            "precipitation72hMm": 2.6,
+            "cloudCoverPercent": 79,
+            "windDirection": "W",
+            "windDirectionDegrees": 270,
+            "windSpeedMs": 2.5,
+            "windGustsMs": 8.1,
+            "waterClarity": "slightly_tea_clear",
+            "waterClarityLabel": "слегка чайная прозрачная",
+            "waterLevel": "normal",
+            "windDirectionPrevious": "NW",
+            "windDirectionChangeDegrees": 45,
+            "windSpeedChange24hMs": -1.1,
+            "moonPhase": "unknown"
+          }
+        },
+        {
+          "date": "2026-05-01",
+          "index": 85,
+          "indexRaw": 85.17,
+          "rating": "хорошо",
+          "confidence": "medium",
+          "summary": "Условия хорошие, но стоит следить за локальными особенностями ручья. Главный плюс: Изменение погоды.",
+          "factors": [
+            {
+              "id": "waterTemperature",
+              "label": "Температура воды",
+              "weight": 0.22,
+              "weightPercent": 22,
+              "score": 76,
+              "contribution": 16.72,
+              "status": "помогает",
+              "explanation": "температурный фон воды близок к рабочей зоне форели"
+            },
+            {
+              "id": "season",
+              "label": "Сезонная фаза",
+              "weight": 0.21,
+              "weightPercent": 21,
+              "score": 86,
+              "contribution": 18.06,
+              "status": "помогает",
+              "explanation": "сезонная фаза поддерживает кормовую активность"
+            },
+            {
+              "id": "weatherChange",
+              "label": "Изменение погоды",
+              "weight": 0.22,
+              "weightPercent": 22,
+              "score": 91,
+              "contribution": 20.02,
+              "status": "помогает",
+              "explanation": "давление и погода меняются в благоприятном или стабильном режиме"
+            },
+            {
+              "id": "pressure",
+              "label": "Атмосферное давление",
+              "weight": 0.07,
+              "weightPercent": 7,
+              "score": 75,
+              "contribution": 5.25,
+              "status": "помогает",
+              "explanation": "текущий барометрический фон комфортный"
+            },
+            {
+              "id": "waterClarity",
+              "label": "Прозрачность воды",
+              "weight": 0.1,
+              "weightPercent": 10,
+              "score": 95,
+              "contribution": 9.5,
+              "status": "помогает",
+              "explanation": "прозрачность воды помогает рыбе видеть приманку"
+            },
+            {
+              "id": "light",
+              "label": "Освещенность",
+              "weight": 0.08,
+              "weightPercent": 8,
+              "score": 92,
+              "contribution": 7.36,
+              "status": "помогает",
+              "explanation": "освещенность мягкая и не делает рыбу излишне осторожной"
+            },
+            {
+              "id": "wind",
+              "label": "Ветер",
+              "weight": 0.05,
+              "weightPercent": 5,
+              "score": 94,
+              "contribution": 4.7,
+              "status": "помогает",
+              "explanation": "ветер по направлению и силе благоприятен"
+            },
+            {
+              "id": "waterLevel",
+              "label": "Уровень воды",
+              "weight": 0.03,
+              "weightPercent": 3,
+              "score": 82,
+              "contribution": 2.46,
+              "status": "помогает",
+              "explanation": "уровень воды без крайних отклонений"
+            },
+            {
+              "id": "moon",
+              "label": "Луна",
+              "weight": 0.02,
+              "weightPercent": 2,
+              "score": 55,
+              "contribution": 1.1,
+              "status": "нейтрально",
+              "explanation": "лунный фактор не поддерживает прогноз"
+            }
+          ],
+          "positiveDrivers": [
+            {
+              "factor": "Изменение погоды",
+              "score": 91,
+              "reason": "давление и погода меняются в благоприятном или стабильном режиме"
+            },
+            {
+              "factor": "Сезонная фаза",
+              "score": 86,
+              "reason": "сезонная фаза поддерживает кормовую активность"
+            },
+            {
+              "factor": "Прозрачность воды",
+              "score": 95,
+              "reason": "прозрачность воды помогает рыбе видеть приманку"
+            }
+          ],
+          "negativeDrivers": [],
+          "recommendations": [
+            "Когда ловить: лучше день и ближе к вечеру, когда вода успевает немного прогреться; раннее утро менее перспективно.",
+            "Дальность и скрытность: осторожность повышена. Начинай издалека, двигайся медленно, используй береговые укрытия и не становись силуэтом на фоне неба.",
+            "Модель ловли: форель будет осторожнее обычного. Подходи ниже по течению, держи дистанцию, делай первые забросы издалека и начинай с натуральных воблеров, микроколебалок или мягкой резины без лишнего блеска.",
+            "Приманки: слегка чайная прозрачная вода хороша для меди, золота, темных силуэтов, маленьких колебалок и минноу с умеренным контрастом.",
+            "На низкой воде ищи ямки, тень, укрытия и локальные стоянки, не заходи в воду без необходимости.",
+            "Проводка: при холодной воде лучше искать более теплые дневные окна, вести медленно и давать приманке паузы у дна или на границе струи.",
+            "Поведение рыбы: плавное снижение давления похоже на предфронтовое окно. При облачности и влажности форель может смелее выходить из укрытий, но следи за мутностью воды."
+          ],
+          "warnings": [],
+          "appliedCaps": [],
+          "flags": [
+            "stable_weather",
+            "smooth_pressure_fall",
+            "prefrontal_window",
+            "cloudy",
+            "favorable_wind",
+            "tea_clear_water",
+            "clear_low_water"
+          ],
+          "raw": {
+            "estimatedWaterTemperatureC": 8.4,
+            "airTemperatureC": 7.8,
+            "pressureHPa": 1020.1,
+            "pressureMmHg": 765,
+            "pressureChange24hHPa": -2.1,
+            "pressureChange24hMmHg": -1.6,
+            "pressureAmplitude72hMmHg": 9,
+            "pressureDirectionChanges72h": 1,
+            "pressureTrendKind": "unstable",
+            "temperatureChange24hC": 4,
+            "precipitation24hMm": 0,
+            "precipitation72hMm": 0.3,
+            "cloudCoverPercent": 85,
+            "windDirection": "W",
+            "windDirectionDegrees": 266,
+            "windSpeedMs": 1.8,
+            "windGustsMs": 6.1,
+            "waterClarity": "slightly_tea_clear",
+            "waterClarityLabel": "слегка чайная прозрачная",
+            "waterLevel": "slightly_low",
+            "windDirectionPrevious": "W",
+            "windDirectionChangeDegrees": 0,
+            "windSpeedChange24hMs": -0.7,
+            "moonPhase": "unknown"
+          }
+        },
+        {
+          "date": "2026-05-02",
+          "index": 87,
+          "indexRaw": 86.94,
+          "rating": "отлично",
+          "confidence": "medium",
+          "summary": "Очень сильное сочетание условий. Главный плюс: Температура воды.",
+          "factors": [
+            {
+              "id": "waterTemperature",
+              "label": "Температура воды",
+              "weight": 0.22,
+              "weightPercent": 22,
+              "score": 98,
+              "contribution": 21.56,
+              "status": "помогает",
+              "explanation": "температурный фон воды близок к рабочей зоне форели"
+            },
+            {
+              "id": "season",
+              "label": "Сезонная фаза",
+              "weight": 0.21,
+              "weightPercent": 21,
+              "score": 86,
+              "contribution": 18.06,
+              "status": "помогает",
+              "explanation": "сезонная фаза поддерживает кормовую активность"
+            },
+            {
+              "id": "weatherChange",
+              "label": "Изменение погоды",
+              "weight": 0.22,
+              "weightPercent": 22,
+              "score": 79,
+              "contribution": 17.38,
+              "status": "помогает",
+              "explanation": "есть заметные изменения погоды, прогноз требует осторожности"
+            },
+            {
+              "id": "pressure",
+              "label": "Атмосферное давление",
+              "weight": 0.07,
+              "weightPercent": 7,
+              "score": 88,
+              "contribution": 6.16,
+              "status": "помогает",
+              "explanation": "текущий барометрический фон комфортный"
+            },
+            {
+              "id": "waterClarity",
+              "label": "Прозрачность воды",
+              "weight": 0.1,
+              "weightPercent": 10,
+              "score": 95,
+              "contribution": 9.5,
+              "status": "помогает",
+              "explanation": "прозрачность воды помогает рыбе видеть приманку"
+            },
+            {
+              "id": "light",
+              "label": "Освещенность",
+              "weight": 0.08,
+              "weightPercent": 8,
+              "score": 74,
+              "contribution": 5.92,
+              "status": "нейтрально",
+              "explanation": "освещенность нейтральная, без сильного плюса"
+            },
+            {
+              "id": "wind",
+              "label": "Ветер",
+              "weight": 0.05,
+              "weightPercent": 5,
+              "score": 96,
+              "contribution": 4.8,
+              "status": "помогает",
+              "explanation": "ветер по направлению и силе благоприятен"
+            },
+            {
+              "id": "waterLevel",
+              "label": "Уровень воды",
+              "weight": 0.03,
+              "weightPercent": 3,
+              "score": 82,
+              "contribution": 2.46,
+              "status": "помогает",
+              "explanation": "уровень воды без крайних отклонений"
+            },
+            {
+              "id": "moon",
+              "label": "Луна",
+              "weight": 0.02,
+              "weightPercent": 2,
+              "score": 55,
+              "contribution": 1.1,
+              "status": "нейтрально",
+              "explanation": "лунный фактор не поддерживает прогноз"
+            }
+          ],
+          "positiveDrivers": [
+            {
+              "factor": "Температура воды",
+              "score": 98,
+              "reason": "температурный фон воды близок к рабочей зоне форели"
+            },
+            {
+              "factor": "Сезонная фаза",
+              "score": 86,
+              "reason": "сезонная фаза поддерживает кормовую активность"
+            },
+            {
+              "factor": "Прозрачность воды",
+              "score": 95,
+              "reason": "прозрачность воды помогает рыбе видеть приманку"
+            }
+          ],
+          "negativeDrivers": [],
+          "recommendations": [
+            "Когда ловить: начни с утра или вечера, а днем смещайся к тени, глубине и участкам с более спокойной подачей.",
+            "Дальность и скрытность: осторожность повышена. Начинай издалека, двигайся медленно, используй береговые укрытия и не становись силуэтом на фоне неба.",
+            "Модель ловли: рыба должна быть достаточно активной. Начни с маленького воблера-минноу или вращающейся блесны, облавливай перекаты, кромки струи и входы в ямы.",
+            "Приманки: слегка чайная прозрачная вода хороша для меди, золота, темных силуэтов, маленьких колебалок и минноу с умеренным контрастом.",
+            "На низкой воде ищи ямки, тень, укрытия и локальные стоянки, не заходи в воду без необходимости.",
+            "Подача: легкая рябь и мягкий свет позволяют ловить активнее: равномерная проводка вращалки или воблера поперек/на снос будет хорошей стартовой схемой."
+          ],
+          "warnings": [],
+          "appliedCaps": [],
+          "flags": [
+            "stable_weather",
+            "favorable_wind",
+            "tea_clear_water",
+            "clear_low_water"
+          ],
+          "raw": {
+            "estimatedWaterTemperatureC": 9.6,
+            "airTemperatureC": 12,
+            "pressureHPa": 1011.6,
+            "pressureMmHg": 759,
+            "pressureChange24hHPa": -8.5,
+            "pressureChange24hMmHg": -6.4,
+            "pressureAmplitude72hMmHg": 8,
+            "pressureDirectionChanges72h": 0,
+            "pressureTrendKind": "directional",
+            "temperatureChange24hC": 4.2,
+            "precipitation24hMm": 0,
+            "precipitation72hMm": 0.3,
+            "cloudCoverPercent": 42,
+            "windDirection": "SW",
+            "windDirectionDegrees": 241,
+            "windSpeedMs": 3.7,
+            "windGustsMs": 9.4,
+            "waterClarity": "slightly_tea_clear",
+            "waterClarityLabel": "слегка чайная прозрачная",
+            "waterLevel": "slightly_low",
+            "windDirectionPrevious": "W",
+            "windDirectionChangeDegrees": 45,
+            "windSpeedChange24hMs": 1.9,
+            "moonPhase": "unknown"
+          }
+        },
+        {
+          "date": "2026-05-03",
+          "index": 91,
+          "indexRaw": 90.63,
+          "rating": "отлично",
+          "confidence": "medium",
+          "summary": "Очень сильное сочетание условий. Главный плюс: Температура воды.",
+          "factors": [
+            {
+              "id": "waterTemperature",
+              "label": "Температура воды",
+              "weight": 0.22,
+              "weightPercent": 22,
+              "score": 98,
+              "contribution": 21.56,
+              "status": "помогает",
+              "explanation": "температурный фон воды близок к рабочей зоне форели"
+            },
+            {
+              "id": "season",
+              "label": "Сезонная фаза",
+              "weight": 0.21,
+              "weightPercent": 21,
+              "score": 86,
+              "contribution": 18.06,
+              "status": "помогает",
+              "explanation": "сезонная фаза поддерживает кормовую активность"
+            },
+            {
+              "id": "weatherChange",
+              "label": "Изменение погоды",
+              "weight": 0.22,
+              "weightPercent": 22,
+              "score": 88,
+              "contribution": 19.36,
+              "status": "помогает",
+              "explanation": "давление и погода меняются в благоприятном или стабильном режиме"
+            },
+            {
+              "id": "pressure",
+              "label": "Атмосферное давление",
+              "weight": 0.07,
+              "weightPercent": 7,
+              "score": 99,
+              "contribution": 6.93,
+              "status": "помогает",
+              "explanation": "текущий барометрический фон комфортный"
+            },
+            {
+              "id": "waterClarity",
+              "label": "Прозрачность воды",
+              "weight": 0.1,
+              "weightPercent": 10,
+              "score": 95,
+              "contribution": 9.5,
+              "status": "помогает",
+              "explanation": "прозрачность воды помогает рыбе видеть приманку"
+            },
+            {
+              "id": "light",
+              "label": "Освещенность",
+              "weight": 0.08,
+              "weightPercent": 8,
+              "score": 92,
+              "contribution": 7.36,
+              "status": "помогает",
+              "explanation": "освещенность мягкая и не делает рыбу излишне осторожной"
+            },
+            {
+              "id": "wind",
+              "label": "Ветер",
+              "weight": 0.05,
+              "weightPercent": 5,
+              "score": 86,
+              "contribution": 4.3,
+              "status": "помогает",
+              "explanation": "ветер по направлению и силе благоприятен"
+            },
+            {
+              "id": "waterLevel",
+              "label": "Уровень воды",
+              "weight": 0.03,
+              "weightPercent": 3,
+              "score": 82,
+              "contribution": 2.46,
+              "status": "помогает",
+              "explanation": "уровень воды без крайних отклонений"
+            },
+            {
+              "id": "moon",
+              "label": "Луна",
+              "weight": 0.02,
+              "weightPercent": 2,
+              "score": 55,
+              "contribution": 1.1,
+              "status": "нейтрально",
+              "explanation": "лунный фактор не поддерживает прогноз"
+            }
+          ],
+          "positiveDrivers": [
+            {
+              "factor": "Температура воды",
+              "score": 98,
+              "reason": "температурный фон воды близок к рабочей зоне форели"
+            },
+            {
+              "factor": "Изменение погоды",
+              "score": 88,
+              "reason": "давление и погода меняются в благоприятном или стабильном режиме"
+            },
+            {
+              "factor": "Сезонная фаза",
+              "score": 86,
+              "reason": "сезонная фаза поддерживает кормовую активность"
+            }
+          ],
+          "negativeDrivers": [],
+          "recommendations": [
+            "Когда ловить: утро, день и вечер рабочие; мягкая облачность и стабильная погода позволяют не привязываться жестко ко времени.",
+            "Дальность и скрытность: осторожность повышена. Начинай издалека, двигайся медленно, используй береговые укрытия и не становись силуэтом на фоне неба.",
+            "Модель ловли: рыба должна быть достаточно активной. Начни с маленького воблера-минноу или вращающейся блесны, облавливай перекаты, кромки струи и входы в ямы.",
+            "Приманки: слегка чайная прозрачная вода хороша для меди, золота, темных силуэтов, маленьких колебалок и минноу с умеренным контрастом.",
+            "На низкой воде ищи ямки, тень, укрытия и локальные стоянки, не заходи в воду без необходимости."
+          ],
+          "warnings": [],
+          "appliedCaps": [],
+          "flags": [
+            "stable_weather",
+            "smooth_pressure_fall",
+            "favorable_wind",
+            "strong_gusts",
+            "tea_clear_water",
+            "clear_low_water"
+          ],
+          "raw": {
+            "estimatedWaterTemperatureC": 10,
+            "airTemperatureC": 12,
+            "pressureHPa": 1007.5,
+            "pressureMmHg": 756,
+            "pressureChange24hHPa": -4.1,
+            "pressureChange24hMmHg": -3.1,
+            "pressureAmplitude72hMmHg": 11,
+            "pressureDirectionChanges72h": 0,
+            "pressureTrendKind": "directional",
+            "temperatureChange24hC": 0,
+            "precipitation24hMm": 0,
+            "precipitation72hMm": 0.3,
+            "cloudCoverPercent": 55,
+            "windDirection": "SW",
+            "windDirectionDegrees": 245,
+            "windSpeedMs": 4.3,
+            "windGustsMs": 12.4,
+            "waterClarity": "slightly_tea_clear",
+            "waterClarityLabel": "слегка чайная прозрачная",
+            "waterLevel": "slightly_low",
+            "windDirectionPrevious": "SW",
+            "windDirectionChangeDegrees": 0,
+            "windSpeedChange24hMs": 0.6,
+            "moonPhase": "unknown"
+          }
+        }
+      ]
+    },
+    "north_east": {
+      "summary": "Северо-восток Ленинградской области: Сосново, Приозерский район. Реальные погодные данные, гидрология рассчитана косвенно.",
+      "forecast": [
+        {
+          "date": "2026-04-29",
+          "index": 63,
+          "indexRaw": 63.44,
+          "rating": "перспективно",
+          "confidence": "low",
+          "summary": "Есть рабочие условия, но прогноз не без слабых мест. Главный риск: Прозрачность воды.",
+          "factors": [
+            {
+              "id": "waterTemperature",
+              "label": "Температура воды",
+              "weight": 0.22,
+              "weightPercent": 22,
+              "score": 63,
+              "contribution": 13.86,
+              "status": "нейтрально",
+              "explanation": "температура воды рабочая, но не идеальная"
+            },
+            {
+              "id": "season",
+              "label": "Сезонная фаза",
+              "weight": 0.21,
+              "weightPercent": 21,
+              "score": 55,
+              "contribution": 11.55,
+              "status": "нейтрально",
+              "explanation": "сезонная фаза ограничивает активность рыбы"
+            },
+            {
+              "id": "weatherChange",
+              "label": "Изменение погоды",
+              "weight": 0.22,
+              "weightPercent": 22,
+              "score": 58,
+              "contribution": 12.76,
+              "status": "нейтрально",
+              "explanation": "динамика давления, ветра или фронта ухудшает прогноз"
+            },
+            {
+              "id": "pressure",
+              "label": "Атмосферное давление",
+              "weight": 0.07,
+              "weightPercent": 7,
+              "score": 75,
+              "contribution": 5.25,
+              "status": "помогает",
+              "explanation": "текущий барометрический фон комфортный"
             },
             {
               "id": "waterClarity",
@@ -1075,6 +1718,666 @@ window.LIVE_RESULTS = {
               "contribution": 5.2,
               "status": "нейтрально",
               "explanation": "мутность или чрезмерная прозрачность ухудшают условия"
+            },
+            {
+              "id": "light",
+              "label": "Освещенность",
+              "weight": 0.08,
+              "weightPercent": 8,
+              "score": 92,
+              "contribution": 7.36,
+              "status": "помогает",
+              "explanation": "освещенность мягкая и не делает рыбу излишне осторожной"
+            },
+            {
+              "id": "wind",
+              "label": "Ветер",
+              "weight": 0.05,
+              "weightPercent": 5,
+              "score": 78,
+              "contribution": 3.9,
+              "status": "помогает",
+              "explanation": "ветер по направлению и силе благоприятен"
+            },
+            {
+              "id": "waterLevel",
+              "label": "Уровень воды",
+              "weight": 0.03,
+              "weightPercent": 3,
+              "score": 82,
+              "contribution": 2.46,
+              "status": "помогает",
+              "explanation": "уровень воды без крайних отклонений"
+            },
+            {
+              "id": "moon",
+              "label": "Луна",
+              "weight": 0.02,
+              "weightPercent": 2,
+              "score": 55,
+              "contribution": 1.1,
+              "status": "нейтрально",
+              "explanation": "лунный фактор не поддерживает прогноз"
+            }
+          ],
+          "positiveDrivers": [
+            {
+              "factor": "Освещенность",
+              "score": 92,
+              "reason": "освещенность мягкая и не делает рыбу излишне осторожной"
+            },
+            {
+              "factor": "Уровень воды",
+              "score": 82,
+              "reason": "уровень воды без крайних отклонений"
+            }
+          ],
+          "negativeDrivers": [
+            {
+              "factor": "Прозрачность воды",
+              "score": 52,
+              "reason": "мутность или чрезмерная прозрачность ухудшают условия"
+            },
+            {
+              "factor": "Сезонная фаза",
+              "score": 55,
+              "reason": "сезонная фаза ограничивает активность рыбы"
+            },
+            {
+              "factor": "Изменение погоды",
+              "score": 58,
+              "reason": "динамика давления, ветра или фронта ухудшает прогноз"
+            }
+          ],
+          "recommendations": [
+            "Когда ловить: лучше день и ближе к вечеру, когда вода успевает немного прогреться; раннее утро менее перспективно.",
+            "Дальность и скрытность: из-за мутности форель видит хуже, поэтому можно подходить ближе, но заброс должен попадать точнее к укрытиям, кромкам струи и спокойным карманам.",
+            "Модель ловли: видимость снижена, поэтому ставка на заметность. Используй вращающиеся блесны, небольшие колебалки или воблеры с выраженной игрой, веди приманку чуть медленнее и ближе к перспективным укрытиям.",
+            "Приманки: при умеренной мутности добавь контраст, яркую точку атаки, вращалку с вибрацией или воблер с более заметной игрой.",
+            "Проводка: при холодной воде лучше искать более теплые дневные окна, вести медленно и давать приманке паузы у дна или на границе струи."
+          ],
+          "warnings": [
+            "давление резко растет после смены погоды, это неблагоприятный сигнал"
+          ],
+          "appliedCaps": [],
+          "flags": [
+            "sharp_pressure_rise",
+            "cloudy",
+            "muddy_risk"
+          ],
+          "raw": {
+            "estimatedWaterTemperatureC": 6.5,
+            "airTemperatureC": 2.1,
+            "pressureHPa": 1020.4,
+            "pressureMmHg": 765,
+            "pressureChange24hHPa": 9.5,
+            "pressureChange24hMmHg": 7.1,
+            "pressureAmplitude72hMmHg": 21,
+            "pressureDirectionChanges72h": 0,
+            "pressureTrendKind": "directional",
+            "temperatureChange24hC": 0,
+            "precipitation24hMm": 0,
+            "precipitation72hMm": 34.8,
+            "cloudCoverPercent": 75,
+            "windDirection": "NW",
+            "windDirectionDegrees": 314,
+            "windSpeedMs": 2.5,
+            "windGustsMs": 9.3,
+            "waterClarity": "moderately_muddy",
+            "waterClarityLabel": "умеренно мутная",
+            "waterLevel": "slightly_high",
+            "windDirectionPrevious": "NW",
+            "windDirectionChangeDegrees": 0,
+            "windSpeedChange24hMs": -3,
+            "moonPhase": "unknown"
+          }
+        },
+        {
+          "date": "2026-04-30",
+          "index": 76,
+          "indexRaw": 75.6,
+          "rating": "хорошо",
+          "confidence": "medium",
+          "summary": "Условия хорошие, но стоит следить за локальными особенностями ручья. Главный плюс: Изменение погоды.",
+          "factors": [
+            {
+              "id": "waterTemperature",
+              "label": "Температура воды",
+              "weight": 0.22,
+              "weightPercent": 22,
+              "score": 65,
+              "contribution": 14.3,
+              "status": "нейтрально",
+              "explanation": "температура воды рабочая, но не идеальная"
+            },
+            {
+              "id": "season",
+              "label": "Сезонная фаза",
+              "weight": 0.21,
+              "weightPercent": 21,
+              "score": 55,
+              "contribution": 11.55,
+              "status": "нейтрально",
+              "explanation": "сезонная фаза ограничивает активность рыбы"
+            },
+            {
+              "id": "weatherChange",
+              "label": "Изменение погоды",
+              "weight": 0.22,
+              "weightPercent": 22,
+              "score": 87,
+              "contribution": 19.14,
+              "status": "помогает",
+              "explanation": "давление и погода меняются в благоприятном или стабильном режиме"
+            },
+            {
+              "id": "pressure",
+              "label": "Атмосферное давление",
+              "weight": 0.07,
+              "weightPercent": 7,
+              "score": 75,
+              "contribution": 5.25,
+              "status": "помогает",
+              "explanation": "текущий барометрический фон комфортный"
+            },
+            {
+              "id": "waterClarity",
+              "label": "Прозрачность воды",
+              "weight": 0.1,
+              "weightPercent": 10,
+              "score": 95,
+              "contribution": 9.5,
+              "status": "помогает",
+              "explanation": "прозрачность воды помогает рыбе видеть приманку"
+            },
+            {
+              "id": "light",
+              "label": "Освещенность",
+              "weight": 0.08,
+              "weightPercent": 8,
+              "score": 92,
+              "contribution": 7.36,
+              "status": "помогает",
+              "explanation": "освещенность мягкая и не делает рыбу излишне осторожной"
+            },
+            {
+              "id": "wind",
+              "label": "Ветер",
+              "weight": 0.05,
+              "weightPercent": 5,
+              "score": 94,
+              "contribution": 4.7,
+              "status": "помогает",
+              "explanation": "ветер по направлению и силе благоприятен"
+            },
+            {
+              "id": "waterLevel",
+              "label": "Уровень воды",
+              "weight": 0.03,
+              "weightPercent": 3,
+              "score": 90,
+              "contribution": 2.7,
+              "status": "помогает",
+              "explanation": "уровень воды без крайних отклонений"
+            },
+            {
+              "id": "moon",
+              "label": "Луна",
+              "weight": 0.02,
+              "weightPercent": 2,
+              "score": 55,
+              "contribution": 1.1,
+              "status": "нейтрально",
+              "explanation": "лунный фактор не поддерживает прогноз"
+            }
+          ],
+          "positiveDrivers": [
+            {
+              "factor": "Изменение погоды",
+              "score": 87,
+              "reason": "давление и погода меняются в благоприятном или стабильном режиме"
+            },
+            {
+              "factor": "Прозрачность воды",
+              "score": 95,
+              "reason": "прозрачность воды помогает рыбе видеть приманку"
+            },
+            {
+              "factor": "Освещенность",
+              "score": 92,
+              "reason": "освещенность мягкая и не делает рыбу излишне осторожной"
+            }
+          ],
+          "negativeDrivers": [
+            {
+              "factor": "Сезонная фаза",
+              "score": 55,
+              "reason": "сезонная фаза ограничивает активность рыбы"
+            }
+          ],
+          "recommendations": [
+            "Когда ловить: лучше день и ближе к вечеру, когда вода успевает немного прогреться; раннее утро менее перспективно.",
+            "Дальность и скрытность: слегка окрашенная вода или рябь маскируют рыболова. Дистанция нужна умеренная, можно активнее проверять ближние карманы перед дальними забросами.",
+            "Модель ловли: вода холодная, рыба может быть вялой. Лучше медленная подача: микроколебалка на снос, силикон на легкой головке, короткие паузы и облов глубоких ям.",
+            "Приманки: слегка чайная прозрачная вода хороша для меди, золота, темных силуэтов, маленьких колебалок и минноу с умеренным контрастом.",
+            "Проводка: при холодной воде лучше искать более теплые дневные окна, вести медленно и давать приманке паузы у дна или на границе струи."
+          ],
+          "warnings": [],
+          "appliedCaps": [],
+          "flags": [
+            "stable_weather",
+            "cloudy",
+            "favorable_wind",
+            "tea_clear_water"
+          ],
+          "raw": {
+            "estimatedWaterTemperatureC": 6.7,
+            "airTemperatureC": 2.6,
+            "pressureHPa": 1021.1,
+            "pressureMmHg": 766,
+            "pressureChange24hHPa": 0.7,
+            "pressureChange24hMmHg": 0.5,
+            "pressureAmplitude72hMmHg": 12,
+            "pressureDirectionChanges72h": 0,
+            "pressureTrendKind": "directional",
+            "temperatureChange24hC": 0.5,
+            "precipitation24hMm": 0,
+            "precipitation72hMm": 4.1,
+            "cloudCoverPercent": 73,
+            "windDirection": "W",
+            "windDirectionDegrees": 249,
+            "windSpeedMs": 1.8,
+            "windGustsMs": 6.9,
+            "waterClarity": "slightly_tea_clear",
+            "waterClarityLabel": "слегка чайная прозрачная",
+            "waterLevel": "normal",
+            "windDirectionPrevious": "NW",
+            "windDirectionChangeDegrees": 45,
+            "windSpeedChange24hMs": -0.7,
+            "moonPhase": "unknown"
+          }
+        },
+        {
+          "date": "2026-05-01",
+          "index": 84,
+          "indexRaw": 83.66,
+          "rating": "хорошо",
+          "confidence": "medium",
+          "summary": "Условия хорошие, но стоит следить за локальными особенностями ручья. Главный плюс: Изменение погоды.",
+          "factors": [
+            {
+              "id": "waterTemperature",
+              "label": "Температура воды",
+              "weight": 0.22,
+              "weightPercent": 22,
+              "score": 76,
+              "contribution": 16.72,
+              "status": "помогает",
+              "explanation": "температурный фон воды близок к рабочей зоне форели"
+            },
+            {
+              "id": "season",
+              "label": "Сезонная фаза",
+              "weight": 0.21,
+              "weightPercent": 21,
+              "score": 86,
+              "contribution": 18.06,
+              "status": "помогает",
+              "explanation": "сезонная фаза поддерживает кормовую активность"
+            },
+            {
+              "id": "weatherChange",
+              "label": "Изменение погоды",
+              "weight": 0.22,
+              "weightPercent": 22,
+              "score": 91,
+              "contribution": 20.02,
+              "status": "помогает",
+              "explanation": "давление и погода меняются в благоприятном или стабильном режиме"
+            },
+            {
+              "id": "pressure",
+              "label": "Атмосферное давление",
+              "weight": 0.07,
+              "weightPercent": 7,
+              "score": 78,
+              "contribution": 5.46,
+              "status": "помогает",
+              "explanation": "текущий барометрический фон комфортный"
+            },
+            {
+              "id": "waterClarity",
+              "label": "Прозрачность воды",
+              "weight": 0.1,
+              "weightPercent": 10,
+              "score": 88,
+              "contribution": 8.8,
+              "status": "помогает",
+              "explanation": "прозрачность воды помогает рыбе видеть приманку"
+            },
+            {
+              "id": "light",
+              "label": "Освещенность",
+              "weight": 0.08,
+              "weightPercent": 8,
+              "score": 78,
+              "contribution": 6.24,
+              "status": "помогает",
+              "explanation": "освещенность мягкая и не делает рыбу излишне осторожной"
+            },
+            {
+              "id": "wind",
+              "label": "Ветер",
+              "weight": 0.05,
+              "weightPercent": 5,
+              "score": 96,
+              "contribution": 4.8,
+              "status": "помогает",
+              "explanation": "ветер по направлению и силе благоприятен"
+            },
+            {
+              "id": "waterLevel",
+              "label": "Уровень воды",
+              "weight": 0.03,
+              "weightPercent": 3,
+              "score": 82,
+              "contribution": 2.46,
+              "status": "помогает",
+              "explanation": "уровень воды без крайних отклонений"
+            },
+            {
+              "id": "moon",
+              "label": "Луна",
+              "weight": 0.02,
+              "weightPercent": 2,
+              "score": 55,
+              "contribution": 1.1,
+              "status": "нейтрально",
+              "explanation": "лунный фактор не поддерживает прогноз"
+            }
+          ],
+          "positiveDrivers": [
+            {
+              "factor": "Изменение погоды",
+              "score": 91,
+              "reason": "давление и погода меняются в благоприятном или стабильном режиме"
+            },
+            {
+              "factor": "Сезонная фаза",
+              "score": 86,
+              "reason": "сезонная фаза поддерживает кормовую активность"
+            },
+            {
+              "factor": "Прозрачность воды",
+              "score": 88,
+              "reason": "прозрачность воды помогает рыбе видеть приманку"
+            }
+          ],
+          "negativeDrivers": [],
+          "recommendations": [
+            "Когда ловить: лучше день и ближе к вечеру, когда вода успевает немного прогреться; раннее утро менее перспективно.",
+            "Дальность и скрытность: форель, скорее всего, видит рыболова далеко. Первые забросы делай с дальней дистанции, заходи низко и тихо, не выходи на открытый берег до проверки ближних точек.",
+            "Модель ловли: форель будет осторожнее обычного. Подходи ниже по течению, держи дистанцию, делай первые забросы издалека и начинай с натуральных воблеров, микроколебалок или мягкой резины без лишнего блеска.",
+            "На низкой воде ищи ямки, тень, укрытия и локальные стоянки, не заходи в воду без необходимости.",
+            "Проводка: при холодной воде лучше искать более теплые дневные окна, вести медленно и давать приманке паузы у дна или на границе струи.",
+            "Поведение рыбы: плавное снижение давления похоже на предфронтовое окно. При облачности и влажности форель может смелее выходить из укрытий, но следи за мутностью воды."
+          ],
+          "warnings": [],
+          "appliedCaps": [],
+          "flags": [
+            "stable_weather",
+            "smooth_pressure_fall",
+            "prefrontal_window",
+            "cloudy",
+            "favorable_wind",
+            "clear_low_water"
+          ],
+          "raw": {
+            "estimatedWaterTemperatureC": 8.4,
+            "airTemperatureC": 7.3,
+            "pressureHPa": 1018.8,
+            "pressureMmHg": 764,
+            "pressureChange24hHPa": -2.3,
+            "pressureChange24hMmHg": -1.7,
+            "pressureAmplitude72hMmHg": 8,
+            "pressureDirectionChanges72h": 1,
+            "pressureTrendKind": "unstable",
+            "temperatureChange24hC": 4.7,
+            "precipitation24hMm": 0,
+            "precipitation72hMm": 0,
+            "cloudCoverPercent": 91,
+            "windDirection": "SW",
+            "windDirectionDegrees": 235,
+            "windSpeedMs": 2,
+            "windGustsMs": 8.6,
+            "waterClarity": "clear",
+            "waterClarityLabel": "прозрачная",
+            "waterLevel": "slightly_low",
+            "windDirectionPrevious": "W",
+            "windDirectionChangeDegrees": 45,
+            "windSpeedChange24hMs": 0.2,
+            "moonPhase": "unknown"
+          }
+        },
+        {
+          "date": "2026-05-02",
+          "index": 86,
+          "indexRaw": 85.75,
+          "rating": "отлично",
+          "confidence": "medium",
+          "summary": "Очень сильное сочетание условий. Главный плюс: Температура воды.",
+          "factors": [
+            {
+              "id": "waterTemperature",
+              "label": "Температура воды",
+              "weight": 0.22,
+              "weightPercent": 22,
+              "score": 98,
+              "contribution": 21.56,
+              "status": "помогает",
+              "explanation": "температурный фон воды близок к рабочей зоне форели"
+            },
+            {
+              "id": "season",
+              "label": "Сезонная фаза",
+              "weight": 0.21,
+              "weightPercent": 21,
+              "score": 86,
+              "contribution": 18.06,
+              "status": "помогает",
+              "explanation": "сезонная фаза поддерживает кормовую активность"
+            },
+            {
+              "id": "weatherChange",
+              "label": "Изменение погоды",
+              "weight": 0.22,
+              "weightPercent": 22,
+              "score": 69,
+              "contribution": 15.18,
+              "status": "нейтрально",
+              "explanation": "есть заметные изменения погоды, прогноз требует осторожности"
+            },
+            {
+              "id": "pressure",
+              "label": "Атмосферное давление",
+              "weight": 0.07,
+              "weightPercent": 7,
+              "score": 99,
+              "contribution": 6.93,
+              "status": "помогает",
+              "explanation": "текущий барометрический фон комфортный"
+            },
+            {
+              "id": "waterClarity",
+              "label": "Прозрачность воды",
+              "weight": 0.1,
+              "weightPercent": 10,
+              "score": 88,
+              "contribution": 8.8,
+              "status": "помогает",
+              "explanation": "прозрачность воды помогает рыбе видеть приманку"
+            },
+            {
+              "id": "light",
+              "label": "Освещенность",
+              "weight": 0.08,
+              "weightPercent": 8,
+              "score": 92,
+              "contribution": 7.36,
+              "status": "помогает",
+              "explanation": "освещенность мягкая и не делает рыбу излишне осторожной"
+            },
+            {
+              "id": "wind",
+              "label": "Ветер",
+              "weight": 0.05,
+              "weightPercent": 5,
+              "score": 86,
+              "contribution": 4.3,
+              "status": "помогает",
+              "explanation": "ветер по направлению и силе благоприятен"
+            },
+            {
+              "id": "waterLevel",
+              "label": "Уровень воды",
+              "weight": 0.03,
+              "weightPercent": 3,
+              "score": 82,
+              "contribution": 2.46,
+              "status": "помогает",
+              "explanation": "уровень воды без крайних отклонений"
+            },
+            {
+              "id": "moon",
+              "label": "Луна",
+              "weight": 0.02,
+              "weightPercent": 2,
+              "score": 55,
+              "contribution": 1.1,
+              "status": "нейтрально",
+              "explanation": "лунный фактор не поддерживает прогноз"
+            }
+          ],
+          "positiveDrivers": [
+            {
+              "factor": "Температура воды",
+              "score": 98,
+              "reason": "температурный фон воды близок к рабочей зоне форели"
+            },
+            {
+              "factor": "Сезонная фаза",
+              "score": 86,
+              "reason": "сезонная фаза поддерживает кормовую активность"
+            },
+            {
+              "factor": "Прозрачность воды",
+              "score": 88,
+              "reason": "прозрачность воды помогает рыбе видеть приманку"
+            }
+          ],
+          "negativeDrivers": [],
+          "recommendations": [
+            "Когда ловить: начни с утра или вечера, а днем смещайся к тени, глубине и участкам с более спокойной подачей.",
+            "Дальность и скрытность: форель, скорее всего, видит рыболова далеко. Первые забросы делай с дальней дистанции, заходи низко и тихо, не выходи на открытый берег до проверки ближних точек.",
+            "Модель ловли: форель будет осторожнее обычного. Подходи ниже по течению, держи дистанцию, делай первые забросы издалека и начинай с натуральных воблеров, микроколебалок или мягкой резины без лишнего блеска.",
+            "На низкой воде ищи ямки, тень, укрытия и локальные стоянки, не заходи в воду без необходимости.",
+            "Поведение рыбы: плавное снижение давления похоже на предфронтовое окно. При облачности и влажности форель может смелее выходить из укрытий, но следи за мутностью воды."
+          ],
+          "warnings": [
+            "давление резко падает, это может дать короткое окно активности и последующий провал"
+          ],
+          "appliedCaps": [],
+          "flags": [
+            "sharp_pressure_drop",
+            "prefrontal_window",
+            "favorable_wind",
+            "strong_gusts",
+            "clear_low_water"
+          ],
+          "raw": {
+            "estimatedWaterTemperatureC": 9.1,
+            "airTemperatureC": 10.4,
+            "pressureHPa": 1009.4,
+            "pressureMmHg": 757,
+            "pressureChange24hHPa": -9.4,
+            "pressureChange24hMmHg": -7.1,
+            "pressureAmplitude72hMmHg": 9,
+            "pressureDirectionChanges72h": 0,
+            "pressureTrendKind": "directional",
+            "temperatureChange24hC": 3.1,
+            "precipitation24hMm": 0,
+            "precipitation72hMm": 0,
+            "cloudCoverPercent": 61,
+            "windDirection": "SW",
+            "windDirectionDegrees": 237,
+            "windSpeedMs": 4.7,
+            "windGustsMs": 13,
+            "waterClarity": "clear",
+            "waterClarityLabel": "прозрачная",
+            "waterLevel": "slightly_low",
+            "windDirectionPrevious": "SW",
+            "windDirectionChangeDegrees": 0,
+            "windSpeedChange24hMs": 2.7,
+            "moonPhase": "unknown"
+          }
+        },
+        {
+          "date": "2026-05-03",
+          "index": 89,
+          "indexRaw": 89.39,
+          "rating": "отлично",
+          "confidence": "medium",
+          "summary": "Очень сильное сочетание условий. Главный плюс: Температура воды.",
+          "factors": [
+            {
+              "id": "waterTemperature",
+              "label": "Температура воды",
+              "weight": 0.22,
+              "weightPercent": 22,
+              "score": 98,
+              "contribution": 21.56,
+              "status": "помогает",
+              "explanation": "температурный фон воды близок к рабочей зоне форели"
+            },
+            {
+              "id": "season",
+              "label": "Сезонная фаза",
+              "weight": 0.21,
+              "weightPercent": 21,
+              "score": 86,
+              "contribution": 18.06,
+              "status": "помогает",
+              "explanation": "сезонная фаза поддерживает кормовую активность"
+            },
+            {
+              "id": "weatherChange",
+              "label": "Изменение погоды",
+              "weight": 0.22,
+              "weightPercent": 22,
+              "score": 88,
+              "contribution": 19.36,
+              "status": "помогает",
+              "explanation": "давление и погода меняются в благоприятном или стабильном режиме"
+            },
+            {
+              "id": "pressure",
+              "label": "Атмосферное давление",
+              "weight": 0.07,
+              "weightPercent": 7,
+              "score": 98,
+              "contribution": 6.86,
+              "status": "помогает",
+              "explanation": "текущий барометрический фон комфортный"
+            },
+            {
+              "id": "waterClarity",
+              "label": "Прозрачность воды",
+              "weight": 0.1,
+              "weightPercent": 10,
+              "score": 95,
+              "contribution": 9.5,
+              "status": "помогает",
+              "explanation": "прозрачность воды помогает рыбе видеть приманку"
             },
             {
               "id": "light",
@@ -1119,247 +2422,80 @@ window.LIVE_RESULTS = {
           ],
           "positiveDrivers": [
             {
+              "factor": "Температура воды",
+              "score": 98,
+              "reason": "температурный фон воды близок к рабочей зоне форели"
+            },
+            {
               "factor": "Изменение погоды",
-              "score": 92,
-              "reason": "погода достаточно стабильна"
-            },
-            {
-              "factor": "Атмосферное давление",
-              "score": 90,
-              "reason": "давление находится в хорошем для ручья диапазоне"
-            },
-            {
-              "factor": "Ветер",
-              "score": 85,
-              "reason": "ветер по направлению и силе благоприятен"
-            }
-          ],
-          "negativeDrivers": [
-            {
-              "factor": "Прозрачность воды",
-              "score": 52,
-              "reason": "мутность или чрезмерная прозрачность ухудшают условия"
+              "score": 88,
+              "reason": "давление и погода меняются в благоприятном или стабильном режиме"
             },
             {
               "factor": "Сезонная фаза",
-              "score": 55,
-              "reason": "сезонная фаза ограничивает активность рыбы"
+              "score": 86,
+              "reason": "сезонная фаза поддерживает кормовую активность"
             }
           ],
+          "negativeDrivers": [],
           "recommendations": [
-            "Когда ловить: лучше день и ближе к вечеру, когда вода успевает немного прогреться; раннее утро менее перспективно.",
-            "Дальность и скрытность: из-за мутности форель видит хуже, поэтому можно подходить ближе, но заброс должен попадать точнее к укрытиям, кромкам струи и спокойным карманам.",
-            "Модель ловли: видимость снижена, поэтому ставка на заметность. Используй вращающиеся блесны, небольшие колебалки или воблеры с выраженной игрой, веди приманку чуть медленнее и ближе к перспективным укрытиям.",
-            "Приманки: при умеренной мутности добавь контраст, яркую точку атаки, вращалку с вибрацией или воблер с более заметной игрой.",
-            "Проводка: при холодной воде лучше искать более теплые дневные окна, вести медленно и давать приманке паузы у дна или на границе струи."
+            "Когда ловить: утро, день и вечер рабочие; мягкая облачность и стабильная погода позволяют не привязываться жестко ко времени.",
+            "Дальность и скрытность: осторожность повышена. Начинай издалека, двигайся медленно, используй береговые укрытия и не становись силуэтом на фоне неба.",
+            "Модель ловли: рыба должна быть достаточно активной. Начни с маленького воблера-минноу или вращающейся блесны, облавливай перекаты, кромки струи и входы в ямы.",
+            "Приманки: слегка чайная прозрачная вода хороша для меди, золота, темных силуэтов, маленьких колебалок и минноу с умеренным контрастом.",
+            "На низкой воде ищи ямки, тень, укрытия и локальные стоянки, не заходи в воду без необходимости.",
+            "Поведение рыбы: плавное снижение давления похоже на предфронтовое окно. При облачности и влажности форель может смелее выходить из укрытий, но следи за мутностью воды."
           ],
           "warnings": [],
           "appliedCaps": [],
           "flags": [
             "stable_weather",
-            "low_pressure",
+            "smooth_pressure_fall",
+            "prefrontal_window",
             "cloudy",
             "favorable_wind",
-            "strong_gusts",
-            "muddy_risk"
+            "tea_clear_water",
+            "clear_low_water"
           ],
           "raw": {
-            "estimatedWaterTemperatureC": 6.5,
-            "airTemperatureC": 1.4,
-            "pressureHPa": 992.1,
-            "pressureMmHg": 744,
-            "pressureChange24hHPa": -4.4,
-            "pressureChange24hMmHg": -3.3,
-            "temperatureChange24hC": -1.6,
-            "precipitation24hMm": 9,
-            "precipitation72hMm": 14.5,
-            "cloudCoverPercent": 100,
+            "estimatedWaterTemperatureC": 9.3,
+            "airTemperatureC": 9.6,
+            "pressureHPa": 1005.8,
+            "pressureMmHg": 754,
+            "pressureChange24hHPa": -3.6,
+            "pressureChange24hMmHg": -2.7,
+            "pressureAmplitude72hMmHg": 12,
+            "pressureDirectionChanges72h": 0,
+            "pressureTrendKind": "directional",
+            "temperatureChange24hC": -0.8,
+            "precipitation24hMm": 0.3,
+            "precipitation72hMm": 0.3,
+            "cloudCoverPercent": 91,
             "windDirection": "W",
-            "windDirectionDegrees": 291,
-            "windSpeedMs": 5.9,
-            "windGustsMs": 14.1,
-            "waterClarity": "moderately_muddy",
-            "waterClarityLabel": "умеренно мутная",
-            "waterLevel": "slightly_high",
+            "windDirectionDegrees": 258,
+            "windSpeedMs": 4.1,
+            "windGustsMs": 11.7,
+            "waterClarity": "slightly_tea_clear",
+            "waterClarityLabel": "слегка чайная прозрачная",
+            "waterLevel": "slightly_low",
             "windDirectionPrevious": "SW",
             "windDirectionChangeDegrees": 45,
-            "windSpeedChange24hMs": 2.4,
+            "windSpeedChange24hMs": -0.6,
             "moonPhase": "unknown"
           }
-        },
+        }
+      ]
+    },
+    "north": {
+      "summary": "Север Ленинградской области: Приозерск. Реальные погодные данные, гидрология рассчитана косвенно.",
+      "forecast": [
         {
-          "date": "2026-04-27",
-          "index": 71,
-          "indexRaw": 70.57,
-          "rating": "хорошо",
-          "confidence": "medium",
-          "summary": "Условия хорошие, но стоит следить за локальными особенностями ручья. Главный плюс: Атмосферное давление.",
-          "factors": [
-            {
-              "id": "waterTemperature",
-              "label": "Температура воды",
-              "weight": 0.22,
-              "weightPercent": 22,
-              "score": 65,
-              "contribution": 14.3,
-              "status": "нейтрально",
-              "explanation": "температура воды рабочая, но не идеальная"
-            },
-            {
-              "id": "season",
-              "label": "Сезонная фаза",
-              "weight": 0.21,
-              "weightPercent": 21,
-              "score": 55,
-              "contribution": 11.55,
-              "status": "нейтрально",
-              "explanation": "сезонная фаза ограничивает активность рыбы"
-            },
-            {
-              "id": "weatherChange",
-              "label": "Изменение погоды",
-              "weight": 0.16,
-              "weightPercent": 16,
-              "score": 58,
-              "contribution": 9.28,
-              "status": "нейтрально",
-              "explanation": "есть заметные изменения погоды, прогноз требует осторожности"
-            },
-            {
-              "id": "pressure",
-              "label": "Атмосферное давление",
-              "weight": 0.13,
-              "weightPercent": 13,
-              "score": 96,
-              "contribution": 12.48,
-              "status": "помогает",
-              "explanation": "давление находится в хорошем для ручья диапазоне"
-            },
-            {
-              "id": "waterClarity",
-              "label": "Прозрачность воды",
-              "weight": 0.1,
-              "weightPercent": 10,
-              "score": 84,
-              "contribution": 8.4,
-              "status": "помогает",
-              "explanation": "прозрачность воды помогает рыбе видеть приманку"
-            },
-            {
-              "id": "light",
-              "label": "Освещенность",
-              "weight": 0.08,
-              "weightPercent": 8,
-              "score": 92,
-              "contribution": 7.36,
-              "status": "помогает",
-              "explanation": "освещенность мягкая и не делает рыбу излишне осторожной"
-            },
-            {
-              "id": "wind",
-              "label": "Ветер",
-              "weight": 0.05,
-              "weightPercent": 5,
-              "score": 68,
-              "contribution": 3.4,
-              "status": "нейтрально",
-              "explanation": "ветер нейтральный или умеренно спорный"
-            },
-            {
-              "id": "waterLevel",
-              "label": "Уровень воды",
-              "weight": 0.03,
-              "weightPercent": 3,
-              "score": 90,
-              "contribution": 2.7,
-              "status": "помогает",
-              "explanation": "уровень воды без крайних отклонений"
-            },
-            {
-              "id": "moon",
-              "label": "Луна",
-              "weight": 0.02,
-              "weightPercent": 2,
-              "score": 55,
-              "contribution": 1.1,
-              "status": "нейтрально",
-              "explanation": "лунный фактор не поддерживает прогноз"
-            }
-          ],
-          "positiveDrivers": [
-            {
-              "factor": "Атмосферное давление",
-              "score": 96,
-              "reason": "давление находится в хорошем для ручья диапазоне"
-            },
-            {
-              "factor": "Прозрачность воды",
-              "score": 84,
-              "reason": "прозрачность воды помогает рыбе видеть приманку"
-            },
-            {
-              "factor": "Освещенность",
-              "score": 92,
-              "reason": "освещенность мягкая и не делает рыбу излишне осторожной"
-            }
-          ],
-          "negativeDrivers": [
-            {
-              "factor": "Сезонная фаза",
-              "score": 55,
-              "reason": "сезонная фаза ограничивает активность рыбы"
-            },
-            {
-              "factor": "Изменение погоды",
-              "score": 58,
-              "reason": "есть заметные изменения погоды, прогноз требует осторожности"
-            }
-          ],
-          "recommendations": [
-            "Когда ловить: лучше день и ближе к вечеру, когда вода успевает немного прогреться; раннее утро менее перспективно.",
-            "Дальность и скрытность: слегка окрашенная вода или рябь маскируют рыболова. Дистанция нужна умеренная, можно активнее проверять ближние карманы перед дальними забросами.",
-            "Модель ловли: вода холодная, рыба может быть вялой. Лучше медленная подача: микроколебалка на снос, силикон на легкой головке, короткие паузы и облов глубоких ям.",
-            "Проводка: при холодной воде лучше искать более теплые дневные окна, вести медленно и давать приманке паузы у дна или на границе струи."
-          ],
-          "warnings": [
-            "давление резко растет после смены погоды, это неблагоприятный сигнал"
-          ],
-          "appliedCaps": [],
-          "flags": [
-            "cloudy",
-            "strong_gusts"
-          ],
-          "raw": {
-            "estimatedWaterTemperatureC": 6.7,
-            "airTemperatureC": 3.4,
-            "pressureHPa": 1004,
-            "pressureMmHg": 753,
-            "pressureChange24hHPa": 11.9,
-            "pressureChange24hMmHg": 8.9,
-            "temperatureChange24hC": 2,
-            "precipitation24hMm": 0.7,
-            "precipitation72hMm": 15,
-            "cloudCoverPercent": 70,
-            "windDirection": "NW",
-            "windDirectionDegrees": 335,
-            "windSpeedMs": 6.9,
-            "windGustsMs": 16.2,
-            "waterClarity": "slightly_colored_clear",
-            "waterClarityLabel": "слегка окрашенная прозрачная",
-            "waterLevel": "normal",
-            "windDirectionPrevious": "W",
-            "windDirectionChangeDegrees": 45,
-            "windSpeedChange24hMs": 1,
-            "moonPhase": "unknown"
-          }
-        },
-        {
-          "date": "2026-04-28",
-          "index": 73,
-          "indexRaw": 73.2,
-          "rating": "хорошо",
-          "confidence": "medium",
-          "summary": "Условия хорошие, но стоит следить за локальными особенностями ручья. Главный плюс: Изменение погоды.",
+          "date": "2026-04-29",
+          "index": 69,
+          "indexRaw": 68.62,
+          "rating": "перспективно",
+          "confidence": "low",
+          "summary": "Есть рабочие условия, но прогноз не без слабых мест. Главный риск: Сезонная фаза.",
           "factors": [
             {
               "id": "waterTemperature",
@@ -1384,22 +2520,22 @@ window.LIVE_RESULTS = {
             {
               "id": "weatherChange",
               "label": "Изменение погоды",
-              "weight": 0.16,
-              "weightPercent": 16,
-              "score": 84,
-              "contribution": 13.44,
-              "status": "помогает",
-              "explanation": "погода достаточно стабильна"
+              "weight": 0.22,
+              "weightPercent": 22,
+              "score": 66,
+              "contribution": 14.52,
+              "status": "нейтрально",
+              "explanation": "есть заметные изменения погоды, прогноз требует осторожности"
             },
             {
               "id": "pressure",
               "label": "Атмосферное давление",
-              "weight": 0.13,
-              "weightPercent": 13,
-              "score": 98,
-              "contribution": 12.74,
+              "weight": 0.07,
+              "weightPercent": 7,
+              "score": 75,
+              "contribution": 5.25,
               "status": "помогает",
-              "explanation": "давление находится в хорошем для ручья диапазоне"
+              "explanation": "текущий барометрический фон комфортный"
             },
             {
               "id": "waterClarity",
@@ -1410,669 +2546,6 @@ window.LIVE_RESULTS = {
               "contribution": 8.4,
               "status": "помогает",
               "explanation": "прозрачность воды помогает рыбе видеть приманку"
-            },
-            {
-              "id": "light",
-              "label": "Освещенность",
-              "weight": 0.08,
-              "weightPercent": 8,
-              "score": 78,
-              "contribution": 6.24,
-              "status": "помогает",
-              "explanation": "освещенность мягкая и не делает рыбу излишне осторожной"
-            },
-            {
-              "id": "wind",
-              "label": "Ветер",
-              "weight": 0.05,
-              "weightPercent": 5,
-              "score": 59,
-              "contribution": 2.95,
-              "status": "нейтрально",
-              "explanation": "ветер ухудшает условия или связан с неблагоприятным режимом"
-            },
-            {
-              "id": "waterLevel",
-              "label": "Уровень воды",
-              "weight": 0.03,
-              "weightPercent": 3,
-              "score": 90,
-              "contribution": 2.7,
-              "status": "помогает",
-              "explanation": "уровень воды без крайних отклонений"
-            },
-            {
-              "id": "moon",
-              "label": "Луна",
-              "weight": 0.02,
-              "weightPercent": 2,
-              "score": 55,
-              "contribution": 1.1,
-              "status": "нейтрально",
-              "explanation": "лунный фактор не поддерживает прогноз"
-            }
-          ],
-          "positiveDrivers": [
-            {
-              "factor": "Изменение погоды",
-              "score": 84,
-              "reason": "погода достаточно стабильна"
-            },
-            {
-              "factor": "Атмосферное давление",
-              "score": 98,
-              "reason": "давление находится в хорошем для ручья диапазоне"
-            },
-            {
-              "factor": "Прозрачность воды",
-              "score": 84,
-              "reason": "прозрачность воды помогает рыбе видеть приманку"
-            }
-          ],
-          "negativeDrivers": [
-            {
-              "factor": "Сезонная фаза",
-              "score": 55,
-              "reason": "сезонная фаза ограничивает активность рыбы"
-            },
-            {
-              "factor": "Ветер",
-              "score": 59,
-              "reason": "ветер ухудшает условия или связан с неблагоприятным режимом"
-            }
-          ],
-          "recommendations": [
-            "Когда ловить: лучше день и ближе к вечеру, когда вода успевает немного прогреться; раннее утро менее перспективно.",
-            "Дальность и скрытность: слегка окрашенная вода или рябь маскируют рыболова. Дистанция нужна умеренная, можно активнее проверять ближние карманы перед дальними забросами.",
-            "Модель ловли: вода холодная, рыба может быть вялой. Лучше медленная подача: микроколебалка на снос, силикон на легкой головке, короткие паузы и облов глубоких ям.",
-            "Сильный ветер лучше обходить лесными и закрытыми участками, работая на короткой дистанции.",
-            "Проводка: при холодной воде лучше искать более теплые дневные окна, вести медленно и давать приманке паузы у дна или на границе струи.",
-            "Поведение рыбы: стабильная погода и хорошее давление снижают риск внезапного провала клева, поэтому можно больше перемещаться и проверять активные точки."
-          ],
-          "warnings": [],
-          "appliedCaps": [],
-          "flags": [
-            "stable_weather",
-            "cloudy",
-            "strong_gusts"
-          ],
-          "raw": {
-            "estimatedWaterTemperatureC": 6.6,
-            "airTemperatureC": 2.4,
-            "pressureHPa": 1007.8,
-            "pressureMmHg": 756,
-            "pressureChange24hHPa": 3.8,
-            "pressureChange24hMmHg": 2.9,
-            "temperatureChange24hC": -1,
-            "precipitation24hMm": 0.1,
-            "precipitation72hMm": 14.9,
-            "cloudCoverPercent": 99,
-            "windDirection": "NW",
-            "windDirectionDegrees": 334,
-            "windSpeedMs": 7.1,
-            "windGustsMs": 19.3,
-            "waterClarity": "slightly_colored_clear",
-            "waterClarityLabel": "слегка окрашенная прозрачная",
-            "waterLevel": "normal",
-            "windDirectionPrevious": "NW",
-            "windDirectionChangeDegrees": 0,
-            "windSpeedChange24hMs": 0.2,
-            "moonPhase": "unknown"
-          }
-        },
-        {
-          "date": "2026-04-29",
-          "index": 68,
-          "indexRaw": 67.89,
-          "rating": "перспективно",
-          "confidence": "medium",
-          "summary": "Есть рабочие условия, но прогноз не без слабых мест. Главный риск: Сезонная фаза.",
-          "factors": [
-            {
-              "id": "waterTemperature",
-              "label": "Температура воды",
-              "weight": 0.22,
-              "weightPercent": 22,
-              "score": 63,
-              "contribution": 13.86,
-              "status": "нейтрально",
-              "explanation": "температура воды рабочая, но не идеальная"
-            },
-            {
-              "id": "season",
-              "label": "Сезонная фаза",
-              "weight": 0.21,
-              "weightPercent": 21,
-              "score": 55,
-              "contribution": 11.55,
-              "status": "нейтрально",
-              "explanation": "сезонная фаза ограничивает активность рыбы"
-            },
-            {
-              "id": "weatherChange",
-              "label": "Изменение погоды",
-              "weight": 0.16,
-              "weightPercent": 16,
-              "score": 64,
-              "contribution": 10.24,
-              "status": "нейтрально",
-              "explanation": "есть заметные изменения погоды, прогноз требует осторожности"
-            },
-            {
-              "id": "pressure",
-              "label": "Атмосферное давление",
-              "weight": 0.13,
-              "weightPercent": 13,
-              "score": 80,
-              "contribution": 10.4,
-              "status": "помогает",
-              "explanation": "давление находится в хорошем для ручья диапазоне"
-            },
-            {
-              "id": "waterClarity",
-              "label": "Прозрачность воды",
-              "weight": 0.1,
-              "weightPercent": 10,
-              "score": 84,
-              "contribution": 8.4,
-              "status": "помогает",
-              "explanation": "прозрачность воды помогает рыбе видеть приманку"
-            },
-            {
-              "id": "light",
-              "label": "Освещенность",
-              "weight": 0.08,
-              "weightPercent": 8,
-              "score": 78,
-              "contribution": 6.24,
-              "status": "помогает",
-              "explanation": "освещенность мягкая и не делает рыбу излишне осторожной"
-            },
-            {
-              "id": "wind",
-              "label": "Ветер",
-              "weight": 0.05,
-              "weightPercent": 5,
-              "score": 68,
-              "contribution": 3.4,
-              "status": "нейтрально",
-              "explanation": "ветер нейтральный или умеренно спорный"
-            },
-            {
-              "id": "waterLevel",
-              "label": "Уровень воды",
-              "weight": 0.03,
-              "weightPercent": 3,
-              "score": 90,
-              "contribution": 2.7,
-              "status": "помогает",
-              "explanation": "уровень воды без крайних отклонений"
-            },
-            {
-              "id": "moon",
-              "label": "Луна",
-              "weight": 0.02,
-              "weightPercent": 2,
-              "score": 55,
-              "contribution": 1.1,
-              "status": "нейтрально",
-              "explanation": "лунный фактор не поддерживает прогноз"
-            }
-          ],
-          "positiveDrivers": [
-            {
-              "factor": "Атмосферное давление",
-              "score": 80,
-              "reason": "давление находится в хорошем для ручья диапазоне"
-            },
-            {
-              "factor": "Прозрачность воды",
-              "score": 84,
-              "reason": "прозрачность воды помогает рыбе видеть приманку"
-            },
-            {
-              "factor": "Уровень воды",
-              "score": 90,
-              "reason": "уровень воды без крайних отклонений"
-            }
-          ],
-          "negativeDrivers": [
-            {
-              "factor": "Сезонная фаза",
-              "score": 55,
-              "reason": "сезонная фаза ограничивает активность рыбы"
-            }
-          ],
-          "recommendations": [
-            "Когда ловить: лучше день и ближе к вечеру, когда вода успевает немного прогреться; раннее утро менее перспективно.",
-            "Дальность и скрытность: слегка окрашенная вода или рябь маскируют рыболова. Дистанция нужна умеренная, можно активнее проверять ближние карманы перед дальними забросами.",
-            "Модель ловли: вода холодная, рыба может быть вялой. Лучше медленная подача: микроколебалка на снос, силикон на легкой головке, короткие паузы и облов глубоких ям.",
-            "Проводка: при холодной воде лучше искать более теплые дневные окна, вести медленно и давать приманке паузы у дна или на границе струи."
-          ],
-          "warnings": [
-            "давление резко растет после смены погоды, это неблагоприятный сигнал"
-          ],
-          "appliedCaps": [],
-          "flags": [
-            "cloudy"
-          ],
-          "raw": {
-            "estimatedWaterTemperatureC": 6.5,
-            "airTemperatureC": 2.6,
-            "pressureHPa": 1018.1,
-            "pressureMmHg": 764,
-            "pressureChange24hHPa": 10.3,
-            "pressureChange24hMmHg": 7.7,
-            "temperatureChange24hC": 0.2,
-            "precipitation24hMm": 0.3,
-            "precipitation72hMm": 10.1,
-            "cloudCoverPercent": 100,
-            "windDirection": "NW",
-            "windDirectionDegrees": 334,
-            "windSpeedMs": 4.2,
-            "windGustsMs": 11.8,
-            "waterClarity": "slightly_colored_clear",
-            "waterClarityLabel": "слегка окрашенная прозрачная",
-            "waterLevel": "normal",
-            "windDirectionPrevious": "NW",
-            "windDirectionChangeDegrees": 0,
-            "windSpeedChange24hMs": -2.9,
-            "moonPhase": "unknown"
-          }
-        }
-      ]
-    },
-    "north_east": {
-      "summary": "Северо-восток Ленинградской области: Сосново, Приозерский район. Реальные погодные данные, гидрология рассчитана косвенно.",
-      "forecast": [
-        {
-          "date": "2026-04-25",
-          "index": 71,
-          "indexRaw": 71.41,
-          "rating": "хорошо",
-          "confidence": "medium",
-          "summary": "Условия хорошие, но стоит следить за локальными особенностями ручья. Главный плюс: Атмосферное давление.",
-          "factors": [
-            {
-              "id": "waterTemperature",
-              "label": "Температура воды",
-              "weight": 0.22,
-              "weightPercent": 22,
-              "score": 65,
-              "contribution": 14.3,
-              "status": "нейтрально",
-              "explanation": "температура воды рабочая, но не идеальная"
-            },
-            {
-              "id": "season",
-              "label": "Сезонная фаза",
-              "weight": 0.21,
-              "weightPercent": 21,
-              "score": 55,
-              "contribution": 11.55,
-              "status": "нейтрально",
-              "explanation": "сезонная фаза ограничивает активность рыбы"
-            },
-            {
-              "id": "weatherChange",
-              "label": "Изменение погоды",
-              "weight": 0.16,
-              "weightPercent": 16,
-              "score": 68,
-              "contribution": 10.88,
-              "status": "нейтрально",
-              "explanation": "есть заметные изменения погоды, прогноз требует осторожности"
-            },
-            {
-              "id": "pressure",
-              "label": "Атмосферное давление",
-              "weight": 0.13,
-              "weightPercent": 13,
-              "score": 91,
-              "contribution": 11.83,
-              "status": "помогает",
-              "explanation": "давление находится в хорошем для ручья диапазоне"
-            },
-            {
-              "id": "waterClarity",
-              "label": "Прозрачность воды",
-              "weight": 0.1,
-              "weightPercent": 10,
-              "score": 84,
-              "contribution": 8.4,
-              "status": "помогает",
-              "explanation": "прозрачность воды помогает рыбе видеть приманку"
-            },
-            {
-              "id": "light",
-              "label": "Освещенность",
-              "weight": 0.08,
-              "weightPercent": 8,
-              "score": 78,
-              "contribution": 6.24,
-              "status": "помогает",
-              "explanation": "освещенность мягкая и не делает рыбу излишне осторожной"
-            },
-            {
-              "id": "wind",
-              "label": "Ветер",
-              "weight": 0.05,
-              "weightPercent": 5,
-              "score": 93,
-              "contribution": 4.65,
-              "status": "помогает",
-              "explanation": "ветер по направлению и силе благоприятен"
-            },
-            {
-              "id": "waterLevel",
-              "label": "Уровень воды",
-              "weight": 0.03,
-              "weightPercent": 3,
-              "score": 82,
-              "contribution": 2.46,
-              "status": "помогает",
-              "explanation": "уровень воды без крайних отклонений"
-            },
-            {
-              "id": "moon",
-              "label": "Луна",
-              "weight": 0.02,
-              "weightPercent": 2,
-              "score": 55,
-              "contribution": 1.1,
-              "status": "нейтрально",
-              "explanation": "лунный фактор не поддерживает прогноз"
-            }
-          ],
-          "positiveDrivers": [
-            {
-              "factor": "Атмосферное давление",
-              "score": 91,
-              "reason": "давление находится в хорошем для ручья диапазоне"
-            },
-            {
-              "factor": "Прозрачность воды",
-              "score": 84,
-              "reason": "прозрачность воды помогает рыбе видеть приманку"
-            },
-            {
-              "factor": "Ветер",
-              "score": 93,
-              "reason": "ветер по направлению и силе благоприятен"
-            }
-          ],
-          "negativeDrivers": [
-            {
-              "factor": "Сезонная фаза",
-              "score": 55,
-              "reason": "сезонная фаза ограничивает активность рыбы"
-            }
-          ],
-          "recommendations": [
-            "Когда ловить: лучше день и ближе к вечеру, когда вода успевает немного прогреться; раннее утро менее перспективно.",
-            "Дальность и скрытность: слегка окрашенная вода или рябь маскируют рыболова. Дистанция нужна умеренная, можно активнее проверять ближние карманы перед дальними забросами.",
-            "Модель ловли: вода холодная, рыба может быть вялой. Лучше медленная подача: микроколебалка на снос, силикон на легкой головке, короткие паузы и облов глубоких ям.",
-            "Проводка: при холодной воде лучше искать более теплые дневные окна, вести медленно и давать приманке паузы у дна или на границе струи."
-          ],
-          "warnings": [
-            "ветер заметно меняется по направлению или силе, погодный режим нестабилен"
-          ],
-          "appliedCaps": [],
-          "flags": [
-            "wind_direction_shift",
-            "low_pressure",
-            "cloudy",
-            "favorable_wind"
-          ],
-          "raw": {
-            "estimatedWaterTemperatureC": 6.7,
-            "airTemperatureC": 2.2,
-            "pressureHPa": 994.9,
-            "pressureMmHg": 746,
-            "pressureChange24hHPa": -7.9,
-            "pressureChange24hMmHg": -5.9,
-            "temperatureChange24hC": -1.8,
-            "precipitation24hMm": 8.5,
-            "precipitation72hMm": 11.6,
-            "cloudCoverPercent": 96,
-            "windDirection": "S",
-            "windDirectionDegrees": 202,
-            "windSpeedMs": 2.6,
-            "windGustsMs": 10.6,
-            "waterClarity": "slightly_colored_clear",
-            "waterClarityLabel": "слегка окрашенная прозрачная",
-            "waterLevel": "slightly_high",
-            "windDirectionPrevious": "W",
-            "windDirectionChangeDegrees": 90,
-            "windSpeedChange24hMs": 0.1,
-            "moonPhase": "unknown"
-          }
-        },
-        {
-          "date": "2026-04-26",
-          "index": 60,
-          "indexRaw": 59.82,
-          "rating": "перспективно",
-          "confidence": "low",
-          "summary": "Есть рабочие условия, но прогноз не без слабых мест. Главный риск: Прозрачность воды.",
-          "factors": [
-            {
-              "id": "waterTemperature",
-              "label": "Температура воды",
-              "weight": 0.22,
-              "weightPercent": 22,
-              "score": 63,
-              "contribution": 13.86,
-              "status": "нейтрально",
-              "explanation": "температура воды рабочая, но не идеальная"
-            },
-            {
-              "id": "season",
-              "label": "Сезонная фаза",
-              "weight": 0.21,
-              "weightPercent": 21,
-              "score": 55,
-              "contribution": 11.55,
-              "status": "нейтрально",
-              "explanation": "сезонная фаза ограничивает активность рыбы"
-            },
-            {
-              "id": "weatherChange",
-              "label": "Изменение погоды",
-              "weight": 0.16,
-              "weightPercent": 16,
-              "score": 56,
-              "contribution": 8.96,
-              "status": "нейтрально",
-              "explanation": "есть заметные изменения погоды, прогноз требует осторожности"
-            },
-            {
-              "id": "pressure",
-              "label": "Атмосферное давление",
-              "weight": 0.13,
-              "weightPercent": 13,
-              "score": 89,
-              "contribution": 11.57,
-              "status": "помогает",
-              "explanation": "давление находится в хорошем для ручья диапазоне"
-            },
-            {
-              "id": "waterClarity",
-              "label": "Прозрачность воды",
-              "weight": 0.1,
-              "weightPercent": 10,
-              "score": 22,
-              "contribution": 2.2,
-              "status": "мешает",
-              "explanation": "мутность или чрезмерная прозрачность ухудшают условия"
-            },
-            {
-              "id": "light",
-              "label": "Освещенность",
-              "weight": 0.08,
-              "weightPercent": 8,
-              "score": 78,
-              "contribution": 6.24,
-              "status": "помогает",
-              "explanation": "освещенность мягкая и не делает рыбу излишне осторожной"
-            },
-            {
-              "id": "wind",
-              "label": "Ветер",
-              "weight": 0.05,
-              "weightPercent": 5,
-              "score": 58,
-              "contribution": 2.9,
-              "status": "нейтрально",
-              "explanation": "ветер ухудшает условия или связан с неблагоприятным режимом"
-            },
-            {
-              "id": "waterLevel",
-              "label": "Уровень воды",
-              "weight": 0.03,
-              "weightPercent": 3,
-              "score": 48,
-              "contribution": 1.44,
-              "status": "мешает",
-              "explanation": "уровень или сила потока близки к крайним значениям"
-            },
-            {
-              "id": "moon",
-              "label": "Луна",
-              "weight": 0.02,
-              "weightPercent": 2,
-              "score": 55,
-              "contribution": 1.1,
-              "status": "нейтрально",
-              "explanation": "лунный фактор не поддерживает прогноз"
-            }
-          ],
-          "positiveDrivers": [
-            {
-              "factor": "Атмосферное давление",
-              "score": 89,
-              "reason": "давление находится в хорошем для ручья диапазоне"
-            }
-          ],
-          "negativeDrivers": [
-            {
-              "factor": "Прозрачность воды",
-              "score": 22,
-              "reason": "мутность или чрезмерная прозрачность ухудшают условия"
-            },
-            {
-              "factor": "Уровень воды",
-              "score": 48,
-              "reason": "уровень или сила потока близки к крайним значениям"
-            },
-            {
-              "factor": "Сезонная фаза",
-              "score": 55,
-              "reason": "сезонная фаза ограничивает активность рыбы"
-            }
-          ],
-          "recommendations": [
-            "Когда ловить: лучше день и ближе к вечеру, когда вода успевает немного прогреться; раннее утро менее перспективно.",
-            "Дальность и скрытность: из-за мутности форель видит хуже, поэтому можно подходить ближе, но заброс должен попадать точнее к укрытиям, кромкам струи и спокойным карманам.",
-            "Модель ловли: видимость снижена, поэтому ставка на заметность. Используй вращающиеся блесны, небольшие колебалки или воблеры с выраженной игрой, веди приманку чуть медленнее и ближе к перспективным укрытиям.",
-            "Приманки: при сильной мутности используй крупнее силуэт, яркий контраст и вибрацию; при этом общий потенциал ловли низкий.",
-            "При северном или восточном ветре снизь ожидания и выбирай участки с более спокойной подачей.",
-            "Проводка: при холодной воде лучше искать более теплые дневные окна, вести медленно и давать приманке паузы у дна или на границе струи."
-          ],
-          "warnings": [
-            "ветер заметно меняется по направлению или силе, погодный режим нестабилен",
-            "вода может быть слишком мутной для эффективной визуальной атаки"
-          ],
-          "appliedCaps": [],
-          "flags": [
-            "wind_direction_shift",
-            "low_pressure",
-            "cloudy",
-            "unfavorable_wind",
-            "strong_gusts",
-            "strong_muddy_risk"
-          ],
-          "raw": {
-            "estimatedWaterTemperatureC": 6.4,
-            "airTemperatureC": 1,
-            "pressureHPa": 991.7,
-            "pressureMmHg": 744,
-            "pressureChange24hHPa": -3.2,
-            "pressureChange24hMmHg": -2.4,
-            "temperatureChange24hC": -1.2,
-            "precipitation24hMm": 24.8,
-            "precipitation72hMm": 33.7,
-            "cloudCoverPercent": 100,
-            "windDirection": "N",
-            "windDirectionDegrees": 347,
-            "windSpeedMs": 4.6,
-            "windGustsMs": 15.2,
-            "waterClarity": "strongly_muddy",
-            "waterClarityLabel": "сильно мутная",
-            "waterLevel": "high",
-            "windDirectionPrevious": "S",
-            "windDirectionChangeDegrees": 180,
-            "windSpeedChange24hMs": 2,
-            "moonPhase": "unknown"
-          }
-        },
-        {
-          "date": "2026-04-27",
-          "index": 67,
-          "indexRaw": 66.63,
-          "rating": "перспективно",
-          "confidence": "low",
-          "summary": "Есть рабочие условия, но прогноз не без слабых мест. Главный риск: Прозрачность воды.",
-          "factors": [
-            {
-              "id": "waterTemperature",
-              "label": "Температура воды",
-              "weight": 0.22,
-              "weightPercent": 22,
-              "score": 65,
-              "contribution": 14.3,
-              "status": "нейтрально",
-              "explanation": "температура воды рабочая, но не идеальная"
-            },
-            {
-              "id": "season",
-              "label": "Сезонная фаза",
-              "weight": 0.21,
-              "weightPercent": 21,
-              "score": 55,
-              "contribution": 11.55,
-              "status": "нейтрально",
-              "explanation": "сезонная фаза ограничивает активность рыбы"
-            },
-            {
-              "id": "weatherChange",
-              "label": "Изменение погоды",
-              "weight": 0.16,
-              "weightPercent": 16,
-              "score": 58,
-              "contribution": 9.28,
-              "status": "нейтрально",
-              "explanation": "есть заметные изменения погоды, прогноз требует осторожности"
-            },
-            {
-              "id": "pressure",
-              "label": "Атмосферное давление",
-              "weight": 0.13,
-              "weightPercent": 13,
-              "score": 96,
-              "contribution": 12.48,
-              "status": "помогает",
-              "explanation": "давление находится в хорошем для ручья диапазоне"
-            },
-            {
-              "id": "waterClarity",
-              "label": "Прозрачность воды",
-              "weight": 0.1,
-              "weightPercent": 10,
-              "score": 52,
-              "contribution": 5.2,
-              "status": "нейтрально",
-              "explanation": "мутность или чрезмерная прозрачность ухудшают условия"
             },
             {
               "id": "light",
@@ -2081,348 +2554,6 @@ window.LIVE_RESULTS = {
               "weightPercent": 8,
               "score": 92,
               "contribution": 7.36,
-              "status": "помогает",
-              "explanation": "освещенность мягкая и не делает рыбу излишне осторожной"
-            },
-            {
-              "id": "wind",
-              "label": "Ветер",
-              "weight": 0.05,
-              "weightPercent": 5,
-              "score": 58,
-              "contribution": 2.9,
-              "status": "нейтрально",
-              "explanation": "ветер ухудшает условия или связан с неблагоприятным режимом"
-            },
-            {
-              "id": "waterLevel",
-              "label": "Уровень воды",
-              "weight": 0.03,
-              "weightPercent": 3,
-              "score": 82,
-              "contribution": 2.46,
-              "status": "помогает",
-              "explanation": "уровень воды без крайних отклонений"
-            },
-            {
-              "id": "moon",
-              "label": "Луна",
-              "weight": 0.02,
-              "weightPercent": 2,
-              "score": 55,
-              "contribution": 1.1,
-              "status": "нейтрально",
-              "explanation": "лунный фактор не поддерживает прогноз"
-            }
-          ],
-          "positiveDrivers": [
-            {
-              "factor": "Атмосферное давление",
-              "score": 96,
-              "reason": "давление находится в хорошем для ручья диапазоне"
-            },
-            {
-              "factor": "Освещенность",
-              "score": 92,
-              "reason": "освещенность мягкая и не делает рыбу излишне осторожной"
-            },
-            {
-              "factor": "Уровень воды",
-              "score": 82,
-              "reason": "уровень воды без крайних отклонений"
-            }
-          ],
-          "negativeDrivers": [
-            {
-              "factor": "Прозрачность воды",
-              "score": 52,
-              "reason": "мутность или чрезмерная прозрачность ухудшают условия"
-            },
-            {
-              "factor": "Сезонная фаза",
-              "score": 55,
-              "reason": "сезонная фаза ограничивает активность рыбы"
-            },
-            {
-              "factor": "Изменение погоды",
-              "score": 58,
-              "reason": "есть заметные изменения погоды, прогноз требует осторожности"
-            }
-          ],
-          "recommendations": [
-            "Когда ловить: лучше день и ближе к вечеру, когда вода успевает немного прогреться; раннее утро менее перспективно.",
-            "Дальность и скрытность: из-за мутности форель видит хуже, поэтому можно подходить ближе, но заброс должен попадать точнее к укрытиям, кромкам струи и спокойным карманам.",
-            "Модель ловли: видимость снижена, поэтому ставка на заметность. Используй вращающиеся блесны, небольшие колебалки или воблеры с выраженной игрой, веди приманку чуть медленнее и ближе к перспективным укрытиям.",
-            "Приманки: при умеренной мутности добавь контраст, яркую точку атаки, вращалку с вибрацией или воблер с более заметной игрой.",
-            "При северном или восточном ветре снизь ожидания и выбирай участки с более спокойной подачей.",
-            "Проводка: при холодной воде лучше искать более теплые дневные окна, вести медленно и давать приманке паузы у дна или на границе струи."
-          ],
-          "warnings": [
-            "давление резко растет после смены погоды, это неблагоприятный сигнал"
-          ],
-          "appliedCaps": [],
-          "flags": [
-            "unfavorable_wind",
-            "strong_gusts",
-            "muddy_risk"
-          ],
-          "raw": {
-            "estimatedWaterTemperatureC": 6.7,
-            "airTemperatureC": 3.8,
-            "pressureHPa": 1004.3,
-            "pressureMmHg": 753,
-            "pressureChange24hHPa": 12.6,
-            "pressureChange24hMmHg": 9.5,
-            "temperatureChange24hC": 2.8,
-            "precipitation24hMm": 0.1,
-            "precipitation72hMm": 33.8,
-            "cloudCoverPercent": 65,
-            "windDirection": "N",
-            "windDirectionDegrees": 344,
-            "windSpeedMs": 6.1,
-            "windGustsMs": 15.8,
-            "waterClarity": "moderately_muddy",
-            "waterClarityLabel": "умеренно мутная",
-            "waterLevel": "slightly_high",
-            "windDirectionPrevious": "N",
-            "windDirectionChangeDegrees": 0,
-            "windSpeedChange24hMs": 1.5,
-            "moonPhase": "unknown"
-          }
-        },
-        {
-          "date": "2026-04-28",
-          "index": 70,
-          "indexRaw": 69.99,
-          "rating": "перспективно",
-          "confidence": "low",
-          "summary": "Есть рабочие условия, но прогноз не без слабых мест. Главный риск: Прозрачность воды.",
-          "factors": [
-            {
-              "id": "waterTemperature",
-              "label": "Температура воды",
-              "weight": 0.22,
-              "weightPercent": 22,
-              "score": 63,
-              "contribution": 13.86,
-              "status": "нейтрально",
-              "explanation": "температура воды рабочая, но не идеальная"
-            },
-            {
-              "id": "season",
-              "label": "Сезонная фаза",
-              "weight": 0.21,
-              "weightPercent": 21,
-              "score": 55,
-              "contribution": 11.55,
-              "status": "нейтрально",
-              "explanation": "сезонная фаза ограничивает активность рыбы"
-            },
-            {
-              "id": "weatherChange",
-              "label": "Изменение погоды",
-              "weight": 0.16,
-              "weightPercent": 16,
-              "score": 84,
-              "contribution": 13.44,
-              "status": "помогает",
-              "explanation": "погода достаточно стабильна"
-            },
-            {
-              "id": "pressure",
-              "label": "Атмосферное давление",
-              "weight": 0.13,
-              "weightPercent": 13,
-              "score": 98,
-              "contribution": 12.74,
-              "status": "помогает",
-              "explanation": "давление находится в хорошем для ручья диапазоне"
-            },
-            {
-              "id": "waterClarity",
-              "label": "Прозрачность воды",
-              "weight": 0.1,
-              "weightPercent": 10,
-              "score": 52,
-              "contribution": 5.2,
-              "status": "нейтрально",
-              "explanation": "мутность или чрезмерная прозрачность ухудшают условия"
-            },
-            {
-              "id": "light",
-              "label": "Освещенность",
-              "weight": 0.08,
-              "weightPercent": 8,
-              "score": 78,
-              "contribution": 6.24,
-              "status": "помогает",
-              "explanation": "освещенность мягкая и не делает рыбу излишне осторожной"
-            },
-            {
-              "id": "wind",
-              "label": "Ветер",
-              "weight": 0.05,
-              "weightPercent": 5,
-              "score": 68,
-              "contribution": 3.4,
-              "status": "нейтрально",
-              "explanation": "ветер нейтральный или умеренно спорный"
-            },
-            {
-              "id": "waterLevel",
-              "label": "Уровень воды",
-              "weight": 0.03,
-              "weightPercent": 3,
-              "score": 82,
-              "contribution": 2.46,
-              "status": "помогает",
-              "explanation": "уровень воды без крайних отклонений"
-            },
-            {
-              "id": "moon",
-              "label": "Луна",
-              "weight": 0.02,
-              "weightPercent": 2,
-              "score": 55,
-              "contribution": 1.1,
-              "status": "нейтрально",
-              "explanation": "лунный фактор не поддерживает прогноз"
-            }
-          ],
-          "positiveDrivers": [
-            {
-              "factor": "Изменение погоды",
-              "score": 84,
-              "reason": "погода достаточно стабильна"
-            },
-            {
-              "factor": "Атмосферное давление",
-              "score": 98,
-              "reason": "давление находится в хорошем для ручья диапазоне"
-            },
-            {
-              "factor": "Уровень воды",
-              "score": 82,
-              "reason": "уровень воды без крайних отклонений"
-            }
-          ],
-          "negativeDrivers": [
-            {
-              "factor": "Прозрачность воды",
-              "score": 52,
-              "reason": "мутность или чрезмерная прозрачность ухудшают условия"
-            },
-            {
-              "factor": "Сезонная фаза",
-              "score": 55,
-              "reason": "сезонная фаза ограничивает активность рыбы"
-            }
-          ],
-          "recommendations": [
-            "Когда ловить: лучше день и ближе к вечеру, когда вода успевает немного прогреться; раннее утро менее перспективно.",
-            "Дальность и скрытность: из-за мутности форель видит хуже, поэтому можно подходить ближе, но заброс должен попадать точнее к укрытиям, кромкам струи и спокойным карманам.",
-            "Модель ловли: видимость снижена, поэтому ставка на заметность. Используй вращающиеся блесны, небольшие колебалки или воблеры с выраженной игрой, веди приманку чуть медленнее и ближе к перспективным укрытиям.",
-            "Приманки: при умеренной мутности добавь контраст, яркую точку атаки, вращалку с вибрацией или воблер с более заметной игрой.",
-            "Проводка: при холодной воде лучше искать более теплые дневные окна, вести медленно и давать приманке паузы у дна или на границе струи.",
-            "Поведение рыбы: стабильная погода и хорошее давление снижают риск внезапного провала клева, поэтому можно больше перемещаться и проверять активные точки."
-          ],
-          "warnings": [],
-          "appliedCaps": [],
-          "flags": [
-            "stable_weather",
-            "cloudy",
-            "strong_gusts",
-            "muddy_risk"
-          ],
-          "raw": {
-            "estimatedWaterTemperatureC": 6.4,
-            "airTemperatureC": 1.7,
-            "pressureHPa": 1007.9,
-            "pressureMmHg": 756,
-            "pressureChange24hHPa": 3.6,
-            "pressureChange24hMmHg": 2.7,
-            "temperatureChange24hC": -2.1,
-            "precipitation24hMm": 0.1,
-            "precipitation72hMm": 33.5,
-            "cloudCoverPercent": 99,
-            "windDirection": "NW",
-            "windDirectionDegrees": 336,
-            "windSpeedMs": 6.5,
-            "windGustsMs": 19.3,
-            "waterClarity": "moderately_muddy",
-            "waterClarityLabel": "умеренно мутная",
-            "waterLevel": "slightly_high",
-            "windDirectionPrevious": "N",
-            "windDirectionChangeDegrees": 45,
-            "windSpeedChange24hMs": 0.4,
-            "moonPhase": "unknown"
-          }
-        },
-        {
-          "date": "2026-04-29",
-          "index": 65,
-          "indexRaw": 64.95,
-          "rating": "перспективно",
-          "confidence": "low",
-          "summary": "Есть рабочие условия, но прогноз не без слабых мест. Главный риск: Прозрачность воды.",
-          "factors": [
-            {
-              "id": "waterTemperature",
-              "label": "Температура воды",
-              "weight": 0.22,
-              "weightPercent": 22,
-              "score": 63,
-              "contribution": 13.86,
-              "status": "нейтрально",
-              "explanation": "температура воды рабочая, но не идеальная"
-            },
-            {
-              "id": "season",
-              "label": "Сезонная фаза",
-              "weight": 0.21,
-              "weightPercent": 21,
-              "score": 55,
-              "contribution": 11.55,
-              "status": "нейтрально",
-              "explanation": "сезонная фаза ограничивает активность рыбы"
-            },
-            {
-              "id": "weatherChange",
-              "label": "Изменение погоды",
-              "weight": 0.16,
-              "weightPercent": 16,
-              "score": 64,
-              "contribution": 10.24,
-              "status": "нейтрально",
-              "explanation": "есть заметные изменения погоды, прогноз требует осторожности"
-            },
-            {
-              "id": "pressure",
-              "label": "Атмосферное давление",
-              "weight": 0.13,
-              "weightPercent": 13,
-              "score": 80,
-              "contribution": 10.4,
-              "status": "помогает",
-              "explanation": "давление находится в хорошем для ручья диапазоне"
-            },
-            {
-              "id": "waterClarity",
-              "label": "Прозрачность воды",
-              "weight": 0.1,
-              "weightPercent": 10,
-              "score": 52,
-              "contribution": 5.2,
-              "status": "нейтрально",
-              "explanation": "мутность или чрезмерная прозрачность ухудшают условия"
-            },
-            {
-              "id": "light",
-              "label": "Освещенность",
-              "weight": 0.08,
-              "weightPercent": 8,
-              "score": 78,
-              "contribution": 6.24,
               "status": "помогает",
               "explanation": "освещенность мягкая и не делает рыбу излишне осторожной"
             },
@@ -2459,507 +2590,9 @@ window.LIVE_RESULTS = {
           ],
           "positiveDrivers": [
             {
-              "factor": "Атмосферное давление",
-              "score": 80,
-              "reason": "давление находится в хорошем для ручья диапазоне"
-            },
-            {
-              "factor": "Уровень воды",
-              "score": 82,
-              "reason": "уровень воды без крайних отклонений"
-            }
-          ],
-          "negativeDrivers": [
-            {
-              "factor": "Прозрачность воды",
-              "score": 52,
-              "reason": "мутность или чрезмерная прозрачность ухудшают условия"
-            },
-            {
-              "factor": "Сезонная фаза",
-              "score": 55,
-              "reason": "сезонная фаза ограничивает активность рыбы"
-            }
-          ],
-          "recommendations": [
-            "Когда ловить: лучше день и ближе к вечеру, когда вода успевает немного прогреться; раннее утро менее перспективно.",
-            "Дальность и скрытность: из-за мутности форель видит хуже, поэтому можно подходить ближе, но заброс должен попадать точнее к укрытиям, кромкам струи и спокойным карманам.",
-            "Модель ловли: видимость снижена, поэтому ставка на заметность. Используй вращающиеся блесны, небольшие колебалки или воблеры с выраженной игрой, веди приманку чуть медленнее и ближе к перспективным укрытиям.",
-            "Приманки: при умеренной мутности добавь контраст, яркую точку атаки, вращалку с вибрацией или воблер с более заметной игрой.",
-            "Проводка: при холодной воде лучше искать более теплые дневные окна, вести медленно и давать приманке паузы у дна или на границе струи."
-          ],
-          "warnings": [
-            "давление резко растет после смены погоды, это неблагоприятный сигнал"
-          ],
-          "appliedCaps": [],
-          "flags": [
-            "cloudy",
-            "muddy_risk"
-          ],
-          "raw": {
-            "estimatedWaterTemperatureC": 6.4,
-            "airTemperatureC": 1.9,
-            "pressureHPa": 1018,
-            "pressureMmHg": 764,
-            "pressureChange24hHPa": 10.1,
-            "pressureChange24hMmHg": 7.6,
-            "temperatureChange24hC": 0.2,
-            "precipitation24hMm": 0.3,
-            "precipitation72hMm": 25.3,
-            "cloudCoverPercent": 96,
-            "windDirection": "NW",
-            "windDirectionDegrees": 332,
-            "windSpeedMs": 3.6,
-            "windGustsMs": 10.7,
-            "waterClarity": "moderately_muddy",
-            "waterClarityLabel": "умеренно мутная",
-            "waterLevel": "slightly_high",
-            "windDirectionPrevious": "NW",
-            "windDirectionChangeDegrees": 0,
-            "windSpeedChange24hMs": -2.9,
-            "moonPhase": "unknown"
-          }
-        }
-      ]
-    },
-    "north": {
-      "summary": "Север Ленинградской области: Приозерск. Реальные погодные данные, гидрология рассчитана косвенно.",
-      "forecast": [
-        {
-          "date": "2026-04-25",
-          "index": 71,
-          "indexRaw": 71.41,
-          "rating": "хорошо",
-          "confidence": "medium",
-          "summary": "Условия хорошие, но стоит следить за локальными особенностями ручья. Главный плюс: Атмосферное давление.",
-          "factors": [
-            {
-              "id": "waterTemperature",
-              "label": "Температура воды",
-              "weight": 0.22,
-              "weightPercent": 22,
-              "score": 65,
-              "contribution": 14.3,
-              "status": "нейтрально",
-              "explanation": "температура воды рабочая, но не идеальная"
-            },
-            {
-              "id": "season",
-              "label": "Сезонная фаза",
-              "weight": 0.21,
-              "weightPercent": 21,
-              "score": 55,
-              "contribution": 11.55,
-              "status": "нейтрально",
-              "explanation": "сезонная фаза ограничивает активность рыбы"
-            },
-            {
-              "id": "weatherChange",
-              "label": "Изменение погоды",
-              "weight": 0.16,
-              "weightPercent": 16,
-              "score": 68,
-              "contribution": 10.88,
-              "status": "нейтрально",
-              "explanation": "есть заметные изменения погоды, прогноз требует осторожности"
-            },
-            {
-              "id": "pressure",
-              "label": "Атмосферное давление",
-              "weight": 0.13,
-              "weightPercent": 13,
-              "score": 91,
-              "contribution": 11.83,
-              "status": "помогает",
-              "explanation": "давление находится в хорошем для ручья диапазоне"
-            },
-            {
-              "id": "waterClarity",
-              "label": "Прозрачность воды",
-              "weight": 0.1,
-              "weightPercent": 10,
-              "score": 84,
-              "contribution": 8.4,
-              "status": "помогает",
-              "explanation": "прозрачность воды помогает рыбе видеть приманку"
-            },
-            {
-              "id": "light",
-              "label": "Освещенность",
-              "weight": 0.08,
-              "weightPercent": 8,
-              "score": 78,
-              "contribution": 6.24,
-              "status": "помогает",
-              "explanation": "освещенность мягкая и не делает рыбу излишне осторожной"
-            },
-            {
-              "id": "wind",
-              "label": "Ветер",
-              "weight": 0.05,
-              "weightPercent": 5,
-              "score": 93,
-              "contribution": 4.65,
-              "status": "помогает",
-              "explanation": "ветер по направлению и силе благоприятен"
-            },
-            {
-              "id": "waterLevel",
-              "label": "Уровень воды",
-              "weight": 0.03,
-              "weightPercent": 3,
-              "score": 82,
-              "contribution": 2.46,
-              "status": "помогает",
-              "explanation": "уровень воды без крайних отклонений"
-            },
-            {
-              "id": "moon",
-              "label": "Луна",
-              "weight": 0.02,
-              "weightPercent": 2,
-              "score": 55,
-              "contribution": 1.1,
-              "status": "нейтрально",
-              "explanation": "лунный фактор не поддерживает прогноз"
-            }
-          ],
-          "positiveDrivers": [
-            {
-              "factor": "Атмосферное давление",
-              "score": 91,
-              "reason": "давление находится в хорошем для ручья диапазоне"
-            },
-            {
               "factor": "Прозрачность воды",
               "score": 84,
               "reason": "прозрачность воды помогает рыбе видеть приманку"
-            },
-            {
-              "factor": "Ветер",
-              "score": 93,
-              "reason": "ветер по направлению и силе благоприятен"
-            }
-          ],
-          "negativeDrivers": [
-            {
-              "factor": "Сезонная фаза",
-              "score": 55,
-              "reason": "сезонная фаза ограничивает активность рыбы"
-            }
-          ],
-          "recommendations": [
-            "Когда ловить: лучше день и ближе к вечеру, когда вода успевает немного прогреться; раннее утро менее перспективно.",
-            "Дальность и скрытность: слегка окрашенная вода или рябь маскируют рыболова. Дистанция нужна умеренная, можно активнее проверять ближние карманы перед дальними забросами.",
-            "Модель ловли: вода холодная, рыба может быть вялой. Лучше медленная подача: микроколебалка на снос, силикон на легкой головке, короткие паузы и облов глубоких ям.",
-            "Проводка: при холодной воде лучше искать более теплые дневные окна, вести медленно и давать приманке паузы у дна или на границе струи."
-          ],
-          "warnings": [
-            "ветер заметно меняется по направлению или силе, погодный режим нестабилен"
-          ],
-          "appliedCaps": [],
-          "flags": [
-            "wind_direction_shift",
-            "low_pressure",
-            "cloudy",
-            "favorable_wind"
-          ],
-          "raw": {
-            "estimatedWaterTemperatureC": 6.7,
-            "airTemperatureC": 1.8,
-            "pressureHPa": 994.4,
-            "pressureMmHg": 746,
-            "pressureChange24hHPa": -8.2,
-            "pressureChange24hMmHg": -6.2,
-            "temperatureChange24hC": -2.4,
-            "precipitation24hMm": 7,
-            "precipitation72hMm": 8.1,
-            "cloudCoverPercent": 98,
-            "windDirection": "S",
-            "windDirectionDegrees": 187,
-            "windSpeedMs": 2.2,
-            "windGustsMs": 8.8,
-            "waterClarity": "slightly_colored_clear",
-            "waterClarityLabel": "слегка окрашенная прозрачная",
-            "waterLevel": "slightly_high",
-            "windDirectionPrevious": "W",
-            "windDirectionChangeDegrees": 90,
-            "windSpeedChange24hMs": -0.6,
-            "moonPhase": "unknown"
-          }
-        },
-        {
-          "date": "2026-04-26",
-          "index": 59,
-          "indexRaw": 58.99,
-          "rating": "перспективно",
-          "confidence": "low",
-          "summary": "Есть рабочие условия, но прогноз не без слабых мест. Главный риск: Прозрачность воды.",
-          "factors": [
-            {
-              "id": "waterTemperature",
-              "label": "Температура воды",
-              "weight": 0.22,
-              "weightPercent": 22,
-              "score": 63,
-              "contribution": 13.86,
-              "status": "нейтрально",
-              "explanation": "температура воды рабочая, но не идеальная"
-            },
-            {
-              "id": "season",
-              "label": "Сезонная фаза",
-              "weight": 0.21,
-              "weightPercent": 21,
-              "score": 55,
-              "contribution": 11.55,
-              "status": "нейтрально",
-              "explanation": "сезонная фаза ограничивает активность рыбы"
-            },
-            {
-              "id": "weatherChange",
-              "label": "Изменение погоды",
-              "weight": 0.16,
-              "weightPercent": 16,
-              "score": 50,
-              "contribution": 8,
-              "status": "нейтрально",
-              "explanation": "есть заметные изменения погоды, прогноз требует осторожности"
-            },
-            {
-              "id": "pressure",
-              "label": "Атмосферное давление",
-              "weight": 0.13,
-              "weightPercent": 13,
-              "score": 90,
-              "contribution": 11.7,
-              "status": "помогает",
-              "explanation": "давление находится в хорошем для ручья диапазоне"
-            },
-            {
-              "id": "waterClarity",
-              "label": "Прозрачность воды",
-              "weight": 0.1,
-              "weightPercent": 10,
-              "score": 22,
-              "contribution": 2.2,
-              "status": "мешает",
-              "explanation": "мутность или чрезмерная прозрачность ухудшают условия"
-            },
-            {
-              "id": "light",
-              "label": "Освещенность",
-              "weight": 0.08,
-              "weightPercent": 8,
-              "score": 78,
-              "contribution": 6.24,
-              "status": "помогает",
-              "explanation": "освещенность мягкая и не делает рыбу излишне осторожной"
-            },
-            {
-              "id": "wind",
-              "label": "Ветер",
-              "weight": 0.05,
-              "weightPercent": 5,
-              "score": 58,
-              "contribution": 2.9,
-              "status": "нейтрально",
-              "explanation": "ветер ухудшает условия или связан с неблагоприятным режимом"
-            },
-            {
-              "id": "waterLevel",
-              "label": "Уровень воды",
-              "weight": 0.03,
-              "weightPercent": 3,
-              "score": 48,
-              "contribution": 1.44,
-              "status": "мешает",
-              "explanation": "уровень или сила потока близки к крайним значениям"
-            },
-            {
-              "id": "moon",
-              "label": "Луна",
-              "weight": 0.02,
-              "weightPercent": 2,
-              "score": 55,
-              "contribution": 1.1,
-              "status": "нейтрально",
-              "explanation": "лунный фактор не поддерживает прогноз"
-            }
-          ],
-          "positiveDrivers": [
-            {
-              "factor": "Атмосферное давление",
-              "score": 90,
-              "reason": "давление находится в хорошем для ручья диапазоне"
-            }
-          ],
-          "negativeDrivers": [
-            {
-              "factor": "Прозрачность воды",
-              "score": 22,
-              "reason": "мутность или чрезмерная прозрачность ухудшают условия"
-            },
-            {
-              "factor": "Уровень воды",
-              "score": 48,
-              "reason": "уровень или сила потока близки к крайним значениям"
-            },
-            {
-              "factor": "Изменение погоды",
-              "score": 50,
-              "reason": "есть заметные изменения погоды, прогноз требует осторожности"
-            }
-          ],
-          "recommendations": [
-            "Когда ловить: лучше день и ближе к вечеру, когда вода успевает немного прогреться; раннее утро менее перспективно.",
-            "Дальность и скрытность: из-за мутности форель видит хуже, поэтому можно подходить ближе, но заброс должен попадать точнее к укрытиям, кромкам струи и спокойным карманам.",
-            "Модель ловли: видимость снижена, поэтому ставка на заметность. Используй вращающиеся блесны, небольшие колебалки или воблеры с выраженной игрой, веди приманку чуть медленнее и ближе к перспективным укрытиям.",
-            "Приманки: при сильной мутности используй крупнее силуэт, яркий контраст и вибрацию; при этом общий потенциал ловли низкий.",
-            "При северном или восточном ветре снизь ожидания и выбирай участки с более спокойной подачей.",
-            "Проводка: при холодной воде лучше искать более теплые дневные окна, вести медленно и давать приманке паузы у дна или на границе струи."
-          ],
-          "warnings": [
-            "ветер заметно меняется по направлению или силе, погодный режим нестабилен",
-            "вода может быть слишком мутной для эффективной визуальной атаки"
-          ],
-          "appliedCaps": [],
-          "flags": [
-            "wind_direction_shift",
-            "low_pressure",
-            "cloudy",
-            "unfavorable_wind",
-            "strong_gusts",
-            "strong_muddy_risk"
-          ],
-          "raw": {
-            "estimatedWaterTemperatureC": 6.4,
-            "airTemperatureC": 1.3,
-            "pressureHPa": 992.5,
-            "pressureMmHg": 744,
-            "pressureChange24hHPa": -1.9,
-            "pressureChange24hMmHg": -1.4,
-            "temperatureChange24hC": -0.5,
-            "precipitation24hMm": 24.4,
-            "precipitation72hMm": 31.9,
-            "cloudCoverPercent": 100,
-            "windDirection": "N",
-            "windDirectionDegrees": 5,
-            "windSpeedMs": 6.1,
-            "windGustsMs": 16.4,
-            "waterClarity": "strongly_muddy",
-            "waterClarityLabel": "сильно мутная",
-            "waterLevel": "high",
-            "windDirectionPrevious": "S",
-            "windDirectionChangeDegrees": 180,
-            "windSpeedChange24hMs": 3.9,
-            "moonPhase": "unknown"
-          }
-        },
-        {
-          "date": "2026-04-27",
-          "index": 67,
-          "indexRaw": 66.76,
-          "rating": "перспективно",
-          "confidence": "low",
-          "summary": "Есть рабочие условия, но прогноз не без слабых мест. Главный риск: Прозрачность воды.",
-          "factors": [
-            {
-              "id": "waterTemperature",
-              "label": "Температура воды",
-              "weight": 0.22,
-              "weightPercent": 22,
-              "score": 65,
-              "contribution": 14.3,
-              "status": "нейтрально",
-              "explanation": "температура воды рабочая, но не идеальная"
-            },
-            {
-              "id": "season",
-              "label": "Сезонная фаза",
-              "weight": 0.21,
-              "weightPercent": 21,
-              "score": 55,
-              "contribution": 11.55,
-              "status": "нейтрально",
-              "explanation": "сезонная фаза ограничивает активность рыбы"
-            },
-            {
-              "id": "weatherChange",
-              "label": "Изменение погоды",
-              "weight": 0.16,
-              "weightPercent": 16,
-              "score": 58,
-              "contribution": 9.28,
-              "status": "нейтрально",
-              "explanation": "есть заметные изменения погоды, прогноз требует осторожности"
-            },
-            {
-              "id": "pressure",
-              "label": "Атмосферное давление",
-              "weight": 0.13,
-              "weightPercent": 13,
-              "score": 97,
-              "contribution": 12.61,
-              "status": "помогает",
-              "explanation": "давление находится в хорошем для ручья диапазоне"
-            },
-            {
-              "id": "waterClarity",
-              "label": "Прозрачность воды",
-              "weight": 0.1,
-              "weightPercent": 10,
-              "score": 52,
-              "contribution": 5.2,
-              "status": "нейтрально",
-              "explanation": "мутность или чрезмерная прозрачность ухудшают условия"
-            },
-            {
-              "id": "light",
-              "label": "Освещенность",
-              "weight": 0.08,
-              "weightPercent": 8,
-              "score": 92,
-              "contribution": 7.36,
-              "status": "помогает",
-              "explanation": "освещенность мягкая и не делает рыбу излишне осторожной"
-            },
-            {
-              "id": "wind",
-              "label": "Ветер",
-              "weight": 0.05,
-              "weightPercent": 5,
-              "score": 58,
-              "contribution": 2.9,
-              "status": "нейтрально",
-              "explanation": "ветер ухудшает условия или связан с неблагоприятным режимом"
-            },
-            {
-              "id": "waterLevel",
-              "label": "Уровень воды",
-              "weight": 0.03,
-              "weightPercent": 3,
-              "score": 82,
-              "contribution": 2.46,
-              "status": "помогает",
-              "explanation": "уровень воды без крайних отклонений"
-            },
-            {
-              "id": "moon",
-              "label": "Луна",
-              "weight": 0.02,
-              "weightPercent": 2,
-              "score": 55,
-              "contribution": 1.1,
-              "status": "нейтрально",
-              "explanation": "лунный фактор не поддерживает прогноз"
-            }
-          ],
-          "positiveDrivers": [
-            {
-              "factor": "Атмосферное давление",
-              "score": 97,
-              "reason": "давление находится в хорошем для ручья диапазоне"
             },
             {
               "factor": "Освещенность",
@@ -2974,245 +2607,54 @@ window.LIVE_RESULTS = {
           ],
           "negativeDrivers": [
             {
-              "factor": "Прозрачность воды",
-              "score": 52,
-              "reason": "мутность или чрезмерная прозрачность ухудшают условия"
-            },
-            {
               "factor": "Сезонная фаза",
               "score": 55,
               "reason": "сезонная фаза ограничивает активность рыбы"
-            },
-            {
-              "factor": "Изменение погоды",
-              "score": 58,
-              "reason": "есть заметные изменения погоды, прогноз требует осторожности"
             }
           ],
           "recommendations": [
             "Когда ловить: лучше день и ближе к вечеру, когда вода успевает немного прогреться; раннее утро менее перспективно.",
-            "Дальность и скрытность: из-за мутности форель видит хуже, поэтому можно подходить ближе, но заброс должен попадать точнее к укрытиям, кромкам струи и спокойным карманам.",
-            "Модель ловли: видимость снижена, поэтому ставка на заметность. Используй вращающиеся блесны, небольшие колебалки или воблеры с выраженной игрой, веди приманку чуть медленнее и ближе к перспективным укрытиям.",
-            "Приманки: при умеренной мутности добавь контраст, яркую точку атаки, вращалку с вибрацией или воблер с более заметной игрой.",
-            "При северном или восточном ветре снизь ожидания и выбирай участки с более спокойной подачей.",
+            "Дальность и скрытность: слегка окрашенная вода или рябь маскируют рыболова. Дистанция нужна умеренная, можно активнее проверять ближние карманы перед дальними забросами.",
+            "Модель ловли: вода холодная, рыба может быть вялой. Лучше медленная подача: микроколебалка на снос, силикон на легкой головке, короткие паузы и облов глубоких ям.",
             "Проводка: при холодной воде лучше искать более теплые дневные окна, вести медленно и давать приманке паузы у дна или на границе струи."
-          ],
-          "warnings": [
-            "давление резко растет после смены погоды, это неблагоприятный сигнал"
-          ],
-          "appliedCaps": [],
-          "flags": [
-            "unfavorable_wind",
-            "strong_gusts",
-            "muddy_risk"
-          ],
-          "raw": {
-            "estimatedWaterTemperatureC": 6.8,
-            "airTemperatureC": 4.2,
-            "pressureHPa": 1004.9,
-            "pressureMmHg": 754,
-            "pressureChange24hHPa": 12.4,
-            "pressureChange24hMmHg": 9.3,
-            "temperatureChange24hC": 2.9,
-            "precipitation24hMm": 0,
-            "precipitation72hMm": 31.9,
-            "cloudCoverPercent": 57,
-            "windDirection": "N",
-            "windDirectionDegrees": 347,
-            "windSpeedMs": 6.9,
-            "windGustsMs": 15.5,
-            "waterClarity": "moderately_muddy",
-            "waterClarityLabel": "умеренно мутная",
-            "waterLevel": "slightly_high",
-            "windDirectionPrevious": "N",
-            "windDirectionChangeDegrees": 0,
-            "windSpeedChange24hMs": 0.8,
-            "moonPhase": "unknown"
-          }
-        },
-        {
-          "date": "2026-04-28",
-          "index": 69,
-          "indexRaw": 69.12,
-          "rating": "перспективно",
-          "confidence": "low",
-          "summary": "Есть рабочие условия, но прогноз не без слабых мест. Главный риск: Ветер.",
-          "factors": [
-            {
-              "id": "waterTemperature",
-              "label": "Температура воды",
-              "weight": 0.22,
-              "weightPercent": 22,
-              "score": 63,
-              "contribution": 13.86,
-              "status": "нейтрально",
-              "explanation": "температура воды рабочая, но не идеальная"
-            },
-            {
-              "id": "season",
-              "label": "Сезонная фаза",
-              "weight": 0.21,
-              "weightPercent": 21,
-              "score": 55,
-              "contribution": 11.55,
-              "status": "нейтрально",
-              "explanation": "сезонная фаза ограничивает активность рыбы"
-            },
-            {
-              "id": "weatherChange",
-              "label": "Изменение погоды",
-              "weight": 0.16,
-              "weightPercent": 16,
-              "score": 84,
-              "contribution": 13.44,
-              "status": "помогает",
-              "explanation": "погода достаточно стабильна"
-            },
-            {
-              "id": "pressure",
-              "label": "Атмосферное давление",
-              "weight": 0.13,
-              "weightPercent": 13,
-              "score": 99,
-              "contribution": 12.87,
-              "status": "помогает",
-              "explanation": "давление находится в хорошем для ручья диапазоне"
-            },
-            {
-              "id": "waterClarity",
-              "label": "Прозрачность воды",
-              "weight": 0.1,
-              "weightPercent": 10,
-              "score": 52,
-              "contribution": 5.2,
-              "status": "нейтрально",
-              "explanation": "мутность или чрезмерная прозрачность ухудшают условия"
-            },
-            {
-              "id": "light",
-              "label": "Освещенность",
-              "weight": 0.08,
-              "weightPercent": 8,
-              "score": 78,
-              "contribution": 6.24,
-              "status": "помогает",
-              "explanation": "освещенность мягкая и не делает рыбу излишне осторожной"
-            },
-            {
-              "id": "wind",
-              "label": "Ветер",
-              "weight": 0.05,
-              "weightPercent": 5,
-              "score": 48,
-              "contribution": 2.4,
-              "status": "мешает",
-              "explanation": "ветер ухудшает условия или связан с неблагоприятным режимом"
-            },
-            {
-              "id": "waterLevel",
-              "label": "Уровень воды",
-              "weight": 0.03,
-              "weightPercent": 3,
-              "score": 82,
-              "contribution": 2.46,
-              "status": "помогает",
-              "explanation": "уровень воды без крайних отклонений"
-            },
-            {
-              "id": "moon",
-              "label": "Луна",
-              "weight": 0.02,
-              "weightPercent": 2,
-              "score": 55,
-              "contribution": 1.1,
-              "status": "нейтрально",
-              "explanation": "лунный фактор не поддерживает прогноз"
-            }
-          ],
-          "positiveDrivers": [
-            {
-              "factor": "Изменение погоды",
-              "score": 84,
-              "reason": "погода достаточно стабильна"
-            },
-            {
-              "factor": "Атмосферное давление",
-              "score": 99,
-              "reason": "давление находится в хорошем для ручья диапазоне"
-            },
-            {
-              "factor": "Уровень воды",
-              "score": 82,
-              "reason": "уровень воды без крайних отклонений"
-            }
-          ],
-          "negativeDrivers": [
-            {
-              "factor": "Ветер",
-              "score": 48,
-              "reason": "ветер ухудшает условия или связан с неблагоприятным режимом"
-            },
-            {
-              "factor": "Прозрачность воды",
-              "score": 52,
-              "reason": "мутность или чрезмерная прозрачность ухудшают условия"
-            },
-            {
-              "factor": "Сезонная фаза",
-              "score": 55,
-              "reason": "сезонная фаза ограничивает активность рыбы"
-            }
-          ],
-          "recommendations": [
-            "Когда ловить: лучше день и ближе к вечеру, когда вода успевает немного прогреться; раннее утро менее перспективно.",
-            "Дальность и скрытность: из-за мутности форель видит хуже, поэтому можно подходить ближе, но заброс должен попадать точнее к укрытиям, кромкам струи и спокойным карманам.",
-            "Модель ловли: видимость снижена, поэтому ставка на заметность. Используй вращающиеся блесны, небольшие колебалки или воблеры с выраженной игрой, веди приманку чуть медленнее и ближе к перспективным укрытиям.",
-            "Приманки: при умеренной мутности добавь контраст, яркую точку атаки, вращалку с вибрацией или воблер с более заметной игрой.",
-            "Сильный ветер лучше обходить лесными и закрытыми участками, работая на короткой дистанции.",
-            "При северном или восточном ветре снизь ожидания и выбирай участки с более спокойной подачей.",
-            "Проводка: при холодной воде лучше искать более теплые дневные окна, вести медленно и давать приманке паузы у дна или на границе струи.",
-            "Поведение рыбы: стабильная погода и хорошее давление снижают риск внезапного провала клева, поэтому можно больше перемещаться и проверять активные точки."
           ],
           "warnings": [],
           "appliedCaps": [],
-          "flags": [
-            "stable_weather",
-            "cloudy",
-            "unfavorable_wind",
-            "strong_gusts",
-            "muddy_risk"
-          ],
+          "flags": [],
           "raw": {
-            "estimatedWaterTemperatureC": 6.5,
+            "estimatedWaterTemperatureC": 6.6,
             "airTemperatureC": 2.7,
-            "pressureHPa": 1008.3,
-            "pressureMmHg": 756,
-            "pressureChange24hHPa": 3.4,
-            "pressureChange24hMmHg": 2.6,
-            "temperatureChange24hC": -1.5,
+            "pressureHPa": 1020.4,
+            "pressureMmHg": 765,
+            "pressureChange24hHPa": 9.1,
+            "pressureChange24hMmHg": 6.8,
+            "pressureAmplitude72hMmHg": 20,
+            "pressureDirectionChanges72h": 0,
+            "pressureTrendKind": "directional",
+            "temperatureChange24hC": 0,
             "precipitation24hMm": 0,
-            "precipitation72hMm": 31.4,
-            "cloudCoverPercent": 92,
-            "windDirection": "N",
-            "windDirectionDegrees": 339,
-            "windSpeedMs": 7.9,
-            "windGustsMs": 22.8,
-            "waterClarity": "moderately_muddy",
-            "waterClarityLabel": "умеренно мутная",
+            "precipitation72hMm": 22.6,
+            "cloudCoverPercent": 54,
+            "windDirection": "NW",
+            "windDirectionDegrees": 321,
+            "windSpeedMs": 3,
+            "windGustsMs": 10.1,
+            "waterClarity": "slightly_colored_clear",
+            "waterClarityLabel": "слегка окрашенная прозрачная",
             "waterLevel": "slightly_high",
             "windDirectionPrevious": "N",
-            "windDirectionChangeDegrees": 0,
-            "windSpeedChange24hMs": 1,
+            "windDirectionChangeDegrees": 45,
+            "windSpeedChange24hMs": -3.3,
             "moonPhase": "unknown"
           }
         },
         {
-          "date": "2026-04-29",
-          "index": 68,
-          "indexRaw": 68.09,
-          "rating": "перспективно",
-          "confidence": "low",
-          "summary": "Есть рабочие условия, но прогноз не без слабых мест. Главный риск: Сезонная фаза.",
+          "date": "2026-04-30",
+          "index": 75,
+          "indexRaw": 74.8,
+          "rating": "хорошо",
+          "confidence": "medium",
+          "summary": "Условия хорошие, но стоит следить за локальными особенностями ручья. Главный плюс: Изменение погоды.",
           "factors": [
             {
               "id": "waterTemperature",
@@ -3237,30 +2679,30 @@ window.LIVE_RESULTS = {
             {
               "id": "weatherChange",
               "label": "Изменение погоды",
-              "weight": 0.16,
-              "weightPercent": 16,
-              "score": 64,
-              "contribution": 10.24,
-              "status": "нейтрально",
-              "explanation": "есть заметные изменения погоды, прогноз требует осторожности"
+              "weight": 0.22,
+              "weightPercent": 22,
+              "score": 84,
+              "contribution": 18.48,
+              "status": "помогает",
+              "explanation": "давление и погода меняются в благоприятном или стабильном режиме"
             },
             {
               "id": "pressure",
               "label": "Атмосферное давление",
-              "weight": 0.13,
-              "weightPercent": 13,
-              "score": 80,
-              "contribution": 10.4,
+              "weight": 0.07,
+              "weightPercent": 7,
+              "score": 75,
+              "contribution": 5.25,
               "status": "помогает",
-              "explanation": "давление находится в хорошем для ручья диапазоне"
+              "explanation": "текущий барометрический фон комфортный"
             },
             {
               "id": "waterClarity",
               "label": "Прозрачность воды",
               "weight": 0.1,
               "weightPercent": 10,
-              "score": 84,
-              "contribution": 8.4,
+              "score": 95,
+              "contribution": 9.5,
               "status": "помогает",
               "explanation": "прозрачность воды помогает рыбе видеть приманку"
             },
@@ -3269,174 +2711,8 @@ window.LIVE_RESULTS = {
               "label": "Освещенность",
               "weight": 0.08,
               "weightPercent": 8,
-              "score": 78,
-              "contribution": 6.24,
-              "status": "помогает",
-              "explanation": "освещенность мягкая и не делает рыбу излишне осторожной"
-            },
-            {
-              "id": "wind",
-              "label": "Ветер",
-              "weight": 0.05,
-              "weightPercent": 5,
-              "score": 68,
-              "contribution": 3.4,
-              "status": "нейтрально",
-              "explanation": "ветер нейтральный или умеренно спорный"
-            },
-            {
-              "id": "waterLevel",
-              "label": "Уровень воды",
-              "weight": 0.03,
-              "weightPercent": 3,
-              "score": 82,
-              "contribution": 2.46,
-              "status": "помогает",
-              "explanation": "уровень воды без крайних отклонений"
-            },
-            {
-              "id": "moon",
-              "label": "Луна",
-              "weight": 0.02,
-              "weightPercent": 2,
-              "score": 55,
-              "contribution": 1.1,
-              "status": "нейтрально",
-              "explanation": "лунный фактор не поддерживает прогноз"
-            }
-          ],
-          "positiveDrivers": [
-            {
-              "factor": "Атмосферное давление",
-              "score": 80,
-              "reason": "давление находится в хорошем для ручья диапазоне"
-            },
-            {
-              "factor": "Прозрачность воды",
-              "score": 84,
-              "reason": "прозрачность воды помогает рыбе видеть приманку"
-            },
-            {
-              "factor": "Уровень воды",
-              "score": 82,
-              "reason": "уровень воды без крайних отклонений"
-            }
-          ],
-          "negativeDrivers": [
-            {
-              "factor": "Сезонная фаза",
-              "score": 55,
-              "reason": "сезонная фаза ограничивает активность рыбы"
-            }
-          ],
-          "recommendations": [
-            "Когда ловить: лучше день и ближе к вечеру, когда вода успевает немного прогреться; раннее утро менее перспективно.",
-            "Дальность и скрытность: слегка окрашенная вода или рябь маскируют рыболова. Дистанция нужна умеренная, можно активнее проверять ближние карманы перед дальними забросами.",
-            "Модель ловли: вода холодная, рыба может быть вялой. Лучше медленная подача: микроколебалка на снос, силикон на легкой головке, короткие паузы и облов глубоких ям.",
-            "Проводка: при холодной воде лучше искать более теплые дневные окна, вести медленно и давать приманке паузы у дна или на границе струи."
-          ],
-          "warnings": [
-            "давление резко растет после смены погоды, это неблагоприятный сигнал"
-          ],
-          "appliedCaps": [],
-          "flags": [
-            "cloudy",
-            "strong_gusts"
-          ],
-          "raw": {
-            "estimatedWaterTemperatureC": 6.7,
-            "airTemperatureC": 3.1,
-            "pressureHPa": 1018,
-            "pressureMmHg": 764,
-            "pressureChange24hHPa": 9.7,
-            "pressureChange24hMmHg": 7.3,
-            "temperatureChange24hC": 0.4,
-            "precipitation24hMm": 0,
-            "precipitation72hMm": 24.4,
-            "cloudCoverPercent": 96,
-            "windDirection": "NW",
-            "windDirectionDegrees": 333,
-            "windSpeedMs": 4.7,
-            "windGustsMs": 12.1,
-            "waterClarity": "slightly_colored_clear",
-            "waterClarityLabel": "слегка окрашенная прозрачная",
-            "waterLevel": "slightly_high",
-            "windDirectionPrevious": "N",
-            "windDirectionChangeDegrees": 45,
-            "windSpeedChange24hMs": -3.2,
-            "moonPhase": "unknown"
-          }
-        }
-      ]
-    },
-    "north_west": {
-      "summary": "Северо-запад Ленинградской области: Выборг. Реальные погодные данные, гидрология рассчитана косвенно.",
-      "forecast": [
-        {
-          "date": "2026-04-25",
-          "index": 69,
-          "indexRaw": 68.58,
-          "rating": "перспективно",
-          "confidence": "medium",
-          "summary": "Есть рабочие условия, но прогноз не без слабых мест. Главный риск: Прозрачность воды.",
-          "factors": [
-            {
-              "id": "waterTemperature",
-              "label": "Температура воды",
-              "weight": 0.22,
-              "weightPercent": 22,
-              "score": 66,
-              "contribution": 14.52,
-              "status": "нейтрально",
-              "explanation": "температура воды рабочая, но не идеальная"
-            },
-            {
-              "id": "season",
-              "label": "Сезонная фаза",
-              "weight": 0.21,
-              "weightPercent": 21,
-              "score": 55,
-              "contribution": 11.55,
-              "status": "нейтрально",
-              "explanation": "сезонная фаза ограничивает активность рыбы"
-            },
-            {
-              "id": "weatherChange",
-              "label": "Изменение погоды",
-              "weight": 0.16,
-              "weightPercent": 16,
-              "score": 68,
-              "contribution": 10.88,
-              "status": "нейтрально",
-              "explanation": "есть заметные изменения погоды, прогноз требует осторожности"
-            },
-            {
-              "id": "pressure",
-              "label": "Атмосферное давление",
-              "weight": 0.13,
-              "weightPercent": 13,
-              "score": 91,
-              "contribution": 11.83,
-              "status": "помогает",
-              "explanation": "давление находится в хорошем для ручья диапазоне"
-            },
-            {
-              "id": "waterClarity",
-              "label": "Прозрачность воды",
-              "weight": 0.1,
-              "weightPercent": 10,
-              "score": 52,
-              "contribution": 5.2,
-              "status": "нейтрально",
-              "explanation": "мутность или чрезмерная прозрачность ухудшают условия"
-            },
-            {
-              "id": "light",
-              "label": "Освещенность",
-              "weight": 0.08,
-              "weightPercent": 8,
-              "score": 78,
-              "contribution": 6.24,
+              "score": 92,
+              "contribution": 7.36,
               "status": "помогает",
               "explanation": "освещенность мягкая и не делает рыбу излишне осторожной"
             },
@@ -3473,372 +2749,22 @@ window.LIVE_RESULTS = {
           ],
           "positiveDrivers": [
             {
-              "factor": "Атмосферное давление",
-              "score": 91,
-              "reason": "давление находится в хорошем для ручья диапазоне"
+              "factor": "Изменение погоды",
+              "score": 84,
+              "reason": "давление и погода меняются в благоприятном или стабильном режиме"
             },
-            {
-              "factor": "Ветер",
-              "score": 96,
-              "reason": "ветер по направлению и силе благоприятен"
-            },
-            {
-              "factor": "Уровень воды",
-              "score": 82,
-              "reason": "уровень воды без крайних отклонений"
-            }
-          ],
-          "negativeDrivers": [
             {
               "factor": "Прозрачность воды",
-              "score": 52,
-              "reason": "мутность или чрезмерная прозрачность ухудшают условия"
-            },
-            {
-              "factor": "Сезонная фаза",
-              "score": 55,
-              "reason": "сезонная фаза ограничивает активность рыбы"
-            }
-          ],
-          "recommendations": [
-            "Когда ловить: лучше день и ближе к вечеру, когда вода успевает немного прогреться; раннее утро менее перспективно.",
-            "Дальность и скрытность: из-за мутности форель видит хуже, поэтому можно подходить ближе, но заброс должен попадать точнее к укрытиям, кромкам струи и спокойным карманам.",
-            "Модель ловли: видимость снижена, поэтому ставка на заметность. Используй вращающиеся блесны, небольшие колебалки или воблеры с выраженной игрой, веди приманку чуть медленнее и ближе к перспективным укрытиям.",
-            "Приманки: при умеренной мутности добавь контраст, яркую точку атаки, вращалку с вибрацией или воблер с более заметной игрой.",
-            "Проводка: при холодной воде лучше искать более теплые дневные окна, вести медленно и давать приманке паузы у дна или на границе струи."
-          ],
-          "warnings": [
-            "ветер заметно меняется по направлению или силе, погодный режим нестабилен"
-          ],
-          "appliedCaps": [],
-          "flags": [
-            "wind_direction_shift",
-            "low_pressure",
-            "cloudy",
-            "favorable_wind",
-            "strong_gusts",
-            "muddy_risk"
-          ],
-          "raw": {
-            "estimatedWaterTemperatureC": 6.9,
-            "airTemperatureC": 3,
-            "pressureHPa": 994.1,
-            "pressureMmHg": 746,
-            "pressureChange24hHPa": -9.3,
-            "pressureChange24hMmHg": -7,
-            "temperatureChange24hC": -2,
-            "precipitation24hMm": 11.6,
-            "precipitation72hMm": 13.7,
-            "cloudCoverPercent": 98,
-            "windDirection": "SW",
-            "windDirectionDegrees": 209,
-            "windSpeedMs": 3.5,
-            "windGustsMs": 12.7,
-            "waterClarity": "moderately_muddy",
-            "waterClarityLabel": "умеренно мутная",
-            "waterLevel": "slightly_high",
-            "windDirectionPrevious": "NW",
-            "windDirectionChangeDegrees": 90,
-            "windSpeedChange24hMs": -0.1,
-            "moonPhase": "unknown"
-          }
-        },
-        {
-          "date": "2026-04-26",
-          "index": 60,
-          "indexRaw": 59.6,
-          "rating": "перспективно",
-          "confidence": "low",
-          "summary": "Есть рабочие условия, но прогноз не без слабых мест. Главный риск: Изменение погоды.",
-          "factors": [
-            {
-              "id": "waterTemperature",
-              "label": "Температура воды",
-              "weight": 0.22,
-              "weightPercent": 22,
-              "score": 64,
-              "contribution": 14.08,
-              "status": "нейтрально",
-              "explanation": "температура воды рабочая, но не идеальная"
-            },
-            {
-              "id": "season",
-              "label": "Сезонная фаза",
-              "weight": 0.21,
-              "weightPercent": 21,
-              "score": 55,
-              "contribution": 11.55,
-              "status": "нейтрально",
-              "explanation": "сезонная фаза ограничивает активность рыбы"
-            },
-            {
-              "id": "weatherChange",
-              "label": "Изменение погоды",
-              "weight": 0.16,
-              "weightPercent": 16,
-              "score": 36,
-              "contribution": 5.76,
-              "status": "мешает",
-              "explanation": "резкие изменения погоды ухудшают прогноз"
-            },
-            {
-              "id": "pressure",
-              "label": "Атмосферное давление",
-              "weight": 0.13,
-              "weightPercent": 13,
-              "score": 91,
-              "contribution": 11.83,
-              "status": "помогает",
-              "explanation": "давление находится в хорошем для ручья диапазоне"
-            },
-            {
-              "id": "waterClarity",
-              "label": "Прозрачность воды",
-              "weight": 0.1,
-              "weightPercent": 10,
-              "score": 52,
-              "contribution": 5.2,
-              "status": "нейтрально",
-              "explanation": "мутность или чрезмерная прозрачность ухудшают условия"
-            },
-            {
-              "id": "light",
-              "label": "Освещенность",
-              "weight": 0.08,
-              "weightPercent": 8,
-              "score": 78,
-              "contribution": 6.24,
-              "status": "помогает",
-              "explanation": "освещенность мягкая и не делает рыбу излишне осторожной"
-            },
-            {
-              "id": "wind",
-              "label": "Ветер",
-              "weight": 0.05,
-              "weightPercent": 5,
-              "score": 48,
-              "contribution": 2.4,
-              "status": "мешает",
-              "explanation": "ветер ухудшает условия или связан с неблагоприятным режимом"
-            },
-            {
-              "id": "waterLevel",
-              "label": "Уровень воды",
-              "weight": 0.03,
-              "weightPercent": 3,
-              "score": 48,
-              "contribution": 1.44,
-              "status": "мешает",
-              "explanation": "уровень или сила потока близки к крайним значениям"
-            },
-            {
-              "id": "moon",
-              "label": "Луна",
-              "weight": 0.02,
-              "weightPercent": 2,
-              "score": 55,
-              "contribution": 1.1,
-              "status": "нейтрально",
-              "explanation": "лунный фактор не поддерживает прогноз"
-            }
-          ],
-          "positiveDrivers": [
-            {
-              "factor": "Атмосферное давление",
-              "score": 91,
-              "reason": "давление находится в хорошем для ручья диапазоне"
-            }
-          ],
-          "negativeDrivers": [
-            {
-              "factor": "Изменение погоды",
-              "score": 36,
-              "reason": "резкие изменения погоды ухудшают прогноз"
-            },
-            {
-              "factor": "Ветер",
-              "score": 48,
-              "reason": "ветер ухудшает условия или связан с неблагоприятным режимом"
-            },
-            {
-              "factor": "Уровень воды",
-              "score": 48,
-              "reason": "уровень или сила потока близки к крайним значениям"
-            }
-          ],
-          "recommendations": [
-            "Когда ловить: лучше день и ближе к вечеру, когда вода успевает немного прогреться; раннее утро менее перспективно.",
-            "Дальность и скрытность: из-за мутности форель видит хуже, поэтому можно подходить ближе, но заброс должен попадать точнее к укрытиям, кромкам струи и спокойным карманам.",
-            "Модель ловли: видимость снижена, поэтому ставка на заметность. Используй вращающиеся блесны, небольшие колебалки или воблеры с выраженной игрой, веди приманку чуть медленнее и ближе к перспективным укрытиям.",
-            "Приманки: при умеренной мутности добавь контраст, яркую точку атаки, вращалку с вибрацией или воблер с более заметной игрой.",
-            "Сильный ветер лучше обходить лесными и закрытыми участками, работая на короткой дистанции.",
-            "При северном или восточном ветре снизь ожидания и выбирай участки с более спокойной подачей.",
-            "Проводка: при холодной воде лучше искать более теплые дневные окна, вести медленно и давать приманке паузы у дна или на границе струи."
-          ],
-          "warnings": [
-            "ветер заметно меняется по направлению или силе, погодный режим нестабилен"
-          ],
-          "appliedCaps": [],
-          "flags": [
-            "wind_direction_shift",
-            "wind_speed_shift",
-            "low_pressure",
-            "cloudy",
-            "unfavorable_wind",
-            "strong_gusts",
-            "muddy_risk"
-          ],
-          "raw": {
-            "estimatedWaterTemperatureC": 6.6,
-            "airTemperatureC": 2.1,
-            "pressureHPa": 994,
-            "pressureMmHg": 746,
-            "pressureChange24hHPa": -0.1,
-            "pressureChange24hMmHg": -0.1,
-            "temperatureChange24hC": -0.9,
-            "precipitation24hMm": 18.7,
-            "precipitation72hMm": 30.3,
-            "cloudCoverPercent": 100,
-            "windDirection": "N",
-            "windDirectionDegrees": 356,
-            "windSpeedMs": 7.7,
-            "windGustsMs": 16.6,
-            "waterClarity": "moderately_muddy",
-            "waterClarityLabel": "умеренно мутная",
-            "waterLevel": "high",
-            "windDirectionPrevious": "SW",
-            "windDirectionChangeDegrees": 135,
-            "windSpeedChange24hMs": 4.2,
-            "moonPhase": "unknown"
-          }
-        },
-        {
-          "date": "2026-04-27",
-          "index": 67,
-          "indexRaw": 66.61,
-          "rating": "перспективно",
-          "confidence": "low",
-          "summary": "Есть рабочие условия, но прогноз не без слабых мест. Главный риск: Ветер.",
-          "factors": [
-            {
-              "id": "waterTemperature",
-              "label": "Температура воды",
-              "weight": 0.22,
-              "weightPercent": 22,
-              "score": 66,
-              "contribution": 14.52,
-              "status": "нейтрально",
-              "explanation": "температура воды рабочая, но не идеальная"
-            },
-            {
-              "id": "season",
-              "label": "Сезонная фаза",
-              "weight": 0.21,
-              "weightPercent": 21,
-              "score": 55,
-              "contribution": 11.55,
-              "status": "нейтрально",
-              "explanation": "сезонная фаза ограничивает активность рыбы"
-            },
-            {
-              "id": "weatherChange",
-              "label": "Изменение погоды",
-              "weight": 0.16,
-              "weightPercent": 16,
-              "score": 58,
-              "contribution": 9.28,
-              "status": "нейтрально",
-              "explanation": "есть заметные изменения погоды, прогноз требует осторожности"
-            },
-            {
-              "id": "pressure",
-              "label": "Атмосферное давление",
-              "weight": 0.13,
-              "weightPercent": 13,
-              "score": 98,
-              "contribution": 12.74,
-              "status": "помогает",
-              "explanation": "давление находится в хорошем для ручья диапазоне"
-            },
-            {
-              "id": "waterClarity",
-              "label": "Прозрачность воды",
-              "weight": 0.1,
-              "weightPercent": 10,
-              "score": 52,
-              "contribution": 5.2,
-              "status": "нейтрально",
-              "explanation": "мутность или чрезмерная прозрачность ухудшают условия"
-            },
-            {
-              "id": "light",
-              "label": "Освещенность",
-              "weight": 0.08,
-              "weightPercent": 8,
-              "score": 92,
-              "contribution": 7.36,
-              "status": "помогает",
-              "explanation": "освещенность мягкая и не делает рыбу излишне осторожной"
-            },
-            {
-              "id": "wind",
-              "label": "Ветер",
-              "weight": 0.05,
-              "weightPercent": 5,
-              "score": 48,
-              "contribution": 2.4,
-              "status": "мешает",
-              "explanation": "ветер ухудшает условия или связан с неблагоприятным режимом"
-            },
-            {
-              "id": "waterLevel",
-              "label": "Уровень воды",
-              "weight": 0.03,
-              "weightPercent": 3,
-              "score": 82,
-              "contribution": 2.46,
-              "status": "помогает",
-              "explanation": "уровень воды без крайних отклонений"
-            },
-            {
-              "id": "moon",
-              "label": "Луна",
-              "weight": 0.02,
-              "weightPercent": 2,
-              "score": 55,
-              "contribution": 1.1,
-              "status": "нейтрально",
-              "explanation": "лунный фактор не поддерживает прогноз"
-            }
-          ],
-          "positiveDrivers": [
-            {
-              "factor": "Атмосферное давление",
-              "score": 98,
-              "reason": "давление находится в хорошем для ручья диапазоне"
+              "score": 95,
+              "reason": "прозрачность воды помогает рыбе видеть приманку"
             },
             {
               "factor": "Освещенность",
               "score": 92,
               "reason": "освещенность мягкая и не делает рыбу излишне осторожной"
-            },
-            {
-              "factor": "Уровень воды",
-              "score": 82,
-              "reason": "уровень воды без крайних отклонений"
             }
           ],
           "negativeDrivers": [
-            {
-              "factor": "Ветер",
-              "score": 48,
-              "reason": "ветер ухудшает условия или связан с неблагоприятным режимом"
-            },
-            {
-              "factor": "Прозрачность воды",
-              "score": 52,
-              "reason": "мутность или чрезмерная прозрачность ухудшают условия"
-            },
             {
               "factor": "Сезонная фаза",
               "score": 55,
@@ -3847,52 +2773,57 @@ window.LIVE_RESULTS = {
           ],
           "recommendations": [
             "Когда ловить: лучше день и ближе к вечеру, когда вода успевает немного прогреться; раннее утро менее перспективно.",
-            "Дальность и скрытность: из-за мутности форель видит хуже, поэтому можно подходить ближе, но заброс должен попадать точнее к укрытиям, кромкам струи и спокойным карманам.",
-            "Модель ловли: видимость снижена, поэтому ставка на заметность. Используй вращающиеся блесны, небольшие колебалки или воблеры с выраженной игрой, веди приманку чуть медленнее и ближе к перспективным укрытиям.",
-            "Приманки: при умеренной мутности добавь контраст, яркую точку атаки, вращалку с вибрацией или воблер с более заметной игрой.",
-            "Сильный ветер лучше обходить лесными и закрытыми участками, работая на короткой дистанции.",
-            "При северном или восточном ветре снизь ожидания и выбирай участки с более спокойной подачей.",
+            "Дальность и скрытность: осторожность повышена. Начинай издалека, двигайся медленно, используй береговые укрытия и не становись силуэтом на фоне неба.",
+            "Модель ловли: форель будет осторожнее обычного. Подходи ниже по течению, держи дистанцию, делай первые забросы издалека и начинай с натуральных воблеров, микроколебалок или мягкой резины без лишнего блеска.",
+            "Приманки: слегка чайная прозрачная вода хороша для меди, золота, темных силуэтов, маленьких колебалок и минноу с умеренным контрастом.",
+            "На низкой воде ищи ямки, тень, укрытия и локальные стоянки, не заходи в воду без необходимости.",
             "Проводка: при холодной воде лучше искать более теплые дневные окна, вести медленно и давать приманке паузы у дна или на границе струи."
           ],
           "warnings": [
-            "давление резко растет после смены погоды, это неблагоприятный сигнал"
+            "ветер заметно меняется по направлению или силе, погодный режим нестабилен"
           ],
           "appliedCaps": [],
           "flags": [
-            "unfavorable_wind",
-            "strong_gusts",
-            "muddy_risk"
+            "stable_weather",
+            "wind_direction_shift",
+            "cloudy",
+            "favorable_wind",
+            "tea_clear_water",
+            "clear_low_water"
           ],
           "raw": {
-            "estimatedWaterTemperatureC": 6.9,
-            "airTemperatureC": 4.6,
-            "pressureHPa": 1006.8,
-            "pressureMmHg": 755,
-            "pressureChange24hHPa": 12.8,
-            "pressureChange24hMmHg": 9.6,
-            "temperatureChange24hC": 2.5,
+            "estimatedWaterTemperatureC": 6.8,
+            "airTemperatureC": 3,
+            "pressureHPa": 1020.7,
+            "pressureMmHg": 766,
+            "pressureChange24hHPa": 0.3,
+            "pressureChange24hMmHg": 0.2,
+            "pressureAmplitude72hMmHg": 11,
+            "pressureDirectionChanges72h": 0,
+            "pressureTrendKind": "directional",
+            "temperatureChange24hC": 0.3,
             "precipitation24hMm": 0,
-            "precipitation72hMm": 30.3,
-            "cloudCoverPercent": 51,
-            "windDirection": "N",
-            "windDirectionDegrees": 346,
-            "windSpeedMs": 7.9,
-            "windGustsMs": 14.7,
-            "waterClarity": "moderately_muddy",
-            "waterClarityLabel": "умеренно мутная",
-            "waterLevel": "slightly_high",
-            "windDirectionPrevious": "N",
-            "windDirectionChangeDegrees": 0,
-            "windSpeedChange24hMs": 0.2,
+            "precipitation72hMm": 0.1,
+            "cloudCoverPercent": 72,
+            "windDirection": "SW",
+            "windDirectionDegrees": 243,
+            "windSpeedMs": 1.8,
+            "windGustsMs": 6.8,
+            "waterClarity": "slightly_tea_clear",
+            "waterClarityLabel": "слегка чайная прозрачная",
+            "waterLevel": "slightly_low",
+            "windDirectionPrevious": "NW",
+            "windDirectionChangeDegrees": 90,
+            "windSpeedChange24hMs": -1.2,
             "moonPhase": "unknown"
           }
         },
         {
-          "date": "2026-04-28",
-          "index": 71,
-          "indexRaw": 71.31,
+          "date": "2026-05-01",
+          "index": 85,
+          "indexRaw": 84.63,
           "rating": "хорошо",
-          "confidence": "low",
+          "confidence": "medium",
           "summary": "Условия хорошие, но стоит следить за локальными особенностями ручья. Главный плюс: Изменение погоды.",
           "factors": [
             {
@@ -3900,223 +2831,48 @@ window.LIVE_RESULTS = {
               "label": "Температура воды",
               "weight": 0.22,
               "weightPercent": 22,
-              "score": 65,
-              "contribution": 14.3,
-              "status": "нейтрально",
-              "explanation": "температура воды рабочая, но не идеальная"
+              "score": 77,
+              "contribution": 16.94,
+              "status": "помогает",
+              "explanation": "температурный фон воды близок к рабочей зоне форели"
             },
             {
               "id": "season",
               "label": "Сезонная фаза",
               "weight": 0.21,
               "weightPercent": 21,
-              "score": 55,
-              "contribution": 11.55,
-              "status": "нейтрально",
-              "explanation": "сезонная фаза ограничивает активность рыбы"
+              "score": 86,
+              "contribution": 18.06,
+              "status": "помогает",
+              "explanation": "сезонная фаза поддерживает кормовую активность"
             },
             {
               "id": "weatherChange",
               "label": "Изменение погоды",
-              "weight": 0.16,
-              "weightPercent": 16,
-              "score": 84,
-              "contribution": 13.44,
-              "status": "помогает",
-              "explanation": "погода достаточно стабильна"
-            },
-            {
-              "id": "pressure",
-              "label": "Атмосферное давление",
-              "weight": 0.13,
-              "weightPercent": 13,
-              "score": 100,
-              "contribution": 13,
-              "status": "помогает",
-              "explanation": "давление находится в хорошем для ручья диапазоне"
-            },
-            {
-              "id": "waterClarity",
-              "label": "Прозрачность воды",
-              "weight": 0.1,
-              "weightPercent": 10,
-              "score": 52,
-              "contribution": 5.2,
-              "status": "нейтрально",
-              "explanation": "мутность или чрезмерная прозрачность ухудшают условия"
-            },
-            {
-              "id": "light",
-              "label": "Освещенность",
-              "weight": 0.08,
-              "weightPercent": 8,
-              "score": 92,
-              "contribution": 7.36,
-              "status": "помогает",
-              "explanation": "освещенность мягкая и не делает рыбу излишне осторожной"
-            },
-            {
-              "id": "wind",
-              "label": "Ветер",
-              "weight": 0.05,
-              "weightPercent": 5,
-              "score": 58,
-              "contribution": 2.9,
-              "status": "нейтрально",
-              "explanation": "ветер ухудшает условия или связан с неблагоприятным режимом"
-            },
-            {
-              "id": "waterLevel",
-              "label": "Уровень воды",
-              "weight": 0.03,
-              "weightPercent": 3,
-              "score": 82,
-              "contribution": 2.46,
-              "status": "помогает",
-              "explanation": "уровень воды без крайних отклонений"
-            },
-            {
-              "id": "moon",
-              "label": "Луна",
-              "weight": 0.02,
-              "weightPercent": 2,
-              "score": 55,
-              "contribution": 1.1,
-              "status": "нейтрально",
-              "explanation": "лунный фактор не поддерживает прогноз"
-            }
-          ],
-          "positiveDrivers": [
-            {
-              "factor": "Изменение погоды",
-              "score": 84,
-              "reason": "погода достаточно стабильна"
-            },
-            {
-              "factor": "Атмосферное давление",
-              "score": 100,
-              "reason": "давление находится в хорошем для ручья диапазоне"
-            },
-            {
-              "factor": "Освещенность",
-              "score": 92,
-              "reason": "освещенность мягкая и не делает рыбу излишне осторожной"
-            }
-          ],
-          "negativeDrivers": [
-            {
-              "factor": "Прозрачность воды",
-              "score": 52,
-              "reason": "мутность или чрезмерная прозрачность ухудшают условия"
-            },
-            {
-              "factor": "Сезонная фаза",
-              "score": 55,
-              "reason": "сезонная фаза ограничивает активность рыбы"
-            },
-            {
-              "factor": "Ветер",
-              "score": 58,
-              "reason": "ветер ухудшает условия или связан с неблагоприятным режимом"
-            }
-          ],
-          "recommendations": [
-            "Когда ловить: лучше день и ближе к вечеру, когда вода успевает немного прогреться; раннее утро менее перспективно.",
-            "Дальность и скрытность: из-за мутности форель видит хуже, поэтому можно подходить ближе, но заброс должен попадать точнее к укрытиям, кромкам струи и спокойным карманам.",
-            "Модель ловли: видимость снижена, поэтому ставка на заметность. Используй вращающиеся блесны, небольшие колебалки или воблеры с выраженной игрой, веди приманку чуть медленнее и ближе к перспективным укрытиям.",
-            "Приманки: при умеренной мутности добавь контраст, яркую точку атаки, вращалку с вибрацией или воблер с более заметной игрой.",
-            "При северном или восточном ветре снизь ожидания и выбирай участки с более спокойной подачей.",
-            "Проводка: при холодной воде лучше искать более теплые дневные окна, вести медленно и давать приманке паузы у дна или на границе струи.",
-            "Поведение рыбы: стабильная погода и хорошее давление снижают риск внезапного провала клева, поэтому можно больше перемещаться и проверять активные точки."
-          ],
-          "warnings": [],
-          "appliedCaps": [],
-          "flags": [
-            "stable_weather",
-            "cloudy",
-            "unfavorable_wind",
-            "strong_gusts",
-            "muddy_risk"
-          ],
-          "raw": {
-            "estimatedWaterTemperatureC": 6.7,
-            "airTemperatureC": 2.9,
-            "pressureHPa": 1010.4,
-            "pressureMmHg": 758,
-            "pressureChange24hHPa": 3.6,
-            "pressureChange24hMmHg": 2.7,
-            "temperatureChange24hC": -1.7,
-            "precipitation24hMm": 0,
-            "precipitation72hMm": 30.3,
-            "cloudCoverPercent": 77,
-            "windDirection": "N",
-            "windDirectionDegrees": 343,
-            "windSpeedMs": 6.9,
-            "windGustsMs": 18.5,
-            "waterClarity": "moderately_muddy",
-            "waterClarityLabel": "умеренно мутная",
-            "waterLevel": "slightly_high",
-            "windDirectionPrevious": "N",
-            "windDirectionChangeDegrees": 0,
-            "windSpeedChange24hMs": -1,
-            "moonPhase": "unknown"
-          }
-        },
-        {
-          "date": "2026-04-29",
-          "index": 70,
-          "indexRaw": 70.38,
-          "rating": "перспективно",
-          "confidence": "low",
-          "summary": "Есть рабочие условия, но прогноз не без слабых мест. Главный риск: Сезонная фаза.",
-          "factors": [
-            {
-              "id": "waterTemperature",
-              "label": "Температура воды",
               "weight": 0.22,
               "weightPercent": 22,
-              "score": 65,
-              "contribution": 14.3,
-              "status": "нейтрально",
-              "explanation": "температура воды рабочая, но не идеальная"
-            },
-            {
-              "id": "season",
-              "label": "Сезонная фаза",
-              "weight": 0.21,
-              "weightPercent": 21,
-              "score": 55,
-              "contribution": 11.55,
-              "status": "нейтрально",
-              "explanation": "сезонная фаза ограничивает активность рыбы"
-            },
-            {
-              "id": "weatherChange",
-              "label": "Изменение погоды",
-              "weight": 0.16,
-              "weightPercent": 16,
-              "score": 76,
-              "contribution": 12.16,
+              "score": 89,
+              "contribution": 19.58,
               "status": "помогает",
-              "explanation": "погода достаточно стабильна"
+              "explanation": "давление и погода меняются в благоприятном или стабильном режиме"
             },
             {
               "id": "pressure",
               "label": "Атмосферное давление",
-              "weight": 0.13,
-              "weightPercent": 13,
+              "weight": 0.07,
+              "weightPercent": 7,
               "score": 79,
-              "contribution": 10.27,
+              "contribution": 5.53,
               "status": "помогает",
-              "explanation": "давление находится в хорошем для ручья диапазоне"
+              "explanation": "текущий барометрический фон комфортный"
             },
             {
               "id": "waterClarity",
               "label": "Прозрачность воды",
               "weight": 0.1,
               "weightPercent": 10,
-              "score": 84,
-              "contribution": 8.4,
+              "score": 88,
+              "contribution": 8.8,
               "status": "помогает",
               "explanation": "прозрачность воды помогает рыбе видеть приманку"
             },
@@ -4125,8 +2881,8 @@ window.LIVE_RESULTS = {
               "label": "Освещенность",
               "weight": 0.08,
               "weightPercent": 8,
-              "score": 78,
-              "contribution": 6.24,
+              "score": 92,
+              "contribution": 7.36,
               "status": "помогает",
               "explanation": "освещенность мягкая и не делает рыбу излишне осторожной"
             },
@@ -4135,8 +2891,8 @@ window.LIVE_RESULTS = {
               "label": "Ветер",
               "weight": 0.05,
               "weightPercent": 5,
-              "score": 78,
-              "contribution": 3.9,
+              "score": 96,
+              "contribution": 4.8,
               "status": "помогает",
               "explanation": "ветер по направлению и силе благоприятен"
             },
@@ -4163,13 +2919,512 @@ window.LIVE_RESULTS = {
           ],
           "positiveDrivers": [
             {
+              "factor": "Изменение погоды",
+              "score": 89,
+              "reason": "давление и погода меняются в благоприятном или стабильном режиме"
+            },
+            {
+              "factor": "Сезонная фаза",
+              "score": 86,
+              "reason": "сезонная фаза поддерживает кормовую активность"
+            },
+            {
+              "factor": "Прозрачность воды",
+              "score": 88,
+              "reason": "прозрачность воды помогает рыбе видеть приманку"
+            }
+          ],
+          "negativeDrivers": [],
+          "recommendations": [
+            "Когда ловить: лучше день и ближе к вечеру, когда вода успевает немного прогреться; раннее утро менее перспективно.",
+            "Дальность и скрытность: форель, скорее всего, видит рыболова далеко. Первые забросы делай с дальней дистанции, заходи низко и тихо, не выходи на открытый берег до проверки ближних точек.",
+            "Модель ловли: форель будет осторожнее обычного. Подходи ниже по течению, держи дистанцию, делай первые забросы издалека и начинай с натуральных воблеров, микроколебалок или мягкой резины без лишнего блеска.",
+            "На низкой воде ищи ямки, тень, укрытия и локальные стоянки, не заходи в воду без необходимости.",
+            "Проводка: при холодной воде лучше искать более теплые дневные окна, вести медленно и давать приманке паузы у дна или на границе струи.",
+            "Поведение рыбы: плавное снижение давления похоже на предфронтовое окно. При облачности и влажности форель может смелее выходить из укрытий, но следи за мутностью воды."
+          ],
+          "warnings": [],
+          "appliedCaps": [],
+          "flags": [
+            "stable_weather",
+            "smooth_pressure_fall",
+            "prefrontal_window",
+            "cloudy",
+            "favorable_wind",
+            "clear_low_water"
+          ],
+          "raw": {
+            "estimatedWaterTemperatureC": 8.6,
+            "airTemperatureC": 8.2,
+            "pressureHPa": 1018.2,
+            "pressureMmHg": 764,
+            "pressureChange24hHPa": -2.5,
+            "pressureChange24hMmHg": -1.9,
+            "pressureAmplitude72hMmHg": 7,
+            "pressureDirectionChanges72h": 1,
+            "pressureTrendKind": "unstable",
+            "temperatureChange24hC": 5.2,
+            "precipitation24hMm": 0,
+            "precipitation72hMm": 0,
+            "cloudCoverPercent": 90,
+            "windDirection": "SW",
+            "windDirectionDegrees": 221,
+            "windSpeedMs": 2.3,
+            "windGustsMs": 9.6,
+            "waterClarity": "clear",
+            "waterClarityLabel": "прозрачная",
+            "waterLevel": "slightly_low",
+            "windDirectionPrevious": "SW",
+            "windDirectionChangeDegrees": 0,
+            "windSpeedChange24hMs": 0.5,
+            "moonPhase": "unknown"
+          }
+        },
+        {
+          "date": "2026-05-02",
+          "index": 86,
+          "indexRaw": 85.75,
+          "rating": "отлично",
+          "confidence": "medium",
+          "summary": "Очень сильное сочетание условий. Главный плюс: Температура воды.",
+          "factors": [
+            {
+              "id": "waterTemperature",
+              "label": "Температура воды",
+              "weight": 0.22,
+              "weightPercent": 22,
+              "score": 98,
+              "contribution": 21.56,
+              "status": "помогает",
+              "explanation": "температурный фон воды близок к рабочей зоне форели"
+            },
+            {
+              "id": "season",
+              "label": "Сезонная фаза",
+              "weight": 0.21,
+              "weightPercent": 21,
+              "score": 86,
+              "contribution": 18.06,
+              "status": "помогает",
+              "explanation": "сезонная фаза поддерживает кормовую активность"
+            },
+            {
+              "id": "weatherChange",
+              "label": "Изменение погоды",
+              "weight": 0.22,
+              "weightPercent": 22,
+              "score": 69,
+              "contribution": 15.18,
+              "status": "нейтрально",
+              "explanation": "есть заметные изменения погоды, прогноз требует осторожности"
+            },
+            {
+              "id": "pressure",
+              "label": "Атмосферное давление",
+              "weight": 0.07,
+              "weightPercent": 7,
+              "score": 99,
+              "contribution": 6.93,
+              "status": "помогает",
+              "explanation": "текущий барометрический фон комфортный"
+            },
+            {
+              "id": "waterClarity",
+              "label": "Прозрачность воды",
+              "weight": 0.1,
+              "weightPercent": 10,
+              "score": 88,
+              "contribution": 8.8,
+              "status": "помогает",
+              "explanation": "прозрачность воды помогает рыбе видеть приманку"
+            },
+            {
+              "id": "light",
+              "label": "Освещенность",
+              "weight": 0.08,
+              "weightPercent": 8,
+              "score": 92,
+              "contribution": 7.36,
+              "status": "помогает",
+              "explanation": "освещенность мягкая и не делает рыбу излишне осторожной"
+            },
+            {
+              "id": "wind",
+              "label": "Ветер",
+              "weight": 0.05,
+              "weightPercent": 5,
+              "score": 86,
+              "contribution": 4.3,
+              "status": "помогает",
+              "explanation": "ветер по направлению и силе благоприятен"
+            },
+            {
+              "id": "waterLevel",
+              "label": "Уровень воды",
+              "weight": 0.03,
+              "weightPercent": 3,
+              "score": 82,
+              "contribution": 2.46,
+              "status": "помогает",
+              "explanation": "уровень воды без крайних отклонений"
+            },
+            {
+              "id": "moon",
+              "label": "Луна",
+              "weight": 0.02,
+              "weightPercent": 2,
+              "score": 55,
+              "contribution": 1.1,
+              "status": "нейтрально",
+              "explanation": "лунный фактор не поддерживает прогноз"
+            }
+          ],
+          "positiveDrivers": [
+            {
+              "factor": "Температура воды",
+              "score": 98,
+              "reason": "температурный фон воды близок к рабочей зоне форели"
+            },
+            {
+              "factor": "Сезонная фаза",
+              "score": 86,
+              "reason": "сезонная фаза поддерживает кормовую активность"
+            },
+            {
+              "factor": "Прозрачность воды",
+              "score": 88,
+              "reason": "прозрачность воды помогает рыбе видеть приманку"
+            }
+          ],
+          "negativeDrivers": [],
+          "recommendations": [
+            "Когда ловить: начни с утра или вечера, а днем смещайся к тени, глубине и участкам с более спокойной подачей.",
+            "Дальность и скрытность: форель, скорее всего, видит рыболова далеко. Первые забросы делай с дальней дистанции, заходи низко и тихо, не выходи на открытый берег до проверки ближних точек.",
+            "Модель ловли: форель будет осторожнее обычного. Подходи ниже по течению, держи дистанцию, делай первые забросы издалека и начинай с натуральных воблеров, микроколебалок или мягкой резины без лишнего блеска.",
+            "На низкой воде ищи ямки, тень, укрытия и локальные стоянки, не заходи в воду без необходимости.",
+            "Поведение рыбы: плавное снижение давления похоже на предфронтовое окно. При облачности и влажности форель может смелее выходить из укрытий, но следи за мутностью воды."
+          ],
+          "warnings": [
+            "давление резко падает, это может дать короткое окно активности и последующий провал"
+          ],
+          "appliedCaps": [],
+          "flags": [
+            "sharp_pressure_drop",
+            "prefrontal_window",
+            "cloudy",
+            "favorable_wind",
+            "strong_gusts",
+            "clear_low_water"
+          ],
+          "raw": {
+            "estimatedWaterTemperatureC": 9.4,
+            "airTemperatureC": 11,
+            "pressureHPa": 1008.4,
+            "pressureMmHg": 756,
+            "pressureChange24hHPa": -9.8,
+            "pressureChange24hMmHg": -7.4,
+            "pressureAmplitude72hMmHg": 10,
+            "pressureDirectionChanges72h": 0,
+            "pressureTrendKind": "directional",
+            "temperatureChange24hC": 2.8,
+            "precipitation24hMm": 0,
+            "precipitation72hMm": 0,
+            "cloudCoverPercent": 76,
+            "windDirection": "SW",
+            "windDirectionDegrees": 224,
+            "windSpeedMs": 4.6,
+            "windGustsMs": 12.5,
+            "waterClarity": "clear",
+            "waterClarityLabel": "прозрачная",
+            "waterLevel": "slightly_low",
+            "windDirectionPrevious": "SW",
+            "windDirectionChangeDegrees": 0,
+            "windSpeedChange24hMs": 2.3,
+            "moonPhase": "unknown"
+          }
+        },
+        {
+          "date": "2026-05-03",
+          "index": 90,
+          "indexRaw": 89.77,
+          "rating": "отлично",
+          "confidence": "medium",
+          "summary": "Очень сильное сочетание условий. Главный плюс: Температура воды.",
+          "factors": [
+            {
+              "id": "waterTemperature",
+              "label": "Температура воды",
+              "weight": 0.22,
+              "weightPercent": 22,
+              "score": 98,
+              "contribution": 21.56,
+              "status": "помогает",
+              "explanation": "температурный фон воды близок к рабочей зоне форели"
+            },
+            {
+              "id": "season",
+              "label": "Сезонная фаза",
+              "weight": 0.21,
+              "weightPercent": 21,
+              "score": 86,
+              "contribution": 18.06,
+              "status": "помогает",
+              "explanation": "сезонная фаза поддерживает кормовую активность"
+            },
+            {
+              "id": "weatherChange",
+              "label": "Изменение погоды",
+              "weight": 0.22,
+              "weightPercent": 22,
+              "score": 88,
+              "contribution": 19.36,
+              "status": "помогает",
+              "explanation": "давление и погода меняются в благоприятном или стабильном режиме"
+            },
+            {
+              "id": "pressure",
+              "label": "Атмосферное давление",
+              "weight": 0.07,
+              "weightPercent": 7,
+              "score": 97,
+              "contribution": 6.79,
+              "status": "помогает",
+              "explanation": "текущий барометрический фон комфортный"
+            },
+            {
+              "id": "waterClarity",
+              "label": "Прозрачность воды",
+              "weight": 0.1,
+              "weightPercent": 10,
+              "score": 95,
+              "contribution": 9.5,
+              "status": "помогает",
+              "explanation": "прозрачность воды помогает рыбе видеть приманку"
+            },
+            {
+              "id": "light",
+              "label": "Освещенность",
+              "weight": 0.08,
+              "weightPercent": 8,
+              "score": 78,
+              "contribution": 6.24,
+              "status": "помогает",
+              "explanation": "освещенность мягкая и не делает рыбу излишне осторожной"
+            },
+            {
+              "id": "wind",
+              "label": "Ветер",
+              "weight": 0.05,
+              "weightPercent": 5,
+              "score": 94,
+              "contribution": 4.7,
+              "status": "помогает",
+              "explanation": "ветер по направлению и силе благоприятен"
+            },
+            {
+              "id": "waterLevel",
+              "label": "Уровень воды",
+              "weight": 0.03,
+              "weightPercent": 3,
+              "score": 82,
+              "contribution": 2.46,
+              "status": "помогает",
+              "explanation": "уровень воды без крайних отклонений"
+            },
+            {
+              "id": "moon",
+              "label": "Луна",
+              "weight": 0.02,
+              "weightPercent": 2,
+              "score": 55,
+              "contribution": 1.1,
+              "status": "нейтрально",
+              "explanation": "лунный фактор не поддерживает прогноз"
+            }
+          ],
+          "positiveDrivers": [
+            {
+              "factor": "Температура воды",
+              "score": 98,
+              "reason": "температурный фон воды близок к рабочей зоне форели"
+            },
+            {
+              "factor": "Изменение погоды",
+              "score": 88,
+              "reason": "давление и погода меняются в благоприятном или стабильном режиме"
+            },
+            {
+              "factor": "Сезонная фаза",
+              "score": 86,
+              "reason": "сезонная фаза поддерживает кормовую активность"
+            }
+          ],
+          "negativeDrivers": [],
+          "recommendations": [
+            "Когда ловить: утро, день и вечер рабочие; мягкая облачность и стабильная погода позволяют не привязываться жестко ко времени.",
+            "Дальность и скрытность: осторожность повышена. Начинай издалека, двигайся медленно, используй береговые укрытия и не становись силуэтом на фоне неба.",
+            "Модель ловли: рыба должна быть достаточно активной. Начни с маленького воблера-минноу или вращающейся блесны, облавливай перекаты, кромки струи и входы в ямы.",
+            "Приманки: слегка чайная прозрачная вода хороша для меди, золота, темных силуэтов, маленьких колебалок и минноу с умеренным контрастом.",
+            "На низкой воде ищи ямки, тень, укрытия и локальные стоянки, не заходи в воду без необходимости.",
+            "Подача: легкая рябь и мягкий свет позволяют ловить активнее: равномерная проводка вращалки или воблера поперек/на снос будет хорошей стартовой схемой.",
+            "Поведение рыбы: плавное снижение давления похоже на предфронтовое окно. При облачности и влажности форель может смелее выходить из укрытий, но следи за мутностью воды."
+          ],
+          "warnings": [],
+          "appliedCaps": [],
+          "flags": [
+            "stable_weather",
+            "smooth_pressure_fall",
+            "prefrontal_window",
+            "cloudy",
+            "favorable_wind",
+            "tea_clear_water",
+            "clear_low_water"
+          ],
+          "raw": {
+            "estimatedWaterTemperatureC": 9.5,
+            "airTemperatureC": 9.2,
+            "pressureHPa": 1005.1,
+            "pressureMmHg": 754,
+            "pressureChange24hHPa": -3.3,
+            "pressureChange24hMmHg": -2.5,
+            "pressureAmplitude72hMmHg": 12,
+            "pressureDirectionChanges72h": 0,
+            "pressureTrendKind": "directional",
+            "temperatureChange24hC": -1.8,
+            "precipitation24hMm": 0.9,
+            "precipitation72hMm": 0.9,
+            "cloudCoverPercent": 92,
+            "windDirection": "W",
+            "windDirectionDegrees": 267,
+            "windSpeedMs": 3.8,
+            "windGustsMs": 10.5,
+            "waterClarity": "slightly_tea_clear",
+            "waterClarityLabel": "слегка чайная прозрачная",
+            "waterLevel": "slightly_low",
+            "windDirectionPrevious": "SW",
+            "windDirectionChangeDegrees": 45,
+            "windSpeedChange24hMs": -0.8,
+            "moonPhase": "unknown"
+          }
+        }
+      ]
+    },
+    "north_west": {
+      "summary": "Северо-запад Ленинградской области: Выборг. Реальные погодные данные, гидрология рассчитана косвенно.",
+      "forecast": [
+        {
+          "date": "2026-04-29",
+          "index": 69,
+          "indexRaw": 69.3,
+          "rating": "перспективно",
+          "confidence": "medium",
+          "summary": "Есть рабочие условия, но прогноз не без слабых мест. Главный риск: Сезонная фаза.",
+          "factors": [
+            {
+              "id": "waterTemperature",
+              "label": "Температура воды",
+              "weight": 0.22,
+              "weightPercent": 22,
+              "score": 66,
+              "contribution": 14.52,
+              "status": "нейтрально",
+              "explanation": "температура воды рабочая, но не идеальная"
+            },
+            {
+              "id": "season",
+              "label": "Сезонная фаза",
+              "weight": 0.21,
+              "weightPercent": 21,
+              "score": 55,
+              "contribution": 11.55,
+              "status": "нейтрально",
+              "explanation": "сезонная фаза ограничивает активность рыбы"
+            },
+            {
+              "id": "weatherChange",
+              "label": "Изменение погоды",
+              "weight": 0.22,
+              "weightPercent": 22,
+              "score": 66,
+              "contribution": 14.52,
+              "status": "нейтрально",
+              "explanation": "есть заметные изменения погоды, прогноз требует осторожности"
+            },
+            {
+              "id": "pressure",
+              "label": "Атмосферное давление",
+              "weight": 0.07,
+              "weightPercent": 7,
+              "score": 75,
+              "contribution": 5.25,
+              "status": "помогает",
+              "explanation": "текущий барометрический фон комфортный"
+            },
+            {
+              "id": "waterClarity",
+              "label": "Прозрачность воды",
+              "weight": 0.1,
+              "weightPercent": 10,
+              "score": 84,
+              "contribution": 8.4,
+              "status": "помогает",
+              "explanation": "прозрачность воды помогает рыбе видеть приманку"
+            },
+            {
+              "id": "light",
+              "label": "Освещенность",
+              "weight": 0.08,
+              "weightPercent": 8,
+              "score": 92,
+              "contribution": 7.36,
+              "status": "помогает",
+              "explanation": "освещенность мягкая и не делает рыбу излишне осторожной"
+            },
+            {
+              "id": "wind",
+              "label": "Ветер",
+              "weight": 0.05,
+              "weightPercent": 5,
+              "score": 78,
+              "contribution": 3.9,
+              "status": "помогает",
+              "explanation": "ветер по направлению и силе благоприятен"
+            },
+            {
+              "id": "waterLevel",
+              "label": "Уровень воды",
+              "weight": 0.03,
+              "weightPercent": 3,
+              "score": 90,
+              "contribution": 2.7,
+              "status": "помогает",
+              "explanation": "уровень воды без крайних отклонений"
+            },
+            {
+              "id": "moon",
+              "label": "Луна",
+              "weight": 0.02,
+              "weightPercent": 2,
+              "score": 55,
+              "contribution": 1.1,
+              "status": "нейтрально",
+              "explanation": "лунный фактор не поддерживает прогноз"
+            }
+          ],
+          "positiveDrivers": [
+            {
               "factor": "Прозрачность воды",
               "score": 84,
               "reason": "прозрачность воды помогает рыбе видеть приманку"
             },
             {
+              "factor": "Освещенность",
+              "score": 92,
+              "reason": "освещенность мягкая и не делает рыбу излишне осторожной"
+            },
+            {
               "factor": "Уровень воды",
-              "score": 82,
+              "score": 90,
               "reason": "уровень воды без крайних отклонений"
             }
           ],
@@ -4184,37 +3439,694 @@ window.LIVE_RESULTS = {
             "Когда ловить: лучше день и ближе к вечеру, когда вода успевает немного прогреться; раннее утро менее перспективно.",
             "Дальность и скрытность: слегка окрашенная вода или рябь маскируют рыболова. Дистанция нужна умеренная, можно активнее проверять ближние карманы перед дальними забросами.",
             "Модель ловли: вода холодная, рыба может быть вялой. Лучше медленная подача: микроколебалка на снос, силикон на легкой головке, короткие паузы и облов глубоких ям.",
+            "Проводка: при холодной воде лучше искать более теплые дневные окна, вести медленно и давать приманке паузы у дна или на границе струи."
+          ],
+          "warnings": [],
+          "appliedCaps": [],
+          "flags": [],
+          "raw": {
+            "estimatedWaterTemperatureC": 6.9,
+            "airTemperatureC": 3.8,
+            "pressureHPa": 1021.3,
+            "pressureMmHg": 766,
+            "pressureChange24hHPa": 8.1,
+            "pressureChange24hMmHg": 6.1,
+            "pressureAmplitude72hMmHg": 20,
+            "pressureDirectionChanges72h": 0,
+            "pressureTrendKind": "directional",
+            "temperatureChange24hC": 0.8,
+            "precipitation24hMm": 0,
+            "precipitation72hMm": 12.9,
+            "cloudCoverPercent": 53,
+            "windDirection": "NW",
+            "windDirectionDegrees": 335,
+            "windSpeedMs": 3.8,
+            "windGustsMs": 9,
+            "waterClarity": "slightly_colored_clear",
+            "waterClarityLabel": "слегка окрашенная прозрачная",
+            "waterLevel": "normal",
+            "windDirectionPrevious": "N",
+            "windDirectionChangeDegrees": 45,
+            "windSpeedChange24hMs": -3.3,
+            "moonPhase": "unknown"
+          }
+        },
+        {
+          "date": "2026-04-30",
+          "index": 75,
+          "indexRaw": 75.02,
+          "rating": "хорошо",
+          "confidence": "medium",
+          "summary": "Условия хорошие, но стоит следить за локальными особенностями ручья. Главный плюс: Изменение погоды.",
+          "factors": [
+            {
+              "id": "waterTemperature",
+              "label": "Температура воды",
+              "weight": 0.22,
+              "weightPercent": 22,
+              "score": 66,
+              "contribution": 14.52,
+              "status": "нейтрально",
+              "explanation": "температура воды рабочая, но не идеальная"
+            },
+            {
+              "id": "season",
+              "label": "Сезонная фаза",
+              "weight": 0.21,
+              "weightPercent": 21,
+              "score": 55,
+              "contribution": 11.55,
+              "status": "нейтрально",
+              "explanation": "сезонная фаза ограничивает активность рыбы"
+            },
+            {
+              "id": "weatherChange",
+              "label": "Изменение погоды",
+              "weight": 0.22,
+              "weightPercent": 22,
+              "score": 84,
+              "contribution": 18.48,
+              "status": "помогает",
+              "explanation": "давление и погода меняются в благоприятном или стабильном режиме"
+            },
+            {
+              "id": "pressure",
+              "label": "Атмосферное давление",
+              "weight": 0.07,
+              "weightPercent": 7,
+              "score": 75,
+              "contribution": 5.25,
+              "status": "помогает",
+              "explanation": "текущий барометрический фон комфортный"
+            },
+            {
+              "id": "waterClarity",
+              "label": "Прозрачность воды",
+              "weight": 0.1,
+              "weightPercent": 10,
+              "score": 95,
+              "contribution": 9.5,
+              "status": "помогает",
+              "explanation": "прозрачность воды помогает рыбе видеть приманку"
+            },
+            {
+              "id": "light",
+              "label": "Освещенность",
+              "weight": 0.08,
+              "weightPercent": 8,
+              "score": 92,
+              "contribution": 7.36,
+              "status": "помогает",
+              "explanation": "освещенность мягкая и не делает рыбу излишне осторожной"
+            },
+            {
+              "id": "wind",
+              "label": "Ветер",
+              "weight": 0.05,
+              "weightPercent": 5,
+              "score": 96,
+              "contribution": 4.8,
+              "status": "помогает",
+              "explanation": "ветер по направлению и силе благоприятен"
+            },
+            {
+              "id": "waterLevel",
+              "label": "Уровень воды",
+              "weight": 0.03,
+              "weightPercent": 3,
+              "score": 82,
+              "contribution": 2.46,
+              "status": "помогает",
+              "explanation": "уровень воды без крайних отклонений"
+            },
+            {
+              "id": "moon",
+              "label": "Луна",
+              "weight": 0.02,
+              "weightPercent": 2,
+              "score": 55,
+              "contribution": 1.1,
+              "status": "нейтрально",
+              "explanation": "лунный фактор не поддерживает прогноз"
+            }
+          ],
+          "positiveDrivers": [
+            {
+              "factor": "Изменение погоды",
+              "score": 84,
+              "reason": "давление и погода меняются в благоприятном или стабильном режиме"
+            },
+            {
+              "factor": "Прозрачность воды",
+              "score": 95,
+              "reason": "прозрачность воды помогает рыбе видеть приманку"
+            },
+            {
+              "factor": "Освещенность",
+              "score": 92,
+              "reason": "освещенность мягкая и не делает рыбу излишне осторожной"
+            }
+          ],
+          "negativeDrivers": [
+            {
+              "factor": "Сезонная фаза",
+              "score": 55,
+              "reason": "сезонная фаза ограничивает активность рыбы"
+            }
+          ],
+          "recommendations": [
+            "Когда ловить: лучше день и ближе к вечеру, когда вода успевает немного прогреться; раннее утро менее перспективно.",
+            "Дальность и скрытность: осторожность повышена. Начинай издалека, двигайся медленно, используй береговые укрытия и не становись силуэтом на фоне неба.",
+            "Модель ловли: форель будет осторожнее обычного. Подходи ниже по течению, держи дистанцию, делай первые забросы издалека и начинай с натуральных воблеров, микроколебалок или мягкой резины без лишнего блеска.",
+            "Приманки: слегка чайная прозрачная вода хороша для меди, золота, темных силуэтов, маленьких колебалок и минноу с умеренным контрастом.",
+            "На низкой воде ищи ямки, тень, укрытия и локальные стоянки, не заходи в воду без необходимости.",
+            "Проводка: при холодной воде лучше искать более теплые дневные окна, вести медленно и давать приманке паузы у дна или на границе струи."
+          ],
+          "warnings": [
+            "ветер заметно меняется по направлению или силе, погодный режим нестабилен"
+          ],
+          "appliedCaps": [],
+          "flags": [
+            "stable_weather",
+            "wind_direction_shift",
+            "cloudy",
+            "favorable_wind",
+            "tea_clear_water",
+            "clear_low_water"
+          ],
+          "raw": {
+            "estimatedWaterTemperatureC": 6.9,
+            "airTemperatureC": 3.8,
+            "pressureHPa": 1021.2,
+            "pressureMmHg": 766,
+            "pressureChange24hHPa": -0.1,
+            "pressureChange24hMmHg": -0.1,
+            "pressureAmplitude72hMmHg": 10,
+            "pressureDirectionChanges72h": 0,
+            "pressureTrendKind": "directional",
+            "temperatureChange24hC": 0,
+            "precipitation24hMm": 0,
+            "precipitation72hMm": 0.8,
+            "cloudCoverPercent": 83,
+            "windDirection": "SW",
+            "windDirectionDegrees": 214,
+            "windSpeedMs": 1.8,
+            "windGustsMs": 7,
+            "waterClarity": "slightly_tea_clear",
+            "waterClarityLabel": "слегка чайная прозрачная",
+            "waterLevel": "slightly_low",
+            "windDirectionPrevious": "NW",
+            "windDirectionChangeDegrees": 90,
+            "windSpeedChange24hMs": -2,
+            "moonPhase": "unknown"
+          }
+        },
+        {
+          "date": "2026-05-01",
+          "index": 85,
+          "indexRaw": 85.48,
+          "rating": "хорошо",
+          "confidence": "medium",
+          "summary": "Условия хорошие, но стоит следить за локальными особенностями ручья. Главный плюс: Изменение погоды.",
+          "factors": [
+            {
+              "id": "waterTemperature",
+              "label": "Температура воды",
+              "weight": 0.22,
+              "weightPercent": 22,
+              "score": 76,
+              "contribution": 16.72,
+              "status": "помогает",
+              "explanation": "температурный фон воды близок к рабочей зоне форели"
+            },
+            {
+              "id": "season",
+              "label": "Сезонная фаза",
+              "weight": 0.21,
+              "weightPercent": 21,
+              "score": 86,
+              "contribution": 18.06,
+              "status": "помогает",
+              "explanation": "сезонная фаза поддерживает кормовую активность"
+            },
+            {
+              "id": "weatherChange",
+              "label": "Изменение погоды",
+              "weight": 0.22,
+              "weightPercent": 22,
+              "score": 91,
+              "contribution": 20.02,
+              "status": "помогает",
+              "explanation": "давление и погода меняются в благоприятном или стабильном режиме"
+            },
+            {
+              "id": "pressure",
+              "label": "Атмосферное давление",
+              "weight": 0.07,
+              "weightPercent": 7,
+              "score": 78,
+              "contribution": 5.46,
+              "status": "помогает",
+              "explanation": "текущий барометрический фон комфортный"
+            },
+            {
+              "id": "waterClarity",
+              "label": "Прозрачность воды",
+              "weight": 0.1,
+              "weightPercent": 10,
+              "score": 95,
+              "contribution": 9.5,
+              "status": "помогает",
+              "explanation": "прозрачность воды помогает рыбе видеть приманку"
+            },
+            {
+              "id": "light",
+              "label": "Освещенность",
+              "weight": 0.08,
+              "weightPercent": 8,
+              "score": 92,
+              "contribution": 7.36,
+              "status": "помогает",
+              "explanation": "освещенность мягкая и не делает рыбу излишне осторожной"
+            },
+            {
+              "id": "wind",
+              "label": "Ветер",
+              "weight": 0.05,
+              "weightPercent": 5,
+              "score": 96,
+              "contribution": 4.8,
+              "status": "помогает",
+              "explanation": "ветер по направлению и силе благоприятен"
+            },
+            {
+              "id": "waterLevel",
+              "label": "Уровень воды",
+              "weight": 0.03,
+              "weightPercent": 3,
+              "score": 82,
+              "contribution": 2.46,
+              "status": "помогает",
+              "explanation": "уровень воды без крайних отклонений"
+            },
+            {
+              "id": "moon",
+              "label": "Луна",
+              "weight": 0.02,
+              "weightPercent": 2,
+              "score": 55,
+              "contribution": 1.1,
+              "status": "нейтрально",
+              "explanation": "лунный фактор не поддерживает прогноз"
+            }
+          ],
+          "positiveDrivers": [
+            {
+              "factor": "Изменение погоды",
+              "score": 91,
+              "reason": "давление и погода меняются в благоприятном или стабильном режиме"
+            },
+            {
+              "factor": "Сезонная фаза",
+              "score": 86,
+              "reason": "сезонная фаза поддерживает кормовую активность"
+            },
+            {
+              "factor": "Прозрачность воды",
+              "score": 95,
+              "reason": "прозрачность воды помогает рыбе видеть приманку"
+            }
+          ],
+          "negativeDrivers": [],
+          "recommendations": [
+            "Когда ловить: лучше день и ближе к вечеру, когда вода успевает немного прогреться; раннее утро менее перспективно.",
+            "Дальность и скрытность: осторожность повышена. Начинай издалека, двигайся медленно, используй береговые укрытия и не становись силуэтом на фоне неба.",
+            "Модель ловли: форель будет осторожнее обычного. Подходи ниже по течению, держи дистанцию, делай первые забросы издалека и начинай с натуральных воблеров, микроколебалок или мягкой резины без лишнего блеска.",
+            "Приманки: слегка чайная прозрачная вода хороша для меди, золота, темных силуэтов, маленьких колебалок и минноу с умеренным контрастом.",
+            "На низкой воде ищи ямки, тень, укрытия и локальные стоянки, не заходи в воду без необходимости.",
             "Проводка: при холодной воде лучше искать более теплые дневные окна, вести медленно и давать приманке паузы у дна или на границе струи.",
-            "Поведение рыбы: стабильная погода и хорошее давление снижают риск внезапного провала клева, поэтому можно больше перемещаться и проверять активные точки."
+            "Поведение рыбы: плавное снижение давления похоже на предфронтовое окно. При облачности и влажности форель может смелее выходить из укрытий, но следи за мутностью воды."
           ],
           "warnings": [],
           "appliedCaps": [],
           "flags": [
             "stable_weather",
+            "smooth_pressure_fall",
+            "prefrontal_window",
             "cloudy",
-            "strong_gusts"
+            "favorable_wind",
+            "tea_clear_water",
+            "clear_low_water"
           ],
           "raw": {
-            "estimatedWaterTemperatureC": 6.7,
-            "airTemperatureC": 3.3,
-            "pressureHPa": 1019.1,
+            "estimatedWaterTemperatureC": 8.4,
+            "airTemperatureC": 7.6,
+            "pressureHPa": 1018.8,
             "pressureMmHg": 764,
-            "pressureChange24hHPa": 8.7,
-            "pressureChange24hMmHg": 6.5,
-            "temperatureChange24hC": 0.4,
+            "pressureChange24hHPa": -2.4,
+            "pressureChange24hMmHg": -1.8,
+            "pressureAmplitude72hMmHg": 6,
+            "pressureDirectionChanges72h": 1,
+            "pressureTrendKind": "unstable",
+            "temperatureChange24hC": 3.8,
+            "precipitation24hMm": 0.2,
+            "precipitation72hMm": 0.2,
+            "cloudCoverPercent": 74,
+            "windDirection": "SW",
+            "windDirectionDegrees": 210,
+            "windSpeedMs": 2.7,
+            "windGustsMs": 10.6,
+            "waterClarity": "slightly_tea_clear",
+            "waterClarityLabel": "слегка чайная прозрачная",
+            "waterLevel": "slightly_low",
+            "windDirectionPrevious": "SW",
+            "windDirectionChangeDegrees": 0,
+            "windSpeedChange24hMs": 0.9,
+            "moonPhase": "unknown"
+          }
+        },
+        {
+          "date": "2026-05-02",
+          "index": 84,
+          "indexRaw": 83.65,
+          "rating": "хорошо",
+          "confidence": "medium",
+          "summary": "Условия хорошие, но стоит следить за локальными особенностями ручья. Главный плюс: Сезонная фаза.",
+          "factors": [
+            {
+              "id": "waterTemperature",
+              "label": "Температура воды",
+              "weight": 0.22,
+              "weightPercent": 22,
+              "score": 80,
+              "contribution": 17.6,
+              "status": "помогает",
+              "explanation": "температурный фон воды близок к рабочей зоне форели"
+            },
+            {
+              "id": "season",
+              "label": "Сезонная фаза",
+              "weight": 0.21,
+              "weightPercent": 21,
+              "score": 86,
+              "contribution": 18.06,
+              "status": "помогает",
+              "explanation": "сезонная фаза поддерживает кормовую активность"
+            },
+            {
+              "id": "weatherChange",
+              "label": "Изменение погоды",
+              "weight": 0.22,
+              "weightPercent": 22,
+              "score": 72,
+              "contribution": 15.84,
+              "status": "нейтрально",
+              "explanation": "есть заметные изменения погоды, прогноз требует осторожности"
+            },
+            {
+              "id": "pressure",
+              "label": "Атмосферное давление",
+              "weight": 0.07,
+              "weightPercent": 7,
+              "score": 99,
+              "contribution": 6.93,
+              "status": "помогает",
+              "explanation": "текущий барометрический фон комфортный"
+            },
+            {
+              "id": "waterClarity",
+              "label": "Прозрачность воды",
+              "weight": 0.1,
+              "weightPercent": 10,
+              "score": 95,
+              "contribution": 9.5,
+              "status": "помогает",
+              "explanation": "прозрачность воды помогает рыбе видеть приманку"
+            },
+            {
+              "id": "light",
+              "label": "Освещенность",
+              "weight": 0.08,
+              "weightPercent": 8,
+              "score": 92,
+              "contribution": 7.36,
+              "status": "помогает",
+              "explanation": "освещенность мягкая и не делает рыбу излишне осторожной"
+            },
+            {
+              "id": "wind",
+              "label": "Ветер",
+              "weight": 0.05,
+              "weightPercent": 5,
+              "score": 96,
+              "contribution": 4.8,
+              "status": "помогает",
+              "explanation": "ветер по направлению и силе благоприятен"
+            },
+            {
+              "id": "waterLevel",
+              "label": "Уровень воды",
+              "weight": 0.03,
+              "weightPercent": 3,
+              "score": 82,
+              "contribution": 2.46,
+              "status": "помогает",
+              "explanation": "уровень воды без крайних отклонений"
+            },
+            {
+              "id": "moon",
+              "label": "Луна",
+              "weight": 0.02,
+              "weightPercent": 2,
+              "score": 55,
+              "contribution": 1.1,
+              "status": "нейтрально",
+              "explanation": "лунный фактор не поддерживает прогноз"
+            }
+          ],
+          "positiveDrivers": [
+            {
+              "factor": "Сезонная фаза",
+              "score": 86,
+              "reason": "сезонная фаза поддерживает кормовую активность"
+            },
+            {
+              "factor": "Температура воды",
+              "score": 80,
+              "reason": "температурный фон воды близок к рабочей зоне форели"
+            },
+            {
+              "factor": "Прозрачность воды",
+              "score": 95,
+              "reason": "прозрачность воды помогает рыбе видеть приманку"
+            }
+          ],
+          "negativeDrivers": [],
+          "recommendations": [
+            "Когда ловить: лучше день и ближе к вечеру, когда вода успевает немного прогреться; раннее утро менее перспективно.",
+            "Дальность и скрытность: осторожность повышена. Начинай издалека, двигайся медленно, используй береговые укрытия и не становись силуэтом на фоне неба.",
+            "Модель ловли: форель будет осторожнее обычного. Подходи ниже по течению, держи дистанцию, делай первые забросы издалека и начинай с натуральных воблеров, микроколебалок или мягкой резины без лишнего блеска.",
+            "Приманки: слегка чайная прозрачная вода хороша для меди, золота, темных силуэтов, маленьких колебалок и минноу с умеренным контрастом.",
+            "На низкой воде ищи ямки, тень, укрытия и локальные стоянки, не заходи в воду без необходимости.",
+            "Проводка: при холодной воде лучше искать более теплые дневные окна, вести медленно и давать приманке паузы у дна или на границе струи."
+          ],
+          "warnings": [
+            "давление резко падает, это может дать короткое окно активности и последующий провал"
+          ],
+          "appliedCaps": [],
+          "flags": [
+            "sharp_pressure_drop",
+            "favorable_wind",
+            "strong_gusts",
+            "tea_clear_water",
+            "clear_low_water"
+          ],
+          "raw": {
+            "estimatedWaterTemperatureC": 9,
+            "airTemperatureC": 8.9,
+            "pressureHPa": 1009.1,
+            "pressureMmHg": 757,
+            "pressureChange24hHPa": -9.7,
+            "pressureChange24hMmHg": -7.3,
+            "pressureAmplitude72hMmHg": 9,
+            "pressureDirectionChanges72h": 0,
+            "pressureTrendKind": "directional",
+            "temperatureChange24hC": 1.3,
             "precipitation24hMm": 0,
-            "precipitation72hMm": 18.7,
-            "cloudCoverPercent": 95,
-            "windDirection": "NW",
-            "windDirectionDegrees": 336,
-            "windSpeedMs": 3.9,
+            "precipitation72hMm": 0.2,
+            "cloudCoverPercent": 54,
+            "windDirection": "SW",
+            "windDirectionDegrees": 207,
+            "windSpeedMs": 3.7,
             "windGustsMs": 12.2,
-            "waterClarity": "slightly_colored_clear",
-            "waterClarityLabel": "слегка окрашенная прозрачная",
-            "waterLevel": "slightly_high",
-            "windDirectionPrevious": "N",
-            "windDirectionChangeDegrees": 45,
-            "windSpeedChange24hMs": -3,
+            "waterClarity": "slightly_tea_clear",
+            "waterClarityLabel": "слегка чайная прозрачная",
+            "waterLevel": "slightly_low",
+            "windDirectionPrevious": "SW",
+            "windDirectionChangeDegrees": 0,
+            "windSpeedChange24hMs": 1,
+            "moonPhase": "unknown"
+          }
+        },
+        {
+          "date": "2026-05-03",
+          "index": 90,
+          "indexRaw": 90.18,
+          "rating": "отлично",
+          "confidence": "medium",
+          "summary": "Очень сильное сочетание условий. Главный плюс: Температура воды.",
+          "factors": [
+            {
+              "id": "waterTemperature",
+              "label": "Температура воды",
+              "weight": 0.22,
+              "weightPercent": 22,
+              "score": 98,
+              "contribution": 21.56,
+              "status": "помогает",
+              "explanation": "температурный фон воды близок к рабочей зоне форели"
+            },
+            {
+              "id": "season",
+              "label": "Сезонная фаза",
+              "weight": 0.21,
+              "weightPercent": 21,
+              "score": 86,
+              "contribution": 18.06,
+              "status": "помогает",
+              "explanation": "сезонная фаза поддерживает кормовую активность"
+            },
+            {
+              "id": "weatherChange",
+              "label": "Изменение погоды",
+              "weight": 0.22,
+              "weightPercent": 22,
+              "score": 88,
+              "contribution": 19.36,
+              "status": "помогает",
+              "explanation": "давление и погода меняются в благоприятном или стабильном режиме"
+            },
+            {
+              "id": "pressure",
+              "label": "Атмосферное давление",
+              "weight": 0.07,
+              "weightPercent": 7,
+              "score": 98,
+              "contribution": 6.86,
+              "status": "помогает",
+              "explanation": "текущий барометрический фон комфортный"
+            },
+            {
+              "id": "waterClarity",
+              "label": "Прозрачность воды",
+              "weight": 0.1,
+              "weightPercent": 10,
+              "score": 95,
+              "contribution": 9.5,
+              "status": "помогает",
+              "explanation": "прозрачность воды помогает рыбе видеть приманку"
+            },
+            {
+              "id": "light",
+              "label": "Освещенность",
+              "weight": 0.08,
+              "weightPercent": 8,
+              "score": 78,
+              "contribution": 6.24,
+              "status": "помогает",
+              "explanation": "освещенность мягкая и не делает рыбу излишне осторожной"
+            },
+            {
+              "id": "wind",
+              "label": "Ветер",
+              "weight": 0.05,
+              "weightPercent": 5,
+              "score": 96,
+              "contribution": 4.8,
+              "status": "помогает",
+              "explanation": "ветер по направлению и силе благоприятен"
+            },
+            {
+              "id": "waterLevel",
+              "label": "Уровень воды",
+              "weight": 0.03,
+              "weightPercent": 3,
+              "score": 90,
+              "contribution": 2.7,
+              "status": "помогает",
+              "explanation": "уровень воды без крайних отклонений"
+            },
+            {
+              "id": "moon",
+              "label": "Луна",
+              "weight": 0.02,
+              "weightPercent": 2,
+              "score": 55,
+              "contribution": 1.1,
+              "status": "нейтрально",
+              "explanation": "лунный фактор не поддерживает прогноз"
+            }
+          ],
+          "positiveDrivers": [
+            {
+              "factor": "Температура воды",
+              "score": 98,
+              "reason": "температурный фон воды близок к рабочей зоне форели"
+            },
+            {
+              "factor": "Изменение погоды",
+              "score": 88,
+              "reason": "давление и погода меняются в благоприятном или стабильном режиме"
+            },
+            {
+              "factor": "Сезонная фаза",
+              "score": 86,
+              "reason": "сезонная фаза поддерживает кормовую активность"
+            }
+          ],
+          "negativeDrivers": [],
+          "recommendations": [
+            "Когда ловить: утро, день и вечер рабочие; мягкая облачность и стабильная погода позволяют не привязываться жестко ко времени.",
+            "Дальность и скрытность: слегка окрашенная вода или рябь маскируют рыболова. Дистанция нужна умеренная, можно активнее проверять ближние карманы перед дальними забросами.",
+            "Модель ловли: рыба должна быть достаточно активной. Начни с маленького воблера-минноу или вращающейся блесны, облавливай перекаты, кромки струи и входы в ямы.",
+            "Приманки: слегка чайная прозрачная вода хороша для меди, золота, темных силуэтов, маленьких колебалок и минноу с умеренным контрастом.",
+            "Подача: легкая рябь и мягкий свет позволяют ловить активнее: равномерная проводка вращалки или воблера поперек/на снос будет хорошей стартовой схемой.",
+            "Поведение рыбы: плавное снижение давления похоже на предфронтовое окно. При облачности и влажности форель может смелее выходить из укрытий, но следи за мутностью воды."
+          ],
+          "warnings": [],
+          "appliedCaps": [],
+          "flags": [
+            "stable_weather",
+            "smooth_pressure_fall",
+            "prefrontal_window",
+            "cloudy",
+            "favorable_wind",
+            "tea_clear_water"
+          ],
+          "raw": {
+            "estimatedWaterTemperatureC": 9.2,
+            "airTemperatureC": 8.6,
+            "pressureHPa": 1005.8,
+            "pressureMmHg": 754,
+            "pressureChange24hHPa": -3.3,
+            "pressureChange24hMmHg": -2.5,
+            "pressureAmplitude72hMmHg": 12,
+            "pressureDirectionChanges72h": 0,
+            "pressureTrendKind": "directional",
+            "temperatureChange24hC": -0.3,
+            "precipitation24hMm": 1.8,
+            "precipitation72hMm": 2,
+            "cloudCoverPercent": 94,
+            "windDirection": "SW",
+            "windDirectionDegrees": 244,
+            "windSpeedMs": 2.6,
+            "windGustsMs": 7.3,
+            "waterClarity": "slightly_tea_clear",
+            "waterClarityLabel": "слегка чайная прозрачная",
+            "waterLevel": "normal",
+            "windDirectionPrevious": "SW",
+            "windDirectionChangeDegrees": 0,
+            "windSpeedChange24hMs": -1.1,
             "moonPhase": "unknown"
           }
         }
