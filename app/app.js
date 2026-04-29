@@ -137,14 +137,24 @@ function pressureDeltaLabel(raw) {
 
 function pressureTrendLabel(raw) {
   const amplitude = raw.pressureAmplitude72hMmHg;
+  const netChange = raw.pressureNetChange72hMmHg;
   const changes = raw.pressureDirectionChanges72h;
   if (typeof amplitude !== "number") return "нет данных за 48-72 ч";
 
-  if (amplitude <= 2) return `стабильно, амплитуда ${amplitude} мм`;
-  if (raw.pressureTrendKind === "strong_saw") return `сильная пила: ${amplitude} мм, смен направления ${changes}`;
-  if (raw.pressureTrendKind === "saw") return `пила: ${amplitude} мм, смен направления ${changes}`;
-  if (raw.pressureTrendKind === "unstable") return `легкая нестабильность: ${amplitude} мм, смен направления ${changes}`;
-  return `направленное изменение: амплитуда ${amplitude} мм`;
+  const netText =
+    typeof netChange === "number"
+      ? netChange > 0
+        ? `за 72 ч: рост на ${netChange} мм`
+        : netChange < 0
+          ? `за 72 ч: снижение на ${Math.abs(netChange)} мм`
+          : "за 72 ч: без итогового сдвига"
+      : "за 72 ч: нет данных";
+
+  if (amplitude <= 2) return `${netText}; колебания: почти нет`;
+  if (raw.pressureTrendKind === "strong_saw") return `${netText}; сильная пила: размах ${amplitude} мм, смен направления ${changes}`;
+  if (raw.pressureTrendKind === "saw") return `${netText}; пила: размах ${amplitude} мм, смен направления ${changes}`;
+  if (raw.pressureTrendKind === "unstable") return `${netText}; легкая нестабильность: размах ${amplitude} мм, смен направления ${changes}`;
+  return `${netText}; колебания: без пилы`;
 }
 
 function getPressureWeatherInterpretation(raw) {
@@ -154,7 +164,7 @@ function getPressureWeatherInterpretation(raw) {
   const clearWater = raw.waterClarity === "clear" || raw.waterClarity === "crystal_clear";
 
   if (raw.pressureTrendKind === "saw" || raw.pressureTrendKind === "strong_saw") {
-    return `Барометрическая "пила" (${pressureTrendLabel(raw)}) означает нестабильный фон: форель хуже адаптируется к смене условий.`;
+    return `Барометрическая "пила" означает нестабильный фон: ${pressureTrendLabel(raw)}. Форель хуже адаптируется к такой смене условий.`;
   }
 
   if (typeof delta === "number" && delta >= 7) {

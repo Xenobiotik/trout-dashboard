@@ -38,6 +38,7 @@ function buildDayConditions(region, day, index, forecastDays) {
   const waterClarity = estimateWaterClarity(day);
   const waterLevel = estimateWaterLevel(day);
   const pressureChange24hHPa = day.pressureChange24hHPa ?? 0;
+  const pressureTrend = calculatePressureTrendStats(forecastDays, index);
   const temperatureChange24hC = day.temperatureChange24hC ?? 0;
   const windDirection = day.windDirection;
   const previousWindDirection = forecastDays[index - 1]?.windDirection;
@@ -55,9 +56,10 @@ function buildDayConditions(region, day, index, forecastDays) {
     pressureMmHg: day.pressureMeanMmHg,
     pressureChange24hHPa,
     pressureChange24hMmHg: day.pressureChange24hMmHg ?? round(pressureChange24hHPa * 0.750062),
-    pressureAmplitude72hMmHg: day.pressureAmplitude72hMmHg ?? 0,
-    pressureDirectionChanges72h: day.pressureDirectionChanges72h ?? 0,
-    pressureTrendKind: day.pressureTrendKind || "unknown",
+    pressureAmplitude72hMmHg: day.pressureAmplitude72hMmHg ?? pressureTrend.amplitudeMmHg,
+    pressureNetChange72hMmHg: day.pressureNetChange72hMmHg ?? pressureTrend.netChangeMmHg,
+    pressureDirectionChanges72h: day.pressureDirectionChanges72h ?? pressureTrend.directionChanges,
+    pressureTrendKind: day.pressureTrendKind || pressureTrend.kind,
     temperatureChange24hC,
     precipitation24hMm: day.precipitation24hMm,
     precipitation72hMm: day.precipitation72hMm,
@@ -82,6 +84,7 @@ function buildDayConditions(region, day, index, forecastDays) {
       pressureChange24hHPa,
       pressureChange24hMmHg: raw.pressureChange24hMmHg,
       pressureAmplitude72hMmHg: raw.pressureAmplitude72hMmHg,
+      pressureNetChange72hMmHg: raw.pressureNetChange72hMmHg,
       pressureDirectionChanges72h: raw.pressureDirectionChanges72h,
       pressureTrendKind: raw.pressureTrendKind,
       temperatureChange24hC,
@@ -166,6 +169,41 @@ function estimateWaterLevel(day) {
   if (p24 >= 6 || p72 >= 18) return "slightly_high";
   if (p72 <= 1) return "slightly_low";
   return "normal";
+}
+
+function calculatePressureTrendStats(days, index) {
+  const values = days
+    .slice(Math.max(0, index - 3), index + 1)
+    .map((item) => item.pressureMeanMmHg)
+    .filter((value) => typeof value === "number" && Number.isFinite(value));
+
+  if (values.length < 2) {
+    return { amplitudeMmHg: 0, netChangeMmHg: 0, directionChanges: 0, kind: "unknown" };
+  }
+
+  const amplitudeMmHg = Math.round(Math.max(...values) - Math.min(...values));
+  const netChangeMmHg = Math.round(values[values.length - 1] - values[0]);
+  const signs = [];
+
+  for (let i = 1; i < values.length; i += 1) {
+    const delta = values[i] - values[i - 1];
+    if (Math.abs(delta) >= 2) {
+      signs.push(Math.sign(delta));
+    }
+  }
+
+  let directionChanges = 0;
+  for (let i = 1; i < signs.length; i += 1) {
+    if (signs[i] !== signs[i - 1]) directionChanges += 1;
+  }
+
+  let kind = "directional";
+  if (amplitudeMmHg <= 2) kind = "stable";
+  else if (directionChanges >= 2 && amplitudeMmHg >= 10) kind = "strong_saw";
+  else if (directionChanges >= 2 && amplitudeMmHg >= 6) kind = "saw";
+  else if (directionChanges >= 1 && amplitudeMmHg >= 3) kind = "unstable";
+
+  return { amplitudeMmHg, netChangeMmHg, directionChanges, kind };
 }
 
 function scoreWaterTemperature(temp) {

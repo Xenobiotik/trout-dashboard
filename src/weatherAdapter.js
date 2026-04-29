@@ -147,6 +147,7 @@ function buildDailyForecast(hourly) {
       pressureChange24hHPa: previousDay ? round(day.pressureMeanHPa - previousDay.pressureMeanHPa) : null,
       pressureChange24hMmHg: previousDay ? round((day.pressureMeanHPa - previousDay.pressureMeanHPa) * 0.750062) : null,
       pressureAmplitude72hMmHg: pressureTrend.amplitudeMmHg,
+      pressureNetChange72hMmHg: pressureTrend.netChangeMmHg,
       pressureDirectionChanges72h: pressureTrend.directionChanges,
       pressureTrendKind: pressureTrend.kind,
       temperatureChange24hC: previousDay ? round(day.temperatureMeanC - previousDay.temperatureMeanC) : null,
@@ -163,10 +164,11 @@ function calculatePressureTrendStats(days, index) {
     .filter((value) => typeof value === "number" && Number.isFinite(value));
 
   if (values.length < 2) {
-    return { amplitudeMmHg: 0, directionChanges: 0, kind: "unknown" };
+    return { amplitudeMmHg: 0, netChangeMmHg: 0, directionChanges: 0, kind: "unknown" };
   }
 
   const amplitudeMmHg = Math.round(Math.max(...values) - Math.min(...values));
+  const netChangeMmHg = Math.round(values[values.length - 1] - values[0]);
   const signs = [];
 
   for (let i = 1; i < values.length; i += 1) {
@@ -187,7 +189,7 @@ function calculatePressureTrendStats(days, index) {
   else if (directionChanges >= 2 && amplitudeMmHg >= 6) kind = "saw";
   else if (directionChanges >= 1 && amplitudeMmHg >= 3) kind = "unstable";
 
-  return { amplitudeMmHg, directionChanges, kind };
+  return { amplitudeMmHg, netChangeMmHg, directionChanges, kind };
 }
 
 function valueAt(values, index) {

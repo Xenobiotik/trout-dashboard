@@ -102,6 +102,7 @@
         pressureChange24hHPa: prev ? round(day.pressureMeanHPa - prev.pressureMeanHPa) : null,
         pressureChange24hMmHg: prev ? round((day.pressureMeanHPa - prev.pressureMeanHPa) * 0.750062) : null,
         pressureAmplitude72hMmHg: pressureTrend.amplitudeMmHg,
+        pressureNetChange72hMmHg: pressureTrend.netChangeMmHg,
         pressureDirectionChanges72h: pressureTrend.directionChanges,
         pressureTrendKind: pressureTrend.kind,
         temperatureChange24hC: prev ? round(day.temperatureMeanC - prev.temperatureMeanC) : null,
@@ -113,8 +114,9 @@
 
   function pressureTrendStats(days, index) {
     const values = days.slice(Math.max(0, index - 3), index + 1).map((day) => day.pressureMeanMmHg).filter(Number.isFinite);
-    if (values.length < 2) return { amplitudeMmHg: 0, directionChanges: 0, kind: "unknown" };
+    if (values.length < 2) return { amplitudeMmHg: 0, netChangeMmHg: 0, directionChanges: 0, kind: "unknown" };
     const amplitudeMmHg = Math.round(Math.max(...values) - Math.min(...values));
+    const netChangeMmHg = Math.round(values[values.length - 1] - values[0]);
     const signs = [];
     for (let i = 1; i < values.length; i += 1) { const d = values[i] - values[i - 1]; if (Math.abs(d) >= 2) signs.push(Math.sign(d)); }
     let directionChanges = 0;
@@ -124,7 +126,7 @@
     else if (directionChanges >= 2 && amplitudeMmHg >= 10) kind = "strong_saw";
     else if (directionChanges >= 2 && amplitudeMmHg >= 6) kind = "saw";
     else if (directionChanges >= 1 && amplitudeMmHg >= 3) kind = "unstable";
-    return { amplitudeMmHg, directionChanges, kind };
+    return { amplitudeMmHg, netChangeMmHg, directionChanges, kind };
   }
 
   function buildConditions(weather) {
@@ -157,6 +159,7 @@
       pressureChange24hHPa,
       pressureChange24hMmHg: day.pressureChange24hMmHg ?? round(pressureChange24hHPa * 0.750062),
       pressureAmplitude72hMmHg: day.pressureAmplitude72hMmHg ?? 0,
+      pressureNetChange72hMmHg: day.pressureNetChange72hMmHg ?? 0,
       pressureDirectionChanges72h: day.pressureDirectionChanges72h ?? 0,
       pressureTrendKind: day.pressureTrendKind || "unknown",
       temperatureChange24hC: day.temperatureChange24hC ?? 0,
