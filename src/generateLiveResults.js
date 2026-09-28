@@ -13,7 +13,7 @@ const results = {
     version: "0.1",
     dataType: "live-results-sample",
     modelVersion: liveConditions.metadata?.modelVersion || "0.4",
-    generatedAt: new Date().toISOString(),
+    generatedAt: liveConditions.metadata?.generatedAt || null,
     source: "data/live-conditions-sample.json"
   },
   regions: Object.fromEntries(

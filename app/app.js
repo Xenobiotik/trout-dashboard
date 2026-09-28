@@ -44,12 +44,6 @@ const WATER_LEVEL_LABELS = {
   flood_risk: "риск паводка"
 };
 
-const MOON_LABELS = {
-  waxing_crescent: "растущий серп",
-  first_quarter: "первая четверть",
-  waxing_gibbous: "растущая луна"
-};
-
 const CONFIDENCE_LABELS = {
   high: "высокая",
   medium: "средняя",
@@ -57,9 +51,11 @@ const CONFIDENCE_LABELS = {
 };
 
 let appData;
-let dataMode = "live";
 let onlineData;
 let onlineStatus = "idle";
+let refreshPromise;
+let lastAttempt = 0;
+let lastError = "";
 let selectedRegionId = "south_west";
 let selectedDayIndex = 0;
 
@@ -77,6 +73,7 @@ const elements = {
 };
 
 function scoreColor(score) {
+  if (!Number.isFinite(score)) return "#657066";
   if (score >= 86) return "#1f7a55";
   if (score >= 71) return "#2d6f8f";
   if (score >= 51) return "#b7791f";
@@ -91,7 +88,7 @@ function formatDate(dateString) {
 }
 
 function pressureToMmHg(hPa) {
-  if (typeof hPa !== "number") return "-";
+  if (!Number.isFinite(hPa)) return "-";
   return Math.round(hPa * 0.750062);
 }
 
@@ -139,7 +136,7 @@ function pressureTrendLabel(raw) {
   const amplitude = raw.pressureAmplitude72hMmHg;
   const netChange = raw.pressureNetChange72hMmHg;
   const changes = raw.pressureDirectionChanges72h;
-  if (typeof amplitude !== "number") return "нет данных за 48-72 ч";
+  if (typeof amplitude !== "number") return "нет данных за 72 ч";
 
   const netText =
     typeof netChange === "number"
@@ -158,39 +155,18 @@ function pressureTrendLabel(raw) {
 }
 
 function getPressureWeatherInterpretation(raw) {
-  const delta = raw.pressureChange24hMmHg;
-  const bright = (raw.cloudCoverPercent ?? 100) < 30;
-  const cloudy = (raw.cloudCoverPercent ?? 0) >= 60;
-  const clearWater = raw.waterClarity === "clear" || raw.waterClarity === "crystal_clear";
-
-  if (raw.pressureTrendKind === "saw" || raw.pressureTrendKind === "strong_saw") {
-    return `Барометрическая "пила" означает нестабильный фон: ${pressureTrendLabel(raw)}. Форель хуже адаптируется к такой смене условий.`;
+  const engine = window.TroutEngine;
+  const kind = engine.classifyPressure(raw);
+  const delta = pressureDeltaLabel(raw);
+  if (["saw", "strong_saw"].includes(raw.pressureTrendKind)) {
+    return `В почасовом ряду есть значимые развороты давления: ${pressureTrendLabel(raw)}. Модель снижает оценку устойчивости погоды.`;
   }
-
-  if (typeof delta === "number" && delta >= 7) {
-    return `Давление резко растет (${formatDelta(delta, "мм")}): это похоже на переход к антициклону после фронта, часто один из худших сценариев для активности.`;
-  }
-
-  if (typeof delta === "number" && delta > 1) {
-    return `Давление растет (${formatDelta(delta, "мм")}): вероятен переход к более антициклонической погоде; при ясном небе форель может стать осторожнее.`;
-  }
-
-  if (typeof delta === "number" && delta <= -7) {
-    return `Давление резко падает (${formatDelta(delta, "мм")}): возможен короткий предфронтовый всплеск, но общий погодный режим становится рискованным.`;
-  }
-
-  if (typeof delta === "number" && delta < -1 && delta >= -4 && cloudy) {
-    return `Давление плавно снижается (${formatDelta(delta, "мм")}): это похоже на предфронтовое окно с мягким светом, когда форель может активнее выходить из укрытий.`;
-  }
-
-  if ((raw.pressureAmplitude72hMmHg ?? 99) <= 2) {
-    return `Давление стабильно за 48-72 часа: рыба успевает адаптироваться к фону, поэтому прогноз надежнее.`;
-  }
-
-  if ((raw.pressureMmHg ?? pressureToMmHg(raw.pressureHPa)) >= 766 && bright && clearWater) {
-    return `Антициклональный сценарий: высокое давление, яркий свет и прозрачная вода повышают осторожность форели.`;
-  }
-
+  if (kind === "sharp_rise") return `Резкий рост давления (${delta} за 24 ч) снижает оценку динамики. Это возможный признак смены погодного режима, а не подтверждение антициклона.`;
+  if (kind === "sharp_fall") return `Резкое падение давления (${delta} за 24 ч) снижает оценку динамики. Благоприятное окно плавного снижения к этому сценарию не относится.`;
+  if (engine.isPrefrontalWindow(raw)) return `Плавное снижение давления (${delta}) сочетается с облачностью и отсутствием сильной смены ветра. Это возможный предфронтовой сценарий; вылет насекомых и усиление клева по этим данным не установлены.`;
+  if (["smooth_rise", "moderate_rise"].includes(kind)) return `Давление растет (${delta}). При ясном небе и прозрачной воде осторожность рыбы может возрастать, но одного барометрического тренда для вывода недостаточно.`;
+  if (kind === "stable" && raw.pressureTrendKind === "stable") return "Давление за 72 часа без значимых колебаний. Это плюс по правилам модели; ветер, температура и вода оцениваются отдельно.";
+  if (["smooth_fall", "moderate_fall"].includes(kind)) return `Давление снижается (${delta}); оценка этого изменения зависит также от ветра, осадков и прозрачности воды.`;
   return "";
 }
 
@@ -221,13 +197,13 @@ function getFactorPrimaryInfo(factor, day) {
   const info = {
     waterTemperature: `${raw.estimatedWaterTemperatureC ?? "-"} °C расчетной температуры воды, воздух ${raw.airTemperatureC ?? "-"} °C`,
     season: getSeasonText(day.date, score),
-    weatherChange: `давление за 24 ч: ${pressureDeltaLabel(raw)}, ${pressureTrendLabel(raw)}, ветер: ${formatWindChange(raw)}, осадки за 72 ч: ${raw.precipitation72hMm ?? "-"} мм`,
-    pressure: `${pressureToMmHg(raw.pressureHPa)} мм рт. ст. (${raw.pressureHPa ?? "-"} гПа)`,
-    waterClarity: `${CLARITY_LABELS[raw.waterClarity] || "нет оценки"}, осадки за 24 ч: ${raw.precipitation24hMm ?? "-"} мм`,
+    weatherChange: `давление за 24 ч: ${pressureDeltaLabel(raw)}, ${pressureTrendLabel(raw)}; ветер (средние за сутки): ${formatWindChange(raw)}; температура воздуха (средние за сутки): ${formatDelta(raw.temperatureChange24hC, "°C")}; осадки за 72 ч: ${raw.precipitation72hMm ?? "-"} мм. Окна давления и осадков заканчиваются ${formatTimestamp(raw.referenceAt)}; включают прогноз до этого часа.`,
+    pressure: `${pressureToMmHg(raw.pressureHPa)} мм рт. ст., среднее за выбранные сутки, приведено к уровню моря`,
+    waterClarity: `${CLARITY_LABELS[raw.waterClarity] || "нет оценки"} (косвенная оценка); осадки за 24 ч до ${formatTimestamp(raw.referenceAt)}: ${raw.precipitation24hMm ?? "-"} мм`,
     light: `облачность ${raw.cloudCoverPercent ?? "-"}%`,
     wind: `${windLabel(raw.windDirection)}, ${raw.windSpeedMs ?? "-"} м/с`,
-    waterLevel: `${WATER_LEVEL_LABELS[raw.waterLevel] || "нет оценки"}`,
-    moon: `${MOON_LABELS[raw.moonPhase] || "лунная фаза учтена как слабый фактор"}`
+    waterLevel: `${WATER_LEVEL_LABELS[raw.waterLevel] || "нет оценки"} (косвенная оценка по осадкам)`,
+    moon: "Фаза не рассчитывается. Постоянный нейтральный балл 55; вклад 1,1 балла сохранен из прежней модели, это не оценка влияния текущей фазы."
   };
 
   return info[factor.id] || "";
@@ -237,6 +213,7 @@ function getDetailedAnalytics(day) {
   const raw = day.raw || {};
   const parts = [];
   const factor = Object.fromEntries(day.factors.map((item) => [item.id, item.score]));
+  if (day.index === null) return ["Не все факторы доступны. Пропуски не считаются нулевыми значениями, итоговый индекс не рассчитан."];
 
   if (factor.waterTemperature >= 85 && factor.season >= 85) {
     parts.push(`Температурный фон (${raw.estimatedWaterTemperatureC} °C) хорошо совпадает с сильной сезонной фазой.`);
@@ -244,7 +221,7 @@ function getDetailedAnalytics(day) {
     parts.push(`Температура воды (${raw.estimatedWaterTemperatureC} °C) ограничивает активность, даже если часть остальных факторов выглядит неплохо.`);
   }
 
-  if (factor.pressure >= 75 && factor.weatherChange >= 75) {
+  if (factor.pressure >= 75 && window.TroutEngine.isStableWeather(raw)) {
     parts.push(`Давление ${pressureToMmHg(raw.pressureHPa)} мм рт. ст. и спокойная динамика дают устойчивый погодный фон.`);
   } else if (factor.pressure < 60 || factor.weatherChange < 60) {
     parts.push(`Погодный блок слабый: давление ${pressureToMmHg(raw.pressureHPa)} мм рт. ст., изменение за сутки ${pressureDeltaLabel(raw)}.`);
@@ -273,75 +250,93 @@ function getDetailedAnalytics(day) {
     parts.push(`Ветер работает против прогноза: ${windLabel(raw.windDirection)}, ${raw.windSpeedMs} м/с.`);
   }
 
-  if (day.appliedCaps?.length) {
-    parts.push(`Индекс скорректирован правилом модели: ${day.appliedCaps.map((cap) => cap.reason).join("; ")}.`);
-  }
-
   return parts.slice(0, 4);
 }
 
 function getCurrentDay() {
-  return appData.regions[selectedRegionId].forecast[selectedDayIndex];
+  return appData?.regions[selectedRegionId]?.forecast[selectedDayIndex];
 }
 
-function getDataForMode(mode) {
-  if (onlineData) {
-    return onlineData;
-  }
-
-  if (window.LIVE_RESULTS) {
-    return window.LIVE_RESULTS;
-  }
-
-  return null;
+function formatTimestamp(value) {
+  const date = new Date(value);
+  if (!value || !Number.isFinite(date.getTime())) return "нет данных";
+  return new Intl.DateTimeFormat("ru-RU", { timeZone: "Europe/Moscow", day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" }).format(date) + " МСК";
 }
 
-async function loadDataForMode(mode) {
-  if (onlineData) return onlineData;
-  if (!window.fetchOnlineResults) return window.LIVE_RESULTS;
+function getStoredData() {
+  try { return window.TroutCache.read(window.localStorage); }
+  catch { return null; }
+}
 
+async function refreshData() {
+  if (refreshPromise) return refreshPromise;
+  const previousDate = getCurrentDay()?.date;
+  lastAttempt = Date.now();
   onlineStatus = "loading";
-  renderModeSwitch();
-
-  try {
-    onlineData = await window.fetchOnlineResults();
-    onlineStatus = "online";
-    return onlineData;
-  } catch (error) {
-    console.warn("Online weather failed, using saved live data", error);
-    onlineStatus = "fallback";
-    return window.LIVE_RESULTS;
-  }
+  appData = window.TroutCache.usableData(appData);
+  render();
+  refreshPromise = (async () => {
+    try {
+      const data = window.TroutCache.usableData(await window.fetchOnlineResults());
+      if (!data) throw new Error("Ответ содержит устаревшие или неполные данные по районам");
+      onlineData = data;
+      appData = data;
+      onlineStatus = "online";
+      lastError = "";
+      try { window.TroutCache.save(window.localStorage, data); } catch {}
+    } catch (error) {
+      lastError = error.name === "AbortError" ? "Источник погоды не ответил за 15 секунд." : "Не удалось обновить погоду.";
+      const candidates = [onlineData, getStoredData(), window.LIVE_RESULTS]
+        .map((data) => window.TroutCache.usableData(data)).filter(Boolean)
+        .sort((a, b) => Date.parse(b.metadata.generatedAt) - Date.parse(a.metadata.generatedAt));
+      appData = candidates[0] || null;
+      onlineStatus = appData ? "fallback" : "error";
+    } finally {
+      selectedDayIndex = Math.max(0, appData?.regions[selectedRegionId]?.forecast.findIndex((day) => day.date === previousDate) ?? 0);
+      refreshPromise = null;
+      render();
+    }
+  })();
+  return refreshPromise;
 }
 
 function renderModeSwitch() {
   elements.modeButtons.forEach((button) => {
-    button.classList.toggle("active", button.dataset.mode === dataMode);
+    button.disabled = onlineStatus === "loading";
+    button.setAttribute("aria-busy", String(onlineStatus === "loading"));
+    button.textContent = onlineStatus === "loading" ? "Обновление..." : "Обновить погоду";
   });
+  let label = "Загружаю погоду...";
+  if (onlineStatus === "loading" && appData) label = `Обновляю. Предыдущие данные: ${formatTimestamp(appData.metadata.generatedAt)}`;
+  else if (onlineStatus === "online") label = `Open-Meteo · обновлено ${formatTimestamp(appData?.metadata.generatedAt)}`;
+  else if (onlineStatus === "fallback") label = `${lastError} Сохраненный прогноз от ${formatTimestamp(appData.metadata.generatedAt)}.`;
+  else if (onlineStatus === "error") label = `${lastError} Актуального сохраненного прогноза нет.`;
+  elements.dataStatusText.textContent = label;
+  elements.dataStatusText.parentElement.dataset.status = onlineStatus;
+}
 
-  let label = "реальная погода";
-  if (onlineStatus === "loading") label = "загружаю погоду...";
-  else if (onlineStatus === "online") label = "онлайн Open-Meteo";
-  else if (onlineStatus === "fallback") label = "сохраненная реальная погода";
-  elements.dataStatusText.textContent = `Данные: ${label}`;
+function checkRefresh() {
+  if (document.visibilityState === "hidden" || refreshPromise) return;
+  const previousDates = appData?.regions[selectedRegionId]?.forecast.map((day) => day.date).join(",");
+  appData = window.TroutCache.usableData(appData);
+  if (previousDates !== appData?.regions[selectedRegionId]?.forecast.map((day) => day.date).join(",")) {
+    selectedDayIndex = 0;
+    if (!appData) { onlineStatus = "error"; lastError = "Сохраненный прогноз устарел."; }
+    render();
+  }
+  if (window.TroutCache.needsRefresh(appData) && Date.now() - lastAttempt >= 5 * 60000) refreshData();
 }
 
 function setupModeSwitch() {
-  elements.modeButtons.forEach((button) => {
-    button.addEventListener("click", async () => {
-      const nextMode = button.dataset.mode;
-      if (nextMode === dataMode) return;
-
-      dataMode = nextMode;
-      selectedDayIndex = 0;
-      appData = await loadDataForMode(dataMode);
-      render();
-    });
-  });
+  elements.modeButtons.forEach((button) => button.addEventListener("click", refreshData));
+  document.addEventListener("visibilitychange", checkRefresh);
+  window.addEventListener("focus", checkRefresh);
+  window.addEventListener("online", () => refreshData());
+  window.setInterval(checkRefresh, 60000);
 }
 
 function renderRegionTabs() {
-  elements.regionTabs.innerHTML = Object.keys(appData.regions)
+  elements.regionTabs.innerHTML = Object.keys(REGION_LABELS)
     .map((regionId) => {
       const active = regionId === selectedRegionId ? " active" : "";
       return `<button class="region-tab${active}" type="button" data-region="${regionId}">${REGION_SHORT_LABELS[regionId]}</button>`;
@@ -361,12 +356,12 @@ function renderIndexPanel(day) {
   const color = scoreColor(day.index);
   const raw = day.raw || {};
 
-  elements.indexPanel.style.setProperty("--score", day.index);
+  elements.indexPanel.style.setProperty("--score", day.index ?? 0);
   elements.indexPanel.style.setProperty("--score-color", color);
   elements.indexPanel.innerHTML = `
-    <div class="score-ring" aria-label="Индекс ${day.index} из 100">
+    <div class="score-ring" aria-label="${day.index === null ? "Индекс недоступен" : `Индекс ${day.index} из 100`}">
       <div class="score-value">
-        <strong>${day.index}</strong>
+        <strong>${day.index ?? "-"}</strong>
         <span>из 100</span>
       </div>
     </div>
@@ -379,7 +374,7 @@ function renderIndexPanel(day) {
       <p class="summary">${day.summary}</p>
       <div class="meta-grid">
         <div class="meta-item">
-          <span class="meta-label">Вода</span>
+          <span class="meta-label">Вода (расчет)</span>
           <span class="meta-value">${raw.estimatedWaterTemperatureC ?? "-"} °C</span>
         </div>
         <div class="meta-item">
@@ -393,12 +388,32 @@ function renderIndexPanel(day) {
       </div>
       <div class="analytics-block">
         <h3>Почему такая оценка</h3>
+        ${renderCalculation(day)}
         <ul>
           ${getDetailedAnalytics(day).map((item) => `<li>${item}</li>`).join("")}
         </ul>
       </div>
     </div>
   `;
+}
+
+function renderCalculation(day) {
+  if (!Number.isFinite(day.indexRaw)) return "";
+  const number = (value) => new Intl.NumberFormat("ru-RU", { maximumFractionDigits: 2 }).format(value);
+  let value = day.indexRaw;
+  const steps = [`Сумма вкладов: ${number(value)}`];
+  for (const correction of day.appliedCaps || []) {
+    if (Number.isFinite(correction.limit)) {
+      value = Math.min(value, correction.limit);
+      steps.push(`ограничение до ${number(correction.limit)} (${correction.reason})`);
+    } else if (Number.isFinite(correction.value)) {
+      value -= correction.value;
+      steps.push(`штраф −${number(correction.value)} (${correction.reason})`);
+    }
+  }
+  if (value < 0) steps.push("нижняя граница 0");
+  steps.push(`итог после округления: ${day.index}`);
+  return `<p class="calculation">${steps.join(" → ")}</p>`;
 }
 
 function renderDrivers(listElement, drivers, emptyText) {
@@ -420,7 +435,8 @@ function renderDrivers(listElement, drivers, emptyText) {
 }
 
 function renderForecast() {
-  const region = appData.regions[selectedRegionId];
+  const region = appData?.regions[selectedRegionId];
+  if (!region) { elements.forecastStrip.innerHTML = '<p class="empty-state">Прогноз пока недоступен.</p>'; return; }
   selectedDayIndex = Math.min(selectedDayIndex, region.forecast.length - 1);
 
   elements.forecastStrip.innerHTML = region.forecast
@@ -430,7 +446,7 @@ function renderForecast() {
         <button class="forecast-card${active}" type="button" data-day="${index}">
           <div class="forecast-date">${formatDate(day.date)}</div>
           <div class="forecast-score">
-            <strong style="color:${scoreColor(day.index)}">${day.index}</strong>
+            <strong style="color:${scoreColor(day.index)}">${day.index ?? "-"}</strong>
             <span>/ 100</span>
           </div>
           <div class="forecast-rating">${day.rating}</div>
@@ -455,13 +471,13 @@ function renderFactors(day) {
         <div class="factor-row">
           <div class="factor-title">
             <strong>${factor.label}</strong>
-            <span>Вес ${factor.weightPercent}% · вклад ${factor.contribution}</span>
+            <span>Вес ${factor.weightPercent}% · вклад ${factor.contribution ?? "нет оценки"}</span>
             <em>${getFactorPrimaryInfo(factor, day)}</em>
           </div>
-          <div class="factor-score" style="color:${color}">${factor.score}</div>
+          <div class="factor-score" style="color:${color}">${factor.score ?? "-"}</div>
           <div>
             <div class="bar-track">
-              <div class="bar-fill" style="--width:${factor.score}%; --bar-color:${color}"></div>
+              <div class="bar-fill" style="--width:${factor.score ?? 0}%; --bar-color:${color}"></div>
             </div>
             <div class="factor-note">${factor.status}</div>
           </div>
@@ -482,34 +498,30 @@ function renderRecommendations(day) {
 }
 
 function render() {
-  const day = getCurrentDay();
   renderModeSwitch();
   renderRegionTabs();
+  renderForecast();
+  const day = getCurrentDay();
+  if (!day) {
+    elements.indexPanel.innerHTML = `<div class="index-copy"><h2>${onlineStatus === "loading" ? "Загружаю свежую погоду" : "Нет актуального прогноза"}</h2><p class="summary">${onlineStatus === "loading" ? "" : "Старые оценки скрыты. Повтори обновление после восстановления связи."}</p></div>`;
+    elements.positiveDrivers.innerHTML = '<li class="empty-state">Нет актуальных данных.</li>';
+    elements.negativeDrivers.innerHTML = '<li class="empty-state">Нет актуальных данных.</li>';
+    elements.factorsList.innerHTML = '<p class="empty-state">Оценки появятся после загрузки погоды.</p>';
+    elements.recommendationsList.innerHTML = "";
+    elements.warningsBlock.innerHTML = "";
+    return;
+  }
   renderIndexPanel(day);
   renderDrivers(elements.positiveDrivers, day.positiveDrivers, "Выраженных плюсов нет.");
   renderDrivers(elements.negativeDrivers, day.negativeDrivers, "Выраженных рисков нет.");
-  renderForecast();
   renderFactors(day);
   renderRecommendations(day);
 }
 
 async function init() {
-  try {
-    setupModeSwitch();
-
-    appData = await loadDataForMode(dataMode);
-    render();
-  } catch (error) {
-    document.body.innerHTML = `
-      <main class="app-shell">
-        <section class="panel">
-          <h1>Не удалось загрузить данные</h1>
-          <p class="summary">Запусти локальный сервер из папки trout-dashboard и открой /app/.</p>
-        </section>
-      </main>
-    `;
-    console.error(error);
-  }
+  setupModeSwitch();
+  appData = getStoredData();
+  await refreshData();
 }
 
 init();

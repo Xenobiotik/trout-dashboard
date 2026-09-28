@@ -68,7 +68,7 @@ p {
 }
 
 h1 {
-  font-size: clamp(28px, 4vw, 48px);
+  font-size: 38px;
   line-height: 1.02;
   letter-spacing: 0;
 }
@@ -85,6 +85,8 @@ h2 {
   justify-content: flex-end;
   flex-wrap: wrap;
   gap: 10px;
+  max-width: 520px;
+  min-width: 0;
 }
 
 .data-status {
@@ -97,12 +99,13 @@ h2 {
   background: rgba(255, 255, 255, 0.78);
   color: var(--muted);
   font-size: 14px;
-  white-space: nowrap;
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 
 .mode-switch {
   display: inline-grid;
-  grid-template-columns: repeat(2, auto);
+  grid-template-columns: auto;
   gap: 4px;
   padding: 4px;
   border: 1px solid var(--line);
@@ -132,7 +135,16 @@ h2 {
   height: 9px;
   border-radius: 50%;
   background: var(--accent);
+  flex-shrink: 0;
 }
+
+.data-status[data-status="error"] .status-dot { background: var(--red); }
+.data-status[data-status="fallback"] .status-dot,
+.data-status[data-status="loading"] .status-dot { background: var(--amber); }
+.mode-button:disabled { opacity: .65; cursor: wait; }
+.calculation { margin: 10px 0; padding: 10px 0; border-block: 1px solid var(--line); font-size: 14px; line-height: 1.6; overflow-wrap: anywhere; }
+.model-note { margin-top: 24px; color: var(--muted); font-size: 13px; line-height: 1.6; }
+.model-note a { color: var(--accent-deep); }
 
 .region-tabs {
   display: grid;
@@ -564,6 +576,7 @@ h2 {
 }
 
 @media (max-width: 680px) {
+  h1 { font-size: 28px; }
   .app-shell {
     width: min(100% - 20px, 1360px);
     padding-top: 14px;

@@ -1,4 +1,9 @@
-(function () {
+(function (root, factory) {
+  const engine = factory();
+  if (typeof module === "object" && module.exports) module.exports = engine;
+  else { root.TroutEngine = engine; root.fetchOnlineResults = engine.fetchOnlineResults; }
+})(typeof window !== "undefined" ? window : globalThis, function () {
+  const MODEL_VERSION = "0.5";
   const REGIONS = [
     { id: "south_west", direction: "Юго-запад Ленинградской области", settlement: "Систо-Палкино", latitude: 59.800096, longitude: 28.915934 },
     { id: "south", direction: "Юг Ленинградской области", settlement: "Сиверский", latitude: 59.354888, longitude: 30.067071 },
@@ -32,16 +37,17 @@
       longitude: REGIONS.map((region) => region.longitude).join(","),
       hourly: HOURLY.join(","),
       timezone: "Europe/Moscow",
-      past_days: "3",
+      past_days: "4",
       forecast_days: "5",
       wind_speed_unit: "ms",
       precipitation_unit: "mm"
     });
 
-    const response = await fetch(`https://api.open-meteo.com/v1/forecast?${params.toString()}`);
-    if (!response.ok) throw new Error(`Open-Meteo: ${response.status}`);
-    const payload = await response.json();
+    const payload = await fetchJson(`https://api.open-meteo.com/v1/forecast?${params.toString()}`);
     const locations = Array.isArray(payload) ? payload : [payload];
+    if (locations.length !== REGIONS.length || locations.some((location) => !location?.hourly?.time?.length)) {
+      throw new Error("Неполный ответ Open-Meteo по районам");
+    }
 
     return {
       metadata: { source: "open-meteo-online", generatedAt: new Date().toISOString() },
@@ -57,70 +63,107 @@
     };
   }
 
-  function buildDailyForecast(hourly) {
+  async function fetchJson(url, timeoutMs = 15000) {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), timeoutMs);
+    try {
+      const response = await fetch(url, { signal: controller.signal });
+      if (!response.ok) throw new Error(`Open-Meteo: ${response.status}`);
+      return await response.json();
+    } finally { clearTimeout(timeout); }
+  }
+
+  function moscowDate(now = new Date()) {
+    return new Date(now.getTime() + 3 * 3600000).toISOString().slice(0, 10);
+  }
+
+  function buildDailyForecast(hourly, now = new Date()) {
     const dayMap = new Map();
-    const times = hourly.time || [];
-
-    times.forEach((time, index) => {
+    const rows = new Map();
+    const ranges = { temperature_2m: [-70, 60], pressure_msl: [850, 1100], precipitation: [0, 300], cloud_cover: [0, 100], wind_speed_10m: [0, 100], wind_direction_10m: [0, 360], wind_gusts_10m: [0, 150] };
+    for (const [index, time] of (hourly.time || []).entries()) {
+      if (typeof time !== "string" || !/^\d{4}-\d{2}-\d{2}T\d{2}:00$/.test(time)) throw new Error("Некорректное время погоды");
+      const timestamp = Date.parse(`${time}+03:00`);
+      if (!Number.isFinite(timestamp) || rows.has(timestamp)) throw new Error("Повтор или ошибка времени погоды");
+      const row = { timestamp };
+      for (const key of HOURLY) {
+        const value = hourly[key]?.[index];
+        row[key] = Number.isFinite(value) && value >= ranges[key][0] && value <= ranges[key][1] ? value : null;
+      }
+      rows.set(timestamp, row);
       const date = time.slice(0, 10);
-      const bucket = dayMap.get(date) || { date, t: [], p: [], rain: [], cloud: [], wind: [], dir: [], gust: [] };
-      push(bucket.t, hourly.temperature_2m, index);
-      push(bucket.p, hourly.pressure_msl, index);
-      push(bucket.rain, hourly.precipitation, index);
-      push(bucket.cloud, hourly.cloud_cover, index);
-      push(bucket.wind, hourly.wind_speed_10m, index);
-      push(bucket.dir, hourly.wind_direction_10m, index);
-      push(bucket.gust, hourly.wind_gusts_10m, index);
-      dayMap.set(date, bucket);
-    });
-
-    const days = [...dayMap.values()].map((bucket) => {
-      const pressure = avg(bucket.p);
-      const windDirectionDegrees = circularMean(bucket.dir);
+      if (!dayMap.has(date)) dayMap.set(date, []);
+      dayMap.get(date).push(row);
+    }
+    const days = [...dayMap.entries()].sort(([a], [b]) => a.localeCompare(b)).map(([date, bucket]) => {
+      const values = (key) => bucket.map((row) => row[key]).filter(Number.isFinite);
+      const enough = (key) => values(key).length >= 18;
+      const mean = (key) => enough(key) ? round(avg(values(key))) : null;
+      const pressure = mean("pressure_msl");
+      const windDirectionDegrees = enough("wind_direction_10m") ? circularMean(values("wind_direction_10m")) : null;
+      const referenceMs = date === moscowDate(now) ? Math.floor(now.getTime() / 3600000) * 3600000 : Date.parse(`${date}T12:00:00+03:00`);
+      const at = (offset) => rows.get(referenceMs - offset * 3600000);
+      const pressureValues = Array.from({ length: 73 }, (_, i) => at(72 - i)?.pressure_msl ?? null);
+      const pressureTrend = pressureTrendStats(pressureValues.map((p) => Number.isFinite(p) ? p * 0.750062 : null));
+      // Open-Meteo precipitation at t is the sum for (t - 1 hour, t].
+      const rainSum = (hours) => {
+        const rain = Array.from({ length: hours }, (_, i) => at(i)?.precipitation ?? null);
+        return rain.every(Number.isFinite) ? round(sum(rain)) : null;
+      };
+      const pressureChange = Number.isFinite(at(0)?.pressure_msl) && Number.isFinite(at(24)?.pressure_msl)
+        ? round(at(0).pressure_msl - at(24).pressure_msl) : null;
       return {
-        date: bucket.date,
-        temperatureMeanC: round(avg(bucket.t)),
-        temperatureMinC: round(Math.min(...bucket.t)),
-        temperatureMaxC: round(Math.max(...bucket.t)),
-        pressureMeanHPa: round(pressure),
-        pressureMeanMmHg: Math.round(pressure * 0.750062),
-        precipitationSumMm: round(sum(bucket.rain)),
-        cloudCoverMeanPercent: Math.round(avg(bucket.cloud)),
-        windSpeedMeanMs: round(avg(bucket.wind)),
-        windGustMaxMs: round(Math.max(...bucket.gust)),
+        date,
+        referenceAt: new Date(referenceMs).toISOString(),
+        temperatureMeanC: mean("temperature_2m"),
+        temperatureMinC: enough("temperature_2m") ? round(Math.min(...values("temperature_2m"))) : null,
+        temperatureMaxC: enough("temperature_2m") ? round(Math.max(...values("temperature_2m"))) : null,
+        pressureMeanHPa: pressure,
+        pressureMeanMmHg: Number.isFinite(pressure) ? round(pressure * 0.750062) : null,
+        precipitationSumMm: bucket.length === 24 && values("precipitation").length === 24 ? round(sum(values("precipitation"))) : null,
+        cloudCoverMeanPercent: mean("cloud_cover"),
+        windSpeedMeanMs: mean("wind_speed_10m"),
+        windGustMaxMs: enough("wind_gusts_10m") ? round(Math.max(...values("wind_gusts_10m"))) : null,
         windDirection: degreesToCompass(windDirectionDegrees),
-        windDirectionDegrees: Math.round(windDirectionDegrees)
+        windDirectionDegrees: round(windDirectionDegrees),
+        pressureChange24hHPa: pressureChange,
+        pressureChange24hMmHg: Number.isFinite(pressureChange) ? round(pressureChange * 0.750062) : null,
+        pressureAmplitude72hMmHg: pressureTrend.amplitudeMmHg,
+        pressureNetChange72hMmHg: pressureTrend.netChangeMmHg,
+        pressureDirectionChanges72h: pressureTrend.directionChanges,
+        pressureTrendKind: pressureTrend.kind,
+        precipitation24hMm: rainSum(24),
+        precipitation72hMm: rainSum(72),
+        incompleteDailyData: HOURLY.some((key) => values(key).length < 24)
       };
     });
 
     return days.map((day, index) => {
       const prev = days[index - 1];
-      const prev3 = days.slice(Math.max(0, index - 3), index);
-      const pressureTrend = pressureTrendStats(days, index);
       return {
         ...day,
-        pressureChange24hHPa: prev ? round(day.pressureMeanHPa - prev.pressureMeanHPa) : null,
-        pressureChange24hMmHg: prev ? round((day.pressureMeanHPa - prev.pressureMeanHPa) * 0.750062) : null,
-        pressureAmplitude72hMmHg: pressureTrend.amplitudeMmHg,
-        pressureNetChange72hMmHg: pressureTrend.netChangeMmHg,
-        pressureDirectionChanges72h: pressureTrend.directionChanges,
-        pressureTrendKind: pressureTrend.kind,
-        temperatureChange24hC: prev ? round(day.temperatureMeanC - prev.temperatureMeanC) : null,
-        precipitation24hMm: day.precipitationSumMm,
-        precipitation72hMm: round(day.precipitationSumMm + sum(prev3.map((item) => item.precipitationSumMm || 0)))
+        temperatureChange24hC: Number.isFinite(prev?.temperatureMeanC) && Number.isFinite(day.temperatureMeanC) ? round(day.temperatureMeanC - prev.temperatureMeanC) : null
       };
     });
   }
 
-  function pressureTrendStats(days, index) {
-    const values = days.slice(Math.max(0, index - 3), index + 1).map((day) => day.pressureMeanMmHg).filter(Number.isFinite);
-    if (values.length < 2) return { amplitudeMmHg: 0, netChangeMmHg: 0, directionChanges: 0, kind: "unknown" };
-    const amplitudeMmHg = Math.round(Math.max(...values) - Math.min(...values));
-    const netChangeMmHg = Math.round(values[values.length - 1] - values[0]);
-    const signs = [];
-    for (let i = 1; i < values.length; i += 1) { const d = values[i] - values[i - 1]; if (Math.abs(d) >= 2) signs.push(Math.sign(d)); }
+  function pressureTrendStats(hourlyValues) {
+    if (hourlyValues.length !== 73 || !hourlyValues.every(Number.isFinite)) {
+      return { amplitudeMmHg: null, netChangeMmHg: null, directionChanges: null, kind: "unknown" };
+    }
+    // Three-hour medians suppress isolated spikes; reversals must exceed 2 mm Hg.
+    const values = hourlyValues.slice(2).map((_, i) => [...hourlyValues.slice(i, i + 3)].sort((a, b) => a - b)[1]);
+    const amplitudeMmHg = round(Math.max(...values) - Math.min(...values));
+    const netChangeMmHg = round(hourlyValues[72] - hourlyValues[0]);
     let directionChanges = 0;
-    for (let i = 1; i < signs.length; i += 1) if (signs[i] !== signs[i - 1]) directionChanges += 1;
+    let direction = 0;
+    let extreme = values[0];
+    for (const value of values.slice(1)) {
+      if (direction === 0) {
+        if (Math.abs(value - extreme) > 2.000001) { direction = Math.sign(value - extreme); extreme = value; }
+      } else if ((value - extreme) * direction >= 0) extreme = value;
+      else if (Math.abs(value - extreme) > 2.000001) { directionChanges += 1; direction *= -1; extreme = value; }
+    }
     let kind = "directional";
     if (amplitudeMmHg <= 2) kind = "stable";
     else if (directionChanges >= 2 && amplitudeMmHg >= 10) kind = "strong_saw";
@@ -131,7 +174,7 @@
 
   function buildConditions(weather) {
     return {
-      metadata: { version: "0.1", dataType: "online-conditions", modelVersion: "0.4", generatedAt: new Date().toISOString(), source: weather.metadata.source },
+      metadata: { version: "0.1", dataType: "online-conditions", modelVersion: MODEL_VERSION, generatedAt: weather.metadata.generatedAt, source: weather.metadata.source },
       regions: Object.fromEntries(weather.regions.map((region) => [
         region.regionId,
         {
@@ -147,9 +190,9 @@
     const clarity = estimateWaterClarity(day);
     const level = estimateWaterLevel(day);
     const prevWind = days[index - 1]?.windDirection || null;
-    const windDirectionChangeDegrees = prevWind ? compassShift(prevWind, day.windDirection) : null;
-    const windSpeedChange24hMs = typeof days[index - 1]?.windSpeedMeanMs === "number" ? round(day.windSpeedMeanMs - days[index - 1].windSpeedMeanMs) : null;
-    const pressureChange24hHPa = day.pressureChange24hHPa ?? 0;
+    const windDirectionChangeDegrees = prevWind && day.windDirection ? compassShift(prevWind, day.windDirection) : null;
+    const windSpeedChange24hMs = Number.isFinite(days[index - 1]?.windSpeedMeanMs) && Number.isFinite(day.windSpeedMeanMs) ? round(day.windSpeedMeanMs - days[index - 1].windSpeedMeanMs) : null;
+    const pressureChange24hHPa = day.pressureChange24hHPa;
 
     const raw = {
       estimatedWaterTemperatureC: waterTemp,
@@ -157,12 +200,14 @@
       pressureHPa: day.pressureMeanHPa,
       pressureMmHg: day.pressureMeanMmHg,
       pressureChange24hHPa,
-      pressureChange24hMmHg: day.pressureChange24hMmHg ?? round(pressureChange24hHPa * 0.750062),
-      pressureAmplitude72hMmHg: day.pressureAmplitude72hMmHg ?? 0,
-      pressureNetChange72hMmHg: day.pressureNetChange72hMmHg ?? 0,
-      pressureDirectionChanges72h: day.pressureDirectionChanges72h ?? 0,
+      pressureChange24hMmHg: day.pressureChange24hMmHg ?? null,
+      pressureAmplitude72hMmHg: day.pressureAmplitude72hMmHg ?? null,
+      pressureNetChange72hMmHg: day.pressureNetChange72hMmHg ?? null,
+      pressureDirectionChanges72h: day.pressureDirectionChanges72h ?? null,
       pressureTrendKind: day.pressureTrendKind || "unknown",
-      temperatureChange24hC: day.temperatureChange24hC ?? 0,
+      temperatureChange24hC: day.temperatureChange24hC ?? null,
+      referenceAt: day.referenceAt || null,
+      incompleteDailyData: day.incompleteDailyData || false,
       precipitation24hMm: day.precipitation24hMm,
       precipitation72hMm: day.precipitation72hMm,
       cloudCoverPercent: day.cloudCoverMeanPercent,
@@ -179,23 +224,23 @@
     };
 
     const factorScores = {
-      waterTemperature: scoreWaterTemperature(waterTemp),
-      season: scoreSeason(day.date, waterTemp),
+      waterTemperature: Number.isFinite(waterTemp) ? scoreWaterTemperature(waterTemp) : null,
+      season: Number.isFinite(waterTemp) ? scoreSeason(day.date, waterTemp) : null,
       weatherChange: scoreWeatherChange(raw),
-      pressure: scorePressure(day.pressureMeanHPa),
-      waterClarity: scoreWaterClarity(clarity),
-      light: scoreLight(day.cloudCoverMeanPercent, day.date, waterTemp),
-      wind: scoreWind(day.windDirection, day.windSpeedMeanMs),
-      waterLevel: scoreWaterLevel(level),
+      pressure: Number.isFinite(day.pressureMeanHPa) ? scorePressure(day.pressureMeanHPa) : null,
+      waterClarity: clarity ? scoreWaterClarity(clarity) : null,
+      light: Number.isFinite(day.cloudCoverMeanPercent) && Number.isFinite(waterTemp) ? scoreLight(day.cloudCoverMeanPercent, day.date, waterTemp) : null,
+      wind: day.windDirection && Number.isFinite(day.windSpeedMeanMs) ? scoreWind(day.windDirection, day.windSpeedMeanMs) : null,
+      waterLevel: level ? scoreWaterLevel(level) : null,
       moon: 55
     };
 
-    return { date: day.date, confidence: getConfidence(raw), raw, factorScores, caps: level === "flood_risk" ? ["flood_cap_35"] : [], flags: buildFlags(raw, factorScores) };
+    return { date: day.date, confidence: Object.values(factorScores).some((score) => score === null) || raw.incompleteDailyData ? "low" : getConfidence(raw), raw, factorScores, caps: level === "flood_risk" ? ["flood_cap_35"] : [], flags: buildFlags(raw, factorScores) };
   }
 
   function buildResults(conditions) {
     return {
-      metadata: { version: "0.1", dataType: "online-results", modelVersion: "0.4", generatedAt: new Date().toISOString(), source: conditions.metadata.source },
+      metadata: { version: "0.1", dataType: "online-results", modelVersion: MODEL_VERSION, generatedAt: conditions.metadata.generatedAt, source: conditions.metadata.source },
       regions: Object.fromEntries(Object.entries(conditions.regions).map(([regionId, region]) => [
         regionId,
         { summary: region.summary, forecast: region.forecast.map((day) => ({ ...calculateIndex(day), raw: day.raw })) }
@@ -203,11 +248,18 @@
     };
   }
 
-  function calculateIndex(conditions) {
-    const factors = Object.entries(WEIGHTS).map(([id, weight]) => {
-      const score = clamp(Number(conditions.factorScores[id] ?? 0), 0, 100);
+  function calculateFactorContributions(scores = {}) {
+    return Object.entries(WEIGHTS).map(([id, weight]) => {
+      const score = Number.isFinite(scores[id]) ? clamp(scores[id], 0, 100) : null;
+      if (score === null) return { id, label: LABELS[id], weight, weightPercent: Math.round(weight * 100), score: null, contribution: null, status: "нет данных", explanation: "недостаточно исходных данных" };
       return { id, label: LABELS[id], weight, weightPercent: Math.round(weight * 100), score, contribution: round(score * weight, 2), status: score >= 75 ? "помогает" : score >= 50 ? "нейтрально" : "мешает", explanation: factorExplanation(id, score) };
     });
+  }
+
+  function calculateIndex(conditions) {
+    const factors = calculateFactorContributions(conditions.factorScores);
+    const missing = factors.filter((factor) => factor.score === null);
+    if (missing.length) return { date: conditions.date, index: null, indexRaw: null, rating: "нет оценки", confidence: "low", summary: "Недостаточно погодных данных для расчета индекса.", factors, positiveDrivers: [], negativeDrivers: [], recommendations: ["Рекомендации по этим данным недоступны. Повтори обновление погоды."], warnings: [`Нет оценки факторов: ${missing.map((factor) => factor.label).join(", ")}. Веса не перераспределялись.`], appliedCaps: [], flags: conditions.flags || [] };
     const indexRaw = factors.reduce((total, factor) => total + factor.contribution, 0);
     const capped = applyCaps(indexRaw, conditions);
     const index = Math.round(capped.index);
@@ -217,27 +269,42 @@
   }
 
   function estimateWaterTemperature(day, days, index) {
-    const current = day.temperatureMeanC ?? 0;
+    const current = day.temperatureMeanC;
+    if (!Number.isFinite(current)) return null;
     const previous = days.slice(Math.max(0, index - 3), index).map((item) => item.temperatureMeanC);
     const smoothedAir = avg([current, ...previous].filter(Number.isFinite));
-    const profile = seasonalProfile(new Date(`${day.date}T12:00:00`).getMonth() + 1);
+    if (previous.some((value) => !Number.isFinite(value))) return null;
+    const profile = seasonalProfile(day.date);
     const estimated = profile.baseC + (smoothedAir - profile.referenceAirC) * profile.airWeight + ((day.temperatureMaxC ?? current) - profile.referenceAirC) * profile.currentAirWeight;
     return round(clamp(estimated, profile.minC, profile.maxC));
   }
 
-  function seasonalProfile(month) {
+  function calendarBlend(date) {
+    const time = Date.parse(`${date}T12:00:00Z`);
+    const d = new Date(time);
+    const year = d.getUTCFullYear();
+    const month = d.getUTCMonth();
+    const leftMonth = d.getUTCDate() >= 15 ? month : month - 1;
+    const left = Date.UTC(year, leftMonth, 15, 12);
+    const right = Date.UTC(year, leftMonth + 1, 15, 12);
+    return { left: ((leftMonth + 12) % 12) + 1, right: ((leftMonth + 13) % 12) + 1, ratio: (time - left) / (right - left) };
+  }
+
+  function seasonalProfile(date) {
     const profiles = {
       1: [3.2, 2.5, 4.5, -4, .08, .03], 2: [3, 2.5, 4.5, -4, .08, .03], 3: [4.8, 3.5, 6.5, 0, .12, .05], 4: [7, 5.8, 10, 5, .18, .07],
       5: [10, 7.5, 14, 11, .26, .10], 6: [13.5, 9, 17, 16, .30, .12], 7: [15.5, 10, 20.5, 18, .34, .14], 8: [15, 10, 20, 17, .32, .12],
       9: [12, 8, 16.5, 12, .24, .08], 10: [8, 5, 12, 7, .20, .06], 11: [5, 3.5, 8, 2, .14, .04], 12: [3.5, 2.5, 5.5, -2, .10, .03]
     };
-    const [baseC, minC, maxC, referenceAirC, airWeight, currentAirWeight] = profiles[month] || profiles[4];
+    const { left, right, ratio } = calendarBlend(date);
+    const [baseC, minC, maxC, referenceAirC, airWeight, currentAirWeight] = profiles[left].map((value, i) => value + (profiles[right][i] - value) * ratio);
     return { baseC, minC, maxC, referenceAirC, airWeight, currentAirWeight };
   }
 
   function estimateWaterClarity(day) {
-    const p24 = day.precipitation24hMm || 0;
-    const p72 = day.precipitation72hMm || 0;
+    const p24 = day.precipitation24hMm;
+    const p72 = day.precipitation72hMm;
+    if (!Number.isFinite(p24) || !Number.isFinite(p72)) return null;
     if (p24 >= 20 || p72 >= 40) return "strongly_muddy";
     if (p24 >= 9 || p72 >= 25) return "moderately_muddy";
     if (p24 >= 3 || p72 >= 10) return "slightly_colored_clear";
@@ -246,8 +313,9 @@
   }
 
   function estimateWaterLevel(day) {
-    const p24 = day.precipitation24hMm || 0;
-    const p72 = day.precipitation72hMm || 0;
+    const p24 = day.precipitation24hMm;
+    const p72 = day.precipitation72hMm;
+    if (!Number.isFinite(p24) || !Number.isFinite(p72)) return null;
     if (p24 >= 25 || p72 >= 50) return "flood_risk";
     if (p24 >= 15 || p72 >= 35) return "high";
     if (p24 >= 6 || p72 >= 18) return "slightly_high";
@@ -255,14 +323,87 @@
     return "normal";
   }
 
-  function scoreWaterTemperature(temp) { if (temp <= 2) return 20; if (temp <= 5) return interpolate(temp, 3, 5, 30, 50); if (temp <= 9) return interpolate(temp, 6, 9, 60, 80); if (temp <= 15) return 98; if (temp <= 17) return interpolate(temp, 16, 17, 88, 75); if (temp <= 19) return interpolate(temp, 18, 19, 60, 35); return 20; }
-  function scoreSeason(date, waterTemp) { const m = new Date(`${date}T12:00:00`).getMonth() + 1; if (m <= 2 || m === 12) return 20; if (m === 3) return 30; if (m === 4) return waterTemp >= 6 ? 55 : 42; if (m === 5) return 86; if (m === 6) return 92; if (m === 7) return waterTemp >= 18 ? 55 : 78; if (m === 8) return waterTemp >= 18 ? 58 : 82; if (m === 9) return 92; if (m === 10) return 78; if (m === 11) return 40; return 50; }
+  function scoreWaterTemperature(temp) {
+    if (!Number.isFinite(temp)) return null;
+    const anchors = [[2, 20], [3, 30], [5, 50], [6, 60], [9, 80], [10, 98], [15, 98], [16, 88], [17, 75], [18, 60], [19, 35], [20, 20]];
+    if (temp <= 2 || temp >= 20) return 20;
+    const index = anchors.findIndex(([value]) => value >= temp);
+    return interpolate(temp, anchors[index - 1][0], anchors[index][0], anchors[index - 1][1], anchors[index][1]);
+  }
+  function scoreSeason(date, waterTemp) {
+    const scores = { 1: 20, 2: 20, 3: 30, 4: interpolate(waterTemp, 4, 6, 42, 55), 5: 86, 6: 92, 7: interpolate(waterTemp, 17, 18, 78, 55), 8: interpolate(waterTemp, 17, 18, 82, 58), 9: 92, 10: 78, 11: 40, 12: 20 };
+    const { left, right, ratio } = calendarBlend(date);
+    return Math.round(scores[left] + (scores[right] - scores[left]) * ratio);
+  }
   function scorePressure(hPa) { const mm = hPa * 0.750062; if (mm < 730) return 45; if (mm < 735) return interpolate(mm, 730, 734, 60, 72); if (mm < 742) return interpolate(mm, 735, 741, 75, 88); if (mm <= 758) return interpolate(mm, 742, 758, 90, 100); if (mm <= 765) return interpolate(mm, 759, 765, 88, 76); if (mm <= 772) return interpolate(mm, 766, 772, 75, 60); if (mm <= 780) return interpolate(mm, 773, 780, 58, 45); return 40; }
   function scoreWaterClarity(c) { return { crystal_clear: 78, clear: 88, slightly_tea_clear: 95, slightly_colored_clear: 84, moderately_muddy: 52, strongly_muddy: 22 }[c] ?? 60; }
   function scoreLight(cloud, date, waterTemp) { const m = new Date(`${date}T12:00:00`).getMonth() + 1; if (cloud >= 45 && cloud <= 90) return 92; if (cloud > 90) return 78; if (cloud < 25) { if (m <= 4 || waterTemp <= 6) return 74; if (m >= 7 && m <= 8) return 45; return 58; } return 74; }
   function scoreWind(dir, speed) { const d = { S: 92, SW: 96, W: 94, NW: 66, SE: 62, N: 48, NE: 36, E: 34 }[dir] ?? 65; let s = 75; if (speed <= 1) s = 65; else if (speed <= 4) s = 95; else if (speed <= 7) s = 72; else if (speed <= 10) s = 48; else s = 22; return Math.round(d * .6 + s * .4); }
   function scoreWaterLevel(level) { return { normal: 90, slightly_low: 82, low: 70, critically_low: 35, slightly_high: 82, high: 48, flood_risk: 18 }[level] ?? 75; }
-  function scoreWeatherChange(raw) { const p = typeof raw.pressureChange24hMmHg === "number" ? raw.pressureChange24hMmHg : (raw.pressureChange24hHPa ?? 0) * .750062; const temp = Math.abs(raw.temperatureChange24hC ?? 0); const shift = raw.windDirectionChangeDegrees ?? 0; const speedShift = Math.abs(raw.windSpeedChange24hMs ?? 0); const amp = raw.pressureAmplitude72hMmHg ?? 0; const changes = raw.pressureDirectionChanges72h ?? 0; let pressureTrendScore = 92; let stabilityScore = 88; let windScore = 100; let temperatureScore = 92; let precipitationScore = 88; if (Math.abs(p) <= 1) pressureTrendScore = 98; else if (p < -1 && p >= -4) pressureTrendScore = 100; else if (p < -4 && p >= -7) pressureTrendScore = 72; else if (p < -7) pressureTrendScore = 52; else if (p > 1 && p <= 4) pressureTrendScore = 76; else if (p > 4 && p <= 7) pressureTrendScore = 50; else if (p > 7) pressureTrendScore = 28; if (amp <= 2) stabilityScore = 98; else if (raw.pressureTrendKind === "strong_saw" || (changes >= 2 && amp >= 10)) stabilityScore = 25; else if (raw.pressureTrendKind === "saw" || (changes >= 2 && amp >= 6)) stabilityScore = 45; else if (raw.pressureTrendKind === "unstable" || (changes >= 1 && amp >= 3)) stabilityScore = 72; else if (amp >= 10) stabilityScore = 50; else if (amp >= 6) stabilityScore = 68; if (shift >= 135) windScore -= 30; else if (shift >= 90) windScore -= 18; if (speedShift >= 6) windScore -= 24; else if (speedShift >= 4) windScore -= 16; else if (speedShift >= 2.5) windScore -= 8; if ((raw.windGustsMs ?? 0) >= 14) windScore -= 12; if (temp >= 10) temperatureScore = 25; else if (temp >= 7) temperatureScore = 40; else if (temp >= 5) temperatureScore = 60; else if (temp >= 3) temperatureScore = 75; if ((raw.precipitation24hMm ?? 0) >= 25) precipitationScore = 30; else if ((raw.precipitation24hMm ?? 0) >= 15) precipitationScore = 42; else if ((raw.precipitation24hMm ?? 0) >= 9) precipitationScore = 62; else if ((raw.precipitation24hMm ?? 0) >= 3) precipitationScore = 78; return Math.round(clamp(pressureTrendScore * .4 + stabilityScore * .2 + clamp(windScore, 0, 100) * .2 + temperatureScore * .1 + precipitationScore * .1, 0, 100)); }
+  function classifyPressure(raw) {
+    const delta = raw.pressureChange24hMmHg;
+    if (!Number.isFinite(delta)) return "unknown";
+    if (delta <= -7) return "sharp_fall";
+    if (delta < -4) return "moderate_fall";
+    if (delta < -1) return "smooth_fall";
+    if (delta <= 1) return "stable";
+    if (delta <= 4) return "smooth_rise";
+    if (delta < 7) return "moderate_rise";
+    return "sharp_rise";
+  }
+
+  function isStableWeather(raw) {
+    return ["stable", "smooth_fall", "smooth_rise"].includes(classifyPressure(raw))
+      && ["stable", "directional"].includes(raw.pressureTrendKind)
+      && Number.isFinite(raw.pressureAmplitude72hMmHg) && raw.pressureAmplitude72hMmHg < 6
+      && Number.isFinite(raw.windDirectionChangeDegrees) && raw.windDirectionChangeDegrees < 90
+      && Number.isFinite(raw.windSpeedChange24hMs) && Math.abs(raw.windSpeedChange24hMs) < 4
+      && Number.isFinite(raw.temperatureChange24hC) && Math.abs(raw.temperatureChange24hC) < 5
+      && Number.isFinite(raw.windGustsMs) && raw.windGustsMs < 12
+      && Number.isFinite(raw.precipitation24hMm) && raw.precipitation24hMm < 9;
+  }
+
+  function isPrefrontalWindow(raw) {
+    return classifyPressure(raw) === "smooth_fall" && isStableWeather(raw)
+      && raw.cloudCoverPercent >= 60 && Number.isFinite(raw.windSpeedMs) && raw.windSpeedMs < 7
+      && ["clear", "crystal_clear", "slightly_tea_clear", "slightly_colored_clear"].includes(raw.waterClarity)
+      && ["normal", "slightly_low", "slightly_high"].includes(raw.waterLevel);
+  }
+
+  function scoreWeatherChange(raw) {
+    const required = ["pressureChange24hMmHg", "pressureAmplitude72hMmHg", "pressureDirectionChanges72h", "temperatureChange24hC", "windDirectionChangeDegrees", "windSpeedChange24hMs", "windGustsMs", "precipitation24hMm"];
+    if (required.some((key) => !Number.isFinite(raw[key])) || raw.pressureTrendKind === "unknown") return null;
+    const pressureTrendScore = { stable: 98, smooth_fall: 100, moderate_fall: 72, sharp_fall: 52, smooth_rise: 76, moderate_rise: 50, sharp_rise: 28 }[classifyPressure(raw)];
+    const temp = Math.abs(raw.temperatureChange24hC);
+    const shift = raw.windDirectionChangeDegrees;
+    const speedShift = Math.abs(raw.windSpeedChange24hMs);
+    const amp = raw.pressureAmplitude72hMmHg;
+    let stabilityScore = 88;
+    let windScore = 100;
+    let temperatureScore = 92;
+    let precipitationScore = 88;
+    if (amp <= 2) stabilityScore = 98;
+    else if (raw.pressureTrendKind === "strong_saw") stabilityScore = 25;
+    else if (raw.pressureTrendKind === "saw") stabilityScore = 45;
+    else if (raw.pressureTrendKind === "unstable") stabilityScore = 72;
+    else if (amp >= 10) stabilityScore = 50;
+    else if (amp >= 6) stabilityScore = 68;
+    if (shift >= 135) windScore -= 30;
+    else if (shift >= 90) windScore -= 18;
+    if (speedShift >= 6) windScore -= 24;
+    else if (speedShift >= 4) windScore -= 16;
+    else if (speedShift >= 2.5) windScore -= 8;
+    if (raw.windGustsMs >= 14) windScore -= 12;
+    if (temp >= 10) temperatureScore = 25;
+    else if (temp >= 7) temperatureScore = 40;
+    else if (temp >= 5) temperatureScore = 60;
+    else if (temp >= 3) temperatureScore = 75;
+    if (raw.precipitation24hMm >= 25) precipitationScore = 30;
+    else if (raw.precipitation24hMm >= 15) precipitationScore = 42;
+    else if (raw.precipitation24hMm >= 9) precipitationScore = 62;
+    else if (raw.precipitation24hMm >= 3) precipitationScore = 78;
+    return Math.round(clamp(pressureTrendScore * .4 + stabilityScore * .2 + clamp(windScore, 0, 100) * .2 + temperatureScore * .1 + precipitationScore * .1, 0, 100));
+  }
 
   function applyCaps(rawIndex, conditions) { const caps = []; const penalties = []; const raw = conditions.raw || {}; if (raw.estimatedWaterTemperatureC >= 20) caps.push({ id: "warm_water_cap_45", limit: 45, reason: "расчетная температура воды выше 20 °C" }); if (raw.estimatedWaterTemperatureC >= 20 && raw.waterLevel === "critically_low") caps.push({ id: "warm_low_water_cap_30", limit: 30, reason: "жара сочетается с критически низким уровнем воды" }); if (raw.waterLevel === "flood_risk" || (conditions.caps || []).includes("flood_cap_35")) penalties.push({ id: "flood_risk_penalty_12", value: 12, reason: "есть признаки паводкового уровня, поэтому индекс снижен мягким штрафом" }); const capped = caps.reduce((value, cap) => Math.min(value, cap.limit), rawIndex); const index = clamp(capped - penalties.reduce((total, penalty) => total + penalty.value, 0), 0, 100); return { index, appliedCaps: [...caps.filter((cap) => cap.limit < rawIndex), ...penalties.filter((penalty) => penalty.value > 0)] }; }
   function getDrivers(factors) { return { positiveDrivers: factors.filter((f) => f.id !== "moon" && f.score >= 80).sort((a, b) => b.contribution - a.contribution).slice(0, 3).map(driver), negativeDrivers: factors.filter((f) => f.id !== "moon" && f.score < 60).sort((a, b) => a.score - b.score || b.weight - a.weight).slice(0, 3).map(driver) }; }
@@ -276,7 +417,7 @@
     const clarity = raw.waterClarity;
     const bright = (conditions.flags || []).includes("bright_sun") || (raw.cloudCoverPercent ?? 100) < 30;
     const muddy = clarity === "moderately_muddy" || clarity === "strongly_muddy";
-    const stable = (conditions.factorScores?.weatherChange ?? 0) >= 75;
+    const stable = isStableWeather(raw);
     const activeTemp = (conditions.factorScores?.waterTemperature ?? 0) >= 85;
     const lowWater = raw.waterLevel === "slightly_low" || raw.waterLevel === "low" || (conditions.flags || []).includes("clear_low_water");
     const strongWind = raw.windSpeedMs >= 7;
@@ -284,10 +425,10 @@
     const veryClear = clarity === "crystal_clear" || clarity === "clear";
     rec.push(timingRecommendation(conditions));
     rec.push(castingRecommendation(conditions));
-    if (activeTemp && stable && !muddy && !bright) rec.push("Модель ловли: рыба должна быть достаточно активной. Начни с маленького воблера-минноу или вращающейся блесны, облавливай перекаты, кромки струи и входы в ямы.");
+    if (coldWater) rec.push("Модель ловли: вода холодная, рыба может быть вялой. Лучше медленная подача: микроколебалка на снос, силикон на легкой головке, короткие паузы и облов глубоких ям.");
+    else if (activeTemp && stable && !muddy && !bright) rec.push("Модель ловли: сочетание условий допускает активную подачу. Начни с маленького воблера-минноу или вращающейся блесны, облавливай перекаты, кромки струи и входы в ямы.");
     else if (muddy) rec.push("Модель ловли: видимость снижена, поэтому ставка на заметность. Используй вращающиеся блесны, небольшие колебалки или воблеры с выраженной игрой, веди приманку чуть медленнее и ближе к перспективным укрытиям.");
     else if (bright || lowWater || veryClear) rec.push("Модель ловли: форель будет осторожнее обычного. Подходи ниже по течению, держи дистанцию, делай первые забросы издалека и начинай с натуральных воблеров, микроколебалок или мягкой резины без лишнего блеска.");
-    else if (coldWater) rec.push("Модель ловли: вода холодная, рыба может быть вялой. Лучше медленная подача: микроколебалка на снос, силикон на легкой головке, короткие паузы и облов глубоких ям.");
     if (clarity === "crystal_clear") rec.push("Приманки: кристально прозрачная вода просит натуральные цвета, маленькие воблеры 30-50 мм, микроколебалки 1.5-3 г и некрупный силикон. Проводка спокойная, без лишней агрессии.");
     if (clarity === "slightly_tea_clear") rec.push("Приманки: слегка чайная прозрачная вода хороша для меди, золота, темных силуэтов, маленьких колебалок и минноу с умеренным контрастом.");
     if (clarity === "moderately_muddy") rec.push("Приманки: при умеренной мутности добавь контраст, яркую точку атаки, вращалку с вибрацией или воблер с более заметной игрой.");
@@ -296,29 +437,57 @@
     if (["N", "NE", "E"].includes(raw.windDirection)) rec.push("При северном или восточном ветре снизь ожидания и выбирай участки с более спокойной подачей.");
     if (lowWater) rec.push("На низкой воде ищи ямки, тень, укрытия и локальные стоянки, не заходи в воду без необходимости.");
     if (coldWater) rec.push("Проводка: при холодной воде лучше искать более теплые дневные окна, вести медленно и давать приманке паузы у дна или на границе струи.");
-    if (!coldWater && !strongWind && !bright && !muddy && raw.windSpeedMs >= 1 && raw.windSpeedMs <= 4) rec.push("Подача: легкая рябь и мягкий свет позволяют ловить активнее: равномерная проводка вращалки или воблера поперек/на снос будет хорошей стартовой схемой.");
-    if ((conditions.flags || []).includes("prefrontal_window")) rec.push("Поведение рыбы: плавное снижение давления похоже на предфронтовое окно. При облачности и влажности форель может смелее выходить из укрытий, но следи за мутностью воды.");
+    if (!coldWater && stable && !strongWind && !bright && !muddy && raw.windSpeedMs >= 1 && raw.windSpeedMs <= 4) rec.push("Подача: легкая рябь и мягкий свет позволяют ловить активнее: равномерная проводка вращалки или воблера поперек/на снос будет хорошей стартовой схемой.");
+    if (isPrefrontalWindow(raw)) rec.push("Погодная интерпретация: плавное снижение давления и облачность совместимы с приближением фронта, но сами по себе не подтверждают циклон, вылет насекомых или усиление клева. Проверь активность рыбы и прозрачность на месте.");
     if ((conditions.flags || []).includes("anticyclone_clear")) rec.push("Поведение рыбы: антициклональный сценарий с высоким давлением и ярким светом повышает осторожность. Делай дальние первые забросы, выбирай тень и натуральные цвета.");
-    if (stable && (raw.pressureAmplitude72hMmHg ?? 99) <= 2) rec.push("Поведение рыбы: давление стабильно, рыба успевает адаптироваться к фону, поэтому прогноз надежнее, чем при резких скачках.");
+    if (stable && raw.pressureAmplitude72hMmHg <= 2) rec.push("Погодная интерпретация: давление за 72 часа без значимых колебаний. Модель считает такой фон благоприятным; это не гарантия активности рыбы.");
     return rec.length ? rec : ["Условия ровные: начни с классической подачи, затем подстраивай размер и цвет под прозрачность воды."];
   }
 
-  function timingRecommendation(conditions) { const raw = conditions.raw || {}; const month = new Date(`${conditions.date}T12:00:00`).getMonth() + 1; const cold = raw.estimatedWaterTemperatureC <= 9; const warm = raw.estimatedWaterTemperatureC >= 18; const bright = (conditions.flags || []).includes("bright_sun") || (raw.cloudCoverPercent ?? 100) < 30; const stable = (conditions.factorScores?.weatherChange ?? 0) >= 75; const soft = (raw.cloudCoverPercent ?? 0) >= 55; if (cold || month <= 4) return "Когда ловить: лучше день и ближе к вечеру, когда вода успевает немного прогреться; раннее утро менее перспективно."; if (warm || month === 7 || month === 8) return "Когда ловить: лучший выбор - утро; вечером можно пробовать тень и быстрые участки, а середину жаркого дня лучше оценивать осторожно."; if (month >= 9 && month <= 10) return "Когда ловить: осенью можно ловить утром, днем и вечером; важнее стабильное давление, прозрачность воды и отсутствие резкой смены погоды."; if (bright && !soft) return "Когда ловить: при ярком солнце лучше утро или вечер; днем выбирай тень, нависающие берега и закрытые лесом участки."; if (stable && soft) return "Когда ловить: утро, день и вечер рабочие; мягкая облачность и стабильная погода позволяют не привязываться жестко ко времени."; return "Когда ловить: начни с утра или вечера, а днем смещайся к тени, глубине и участкам с более спокойной подачей."; }
+  function timingRecommendation(conditions) { const raw = conditions.raw || {}; const month = new Date(`${conditions.date}T12:00:00`).getMonth() + 1; const cold = raw.estimatedWaterTemperatureC <= 9; const warm = raw.estimatedWaterTemperatureC >= 18; const bright = (conditions.flags || []).includes("bright_sun") || (raw.cloudCoverPercent ?? 100) < 30; const stable = isStableWeather(raw); const soft = (raw.cloudCoverPercent ?? 0) >= 55; if (cold || month <= 4) return "Когда ловить: лучше день и ближе к вечеру, когда вода успевает немного прогреться; раннее утро менее перспективно."; if (warm || month === 7 || month === 8) return "Когда ловить: лучший выбор - утро; вечером можно пробовать тень и быстрые участки, а середину жаркого дня лучше оценивать осторожно."; if (month >= 9 && month <= 10) return "Когда ловить: осенью можно ловить утром, днем и вечером; важнее стабильное давление, прозрачность воды и отсутствие резкой смены погоды."; if (bright && !soft) return "Когда ловить: при ярком солнце лучше утро или вечер; днем выбирай тень, нависающие берега и закрытые лесом участки."; if (stable && soft) return "Когда ловить: утро, день и вечер рабочие; мягкая облачность и стабильная погода позволяют не привязываться жестко ко времени."; return "Когда ловить: начни с утра или вечера, а днем смещайся к тени, глубине и участкам с более спокойной подачей."; }
   function castingRecommendation(conditions) { const raw = conditions.raw || {}; const clarity = raw.waterClarity; const bright = (conditions.flags || []).includes("bright_sun") || (raw.cloudCoverPercent ?? 100) < 30; const low = raw.waterLevel === "slightly_low" || raw.waterLevel === "low" || (conditions.flags || []).includes("clear_low_water"); const clear = clarity === "crystal_clear" || clarity === "clear"; const tea = clarity === "slightly_tea_clear" || clarity === "slightly_colored_clear"; const muddy = clarity === "moderately_muddy" || clarity === "strongly_muddy"; const ripple = raw.windSpeedMs >= 1 && raw.windSpeedMs <= 4; if ((bright && clear) || (clear && low)) return "Дальность и скрытность: форель, скорее всего, видит рыболова далеко. Первые забросы делай с дальней дистанции, заходи низко и тихо, не выходи на открытый берег до проверки ближних точек."; if (bright || low) return "Дальность и скрытность: осторожность повышена. Начинай издалека, двигайся медленно, используй береговые укрытия и не становись силуэтом на фоне неба."; if (muddy) return "Дальность и скрытность: из-за мутности форель видит хуже, поэтому можно подходить ближе, но заброс должен попадать точнее к укрытиям, кромкам струи и спокойным карманам."; if (tea || ripple) return "Дальность и скрытность: слегка окрашенная вода или рябь маскируют рыболова. Дистанция нужна умеренная, можно активнее проверять ближние карманы перед дальними забросами."; return "Дальность и скрытность: держи среднюю дистанцию, сначала облавливай ближние перспективные точки, затем переходи к дальним забросам вверх или поперек течения."; }
-  function getWarnings(conditions, caps) { const raw = conditions.raw || {}; const warnings = caps.map((cap) => cap.reason); const mm = raw.pressureMmHg ?? Math.round((raw.pressureHPa || 0) * .750062); const delta = raw.pressureChange24hMmHg ?? (raw.pressureChange24hHPa ?? 0) * .750062; if (mm < 730) warnings.push("очень низкое атмосферное давление может указывать на сильный циклональный режим"); if (delta <= -7) warnings.push("давление резко падает, это может дать короткое окно активности и последующий провал"); if (delta >= 7) warnings.push("давление резко растет после смены погоды, это неблагоприятный сигнал"); if (raw.pressureTrendKind === "saw" || raw.pressureTrendKind === "strong_saw") warnings.push(`давление идет пилой: амплитуда ${raw.pressureAmplitude72hMmHg ?? "?"} мм за 48-72 ч и ${raw.pressureDirectionChanges72h ?? "?"} смены направления`); if ((raw.windDirectionChangeDegrees ?? 0) >= 90 || Math.abs(raw.windSpeedChange24hMs ?? 0) >= 4) warnings.push("ветер заметно меняется по направлению или силе, погодный режим нестабилен"); if (raw.waterClarity === "strongly_muddy") warnings.push("вода может быть слишком мутной для эффективной визуальной атаки"); if (raw.windSpeedMs >= 8) warnings.push("сильный ветер может мешать забросу и проводке"); if (raw.estimatedWaterTemperatureC >= 20) warnings.push("температура воды может быть стрессовой для форели"); return [...new Set(warnings)]; }
-  function factorExplanation(id, score) { if (id === "weatherChange") { if (score >= 80) return "давление и погода меняются в благоприятном или стабильном режиме"; if (score >= 60) return "есть заметные изменения погоды, прогноз требует осторожности"; return "динамика давления, ветра или фронта ухудшает прогноз"; } if (id === "pressure") { if (score >= 75) return "текущий барометрический фон комфортный"; if (score >= 50) return "текущий уровень давления нейтральный или контекстно зависимый"; return "текущий уровень давления неблагоприятен, особенно в сочетании с резкой сменой погоды"; } if (score >= 75) return HINTS[id][0]; if (score < 60) return HINTS[id][1]; return HINTS[id][2]; }
-  function buildFlags(raw, scores) { const flags = []; const delta = raw.pressureChange24hMmHg ?? 0; if (scores.weatherChange >= 75) flags.push("stable_weather"); if (Math.abs(delta) <= 1 && (raw.pressureAmplitude72hMmHg ?? 0) <= 2) flags.push("stable_pressure"); if (delta <= -1 && delta >= -4) flags.push("smooth_pressure_fall"); if (delta <= -7) flags.push("sharp_pressure_drop"); if (delta >= 7) flags.push("sharp_pressure_rise"); if (raw.pressureTrendKind === "saw" || raw.pressureTrendKind === "strong_saw") flags.push("pressure_saw"); if (delta < -1 && raw.cloudCoverPercent >= 60) flags.push("prefrontal_window"); if ((raw.pressureMmHg ?? 0) >= 766 && raw.cloudCoverPercent < 30) flags.push("anticyclone_clear"); if ((raw.windDirectionChangeDegrees ?? 0) >= 90) flags.push("wind_direction_shift"); if (Math.abs(raw.windSpeedChange24hMs ?? 0) >= 4) flags.push("wind_speed_shift"); if (raw.cloudCoverPercent < 30) flags.push("bright_sun"); if (raw.cloudCoverPercent >= 70) flags.push("cloudy"); if (["S", "SW", "W"].includes(raw.windDirection)) flags.push("favorable_wind"); if (["N", "NE", "E"].includes(raw.windDirection)) flags.push("unfavorable_wind"); if (raw.windGustsMs >= 12) flags.push("strong_gusts"); if (raw.waterClarity === "slightly_tea_clear") flags.push("tea_clear_water"); if (raw.waterClarity === "moderately_muddy") flags.push("muddy_risk"); if (raw.waterClarity === "strongly_muddy") flags.push("strong_muddy_risk"); if (raw.waterLevel === "flood_risk") flags.push("flood_risk"); if (raw.waterLevel === "slightly_low") flags.push("clear_low_water"); return flags; }
+  function getWarnings(conditions, caps) { const raw = conditions.raw || {}; const warnings = caps.map((cap) => cap.reason); const mm = raw.pressureMmHg ?? Math.round((raw.pressureHPa || 0) * .750062); const delta = raw.pressureChange24hMmHg ?? (raw.pressureChange24hHPa ?? 0) * .750062; if (mm < 730) warnings.push("очень низкое атмосферное давление может указывать на сильный циклональный режим"); if (delta <= -7) warnings.push("давление резко падает, это может дать короткое окно активности и последующий провал"); if (delta >= 7) warnings.push("давление резко растет после смены погоды, это неблагоприятный сигнал"); if (raw.pressureTrendKind === "saw" || raw.pressureTrendKind === "strong_saw") warnings.push(`давление идет пилой: размах ${raw.pressureAmplitude72hMmHg ?? "?"} мм за 72 ч и ${raw.pressureDirectionChanges72h ?? "?"} смены направления`); if ((raw.windDirectionChangeDegrees ?? 0) >= 90 || Math.abs(raw.windSpeedChange24hMs ?? 0) >= 4) warnings.push("ветер заметно меняется по направлению или силе, погодный режим нестабилен"); if (raw.waterClarity === "strongly_muddy") warnings.push("вода может быть слишком мутной для эффективной визуальной атаки"); if (raw.windSpeedMs >= 8) warnings.push("сильный ветер может мешать забросу и проводке"); if (raw.estimatedWaterTemperatureC >= 20) warnings.push("температура воды может быть стрессовой для форели"); return [...new Set(warnings)]; }
+  function factorExplanation(id, score) { if (id === "moon") return "постоянный нейтральный вклад; фаза не рассчитывается"; if (id === "weatherChange") { if (score >= 80) return "давление и погода меняются в благоприятном или стабильном режиме"; if (score >= 60) return "есть заметные изменения погоды, прогноз требует осторожности"; return "динамика давления, ветра или фронта ухудшает прогноз"; } if (id === "pressure") { if (score >= 75) return "текущий барометрический фон комфортный"; if (score >= 50) return "текущий уровень давления нейтральный или контекстно зависимый"; return "текущий уровень давления неблагоприятен, особенно в сочетании с резкой сменой погоды"; } if (score >= 75) return HINTS[id][0]; if (score < 60) return HINTS[id][1]; return HINTS[id][2]; }
+  function buildFlags(raw) {
+    const flags = [];
+    const pressure = classifyPressure(raw);
+    if (isStableWeather(raw)) flags.push("stable_weather");
+    if (pressure === "stable" && raw.pressureTrendKind === "stable") flags.push("stable_pressure");
+    if (pressure === "smooth_fall") flags.push("smooth_pressure_fall");
+    if (pressure === "sharp_fall") flags.push("sharp_pressure_drop");
+    if (pressure === "sharp_rise") flags.push("sharp_pressure_rise");
+    if (["saw", "strong_saw"].includes(raw.pressureTrendKind)) flags.push("pressure_saw");
+    if (isPrefrontalWindow(raw)) flags.push("prefrontal_window");
+    if (raw.pressureMmHg >= 766 && Number.isFinite(raw.cloudCoverPercent) && raw.cloudCoverPercent < 30) flags.push("anticyclone_clear");
+    if (raw.windDirectionChangeDegrees >= 90) flags.push("wind_direction_shift");
+    if (Math.abs(raw.windSpeedChange24hMs) >= 4) flags.push("wind_speed_shift");
+    if (Number.isFinite(raw.cloudCoverPercent) && raw.cloudCoverPercent < 30) flags.push("bright_sun");
+    if (raw.cloudCoverPercent >= 70) flags.push("cloudy");
+    if (["S", "SW", "W"].includes(raw.windDirection)) flags.push("favorable_wind");
+    if (["N", "NE", "E"].includes(raw.windDirection)) flags.push("unfavorable_wind");
+    if (raw.windGustsMs >= 12) flags.push("strong_gusts");
+    if (raw.waterClarity === "slightly_tea_clear") flags.push("tea_clear_water");
+    if (raw.waterClarity === "moderately_muddy") flags.push("muddy_risk");
+    if (raw.waterClarity === "strongly_muddy") flags.push("strong_muddy_risk");
+    if (raw.waterLevel === "flood_risk") flags.push("flood_risk");
+    if (raw.waterLevel === "slightly_low") flags.push("clear_low_water");
+    return flags;
+  }
   function getConfidence(raw) { if (raw.waterClarity === "strongly_muddy" || raw.waterLevel === "flood_risk") return "low"; if (raw.precipitation72hMm >= 18) return "low"; return "medium"; }
-  function isTodayOrFuture(date) { const now = new Date(); const today = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`; return date >= today; }
+  function isTodayOrFuture(date) { return date >= moscowDate(); }
   function push(target, values, index) { const value = Array.isArray(values) ? values[index] : null; if (typeof value === "number" && Number.isFinite(value)) target.push(value); }
   function sum(values) { return values.reduce((total, value) => total + (Number.isFinite(value) ? value : 0), 0); }
-  function avg(values) { const numeric = values.filter(Number.isFinite); return numeric.length ? sum(numeric) / numeric.length : 0; }
-  function round(value, digits = 1) { const m = 10 ** digits; return Math.round(value * m) / m; }
+  function avg(values) { const numeric = values.filter(Number.isFinite); return numeric.length ? sum(numeric) / numeric.length : null; }
+  function round(value, digits = 1) { if (!Number.isFinite(value)) return null; const m = 10 ** digits; return Math.round(value * m) / m; }
   function clamp(value, min, max) { return Math.max(min, Math.min(max, value)); }
   function interpolate(value, inMin, inMax, outMin, outMax) { return Math.round(outMin + clamp((value - inMin) / (inMax - inMin), 0, 1) * (outMax - outMin)); }
-  function degreesToCompass(degrees) { const dirs = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"]; return dirs[Math.round((((degrees % 360) + 360) % 360) / 45) % dirs.length]; }
+  function degreesToCompass(degrees) { if (!Number.isFinite(degrees)) return null; const dirs = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"]; return dirs[Math.round((((degrees % 360) + 360) % 360) / 45) % dirs.length]; }
   function circularMean(degreesList) { if (!degreesList.length) return 0; const radians = degreesList.map((d) => d * Math.PI / 180); const sin = avg(radians.map(Math.sin)); const cos = avg(radians.map(Math.cos)); return ((Math.atan2(sin, cos) * 180 / Math.PI) % 360 + 360) % 360; }
   function compassShift(a, b) { const degrees = { N: 0, NE: 45, E: 90, SE: 135, S: 180, SW: 225, W: 270, NW: 315 }; const diff = Math.abs((degrees[a] ?? 0) - (degrees[b] ?? 0)); return Math.min(diff, 360 - diff); }
 
-  window.fetchOnlineResults = fetchOnlineResults;
-})();
+  return { MODEL_VERSION, REGIONS, FACTOR_WEIGHTS: WEIGHTS, FACTOR_LABELS: LABELS,
+    fetchOnlineResults, buildDailyForecast, buildConditions, buildDayConditions, buildResults,
+    calculateIndex, calculateFactorContributions, getRating, estimateWaterTemperature, estimateWaterClarity, estimateWaterLevel,
+    pressureTrendStats, scoreWeatherChange, scoreSeason, scoreWaterTemperature, buildFlags,
+    classifyPressure, isStableWeather, isPrefrontalWindow, moscowDate, fetchJson };
+});

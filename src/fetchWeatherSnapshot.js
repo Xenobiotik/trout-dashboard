@@ -9,7 +9,7 @@ async function main() {
   const regions = JSON.parse(fs.readFileSync(regionsPath, "utf8"));
 
   const snapshot = await fetchWeatherForRegions(regions, {
-    pastDays: 3,
+    pastDays: 4,
     forecastDays: 5,
     timezone: "Europe/Moscow"
   });
