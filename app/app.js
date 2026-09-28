@@ -224,7 +224,8 @@ function getDetailedAnalytics(day) {
   if (factor.pressure >= 75 && window.TroutEngine.isStableWeather(raw)) {
     parts.push(`Давление ${pressureToMmHg(raw.pressureHPa)} мм рт. ст. и спокойная динамика дают устойчивый погодный фон.`);
   } else if (factor.pressure < 60 || factor.weatherChange < 60) {
-    parts.push(`Погодный блок слабый: давление ${pressureToMmHg(raw.pressureHPa)} мм рт. ст., изменение за сутки ${pressureDeltaLabel(raw)}.`);
+    const label = factor.pressure < 60 && factor.weatherChange < 60 ? "Погодный блок снижает индекс" : "Оценки уровня давления и динамики различаются";
+    parts.push(`${label}: давление ${pressureToMmHg(raw.pressureHPa)} мм рт. ст. (${factor.pressure}/100), динамика ${factor.weatherChange}/100, изменение за сутки ${pressureDeltaLabel(raw)}.`);
   }
 
   const pressureInterpretation = getPressureWeatherInterpretation(raw);

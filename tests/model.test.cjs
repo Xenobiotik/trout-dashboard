@@ -162,6 +162,24 @@ test("cold-water priority excludes active presentation advice", () => {
   assert.ok(!text.includes("ловить активнее"));
 });
 
+test("mixed unstable conditions still include a complete fishing approach", () => {
+  const c = conditions();
+  Object.assign(c.raw, { estimatedWaterTemperatureC: 11, pressureChange24hMmHg: 8, waterClarity: "slightly_tea_clear", cloudCoverPercent: 40, waterLevel: "normal" });
+  const recommendations = engine.calculateIndex(c).recommendations;
+  assert.ok(recommendations.some((s) => s.startsWith("Модель ловли:")));
+  assert.ok(!recommendations.some((s) => s.includes("ловить активнее")));
+});
+
+test("a high composite weather score is not described as guaranteed stability", () => {
+  const c = conditions();
+  c.raw.windDirectionChangeDegrees = 135;
+  c.factorScores.weatherChange = engine.scoreWeatherChange(c.raw);
+  const f = engine.calculateIndex(c).factors.find((item) => item.id === "weatherChange");
+  assert.ok(f.score >= 80);
+  assert.ok(!f.explanation.includes("стабильном режиме"));
+  assert.ok(!engine.isStableWeather(c.raw));
+});
+
 test("index matches weighted sum, penalties and caps", () => {
   const c = conditions();
   c.raw.waterLevel = "flood_risk";
