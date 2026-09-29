@@ -99,18 +99,18 @@ function windLabel(direction) {
 function getSeasonText(dateString, seasonScore) {
   const month = new Date(`${dateString}T12:00:00`).getMonth() + 1;
   if (month >= 5 && month <= 6) {
-    return `поздняя весна / начало лета, сезонный балл ${seasonScore}`;
+    return `поздняя весна / начало лета, ожидаемый кормовой фон ${seasonScore}/100`;
   }
   if (month >= 9 && month <= 10) {
-    return `осенний пик активности, сезонный балл ${seasonScore}`;
+    return `осенняя фаза, ожидаемый кормовой фон ${seasonScore}/100; активность на ручье требует наблюдения`;
   }
   if (month >= 7 && month <= 8) {
-    return `летний режим, сезонный балл ${seasonScore}`;
+    return `летний кормовой фон ${seasonScore}/100; температура воды учитывается отдельно`;
   }
   if (month >= 3 && month <= 4) {
-    return `весенний разгон активности, сезонный балл ${seasonScore}`;
+    return `весенний переход, ожидаемый кормовой фон ${seasonScore}/100`;
   }
-  return `сезонный балл ${seasonScore}`;
+  return `холодный сезон, ожидаемый кормовой фон ${seasonScore}/100; количество корма не измеряется`;
 }
 
 function formatDelta(value, unit) {
@@ -193,17 +193,17 @@ function formatWindChange(raw) {
 function getFactorPrimaryInfo(factor, day) {
   const raw = day.raw || {};
   const score = factor.score;
+  const weather = window.TroutEngine.scoreWeatherComponents(raw);
+  const breakdown = weather ? `Баллы компонентов: динамика давления ${weather.pressure}, температуры ${weather.temperature}, ветра ${weather.wind} из 100. Каждый занимает 5% общего веса.` : "Недостаточно данных о погодной динамике.";
 
   const info = {
     waterTemperature: `${raw.estimatedWaterTemperatureC ?? "-"} °C расчетной температуры воды, воздух ${raw.airTemperatureC ?? "-"} °C`,
     season: getSeasonText(day.date, score),
-    weatherChange: `давление за 24 ч: ${pressureDeltaLabel(raw)}, ${pressureTrendLabel(raw)}; ветер (средние за сутки): ${formatWindChange(raw)}; температура воздуха (средние за сутки): ${formatDelta(raw.temperatureChange24hC, "°C")}; осадки за 72 ч: ${raw.precipitation72hMm ?? "-"} мм. Окна давления и осадков заканчиваются ${formatTimestamp(raw.referenceAt)}; включают прогноз до этого часа.`,
-    pressure: `${pressureToMmHg(raw.pressureHPa)} мм рт. ст., среднее за выбранные сутки, приведено к уровню моря`,
+    weatherChange: `давление за 24 ч: ${pressureDeltaLabel(raw)}, ${pressureTrendLabel(raw)}; ветер (средние за сутки): ${formatWindChange(raw)}; температура воздуха (средние за сутки): ${formatDelta(raw.temperatureChange24hC, "°C")}. Окно давления заканчивается ${formatTimestamp(raw.referenceAt)} и включает прогноз до этого часа. ${breakdown}`,
     waterClarity: `${CLARITY_LABELS[raw.waterClarity] || "нет оценки"} (косвенная оценка); осадки за 24 ч до ${formatTimestamp(raw.referenceAt)}: ${raw.precipitation24hMm ?? "-"} мм`,
     light: `облачность ${raw.cloudCoverPercent ?? "-"}%`,
-    wind: `${windLabel(raw.windDirection)}, ${raw.windSpeedMs ?? "-"} м/с`,
-    waterLevel: `${WATER_LEVEL_LABELS[raw.waterLevel] || "нет оценки"} (косвенная оценка по осадкам)`,
-    moon: "Фаза не рассчитывается. Постоянный нейтральный балл 55; вклад 1,1 балла сохранен из прежней модели, это не оценка влияния текущей фазы."
+    wind: `${windLabel(raw.windDirection)}, ${raw.windSpeedMs ?? "-"} м/с, порывы до ${raw.windGustsMs ?? "-"} м/с. Оцениваются сила и порывы, направление дано справочно.`,
+    waterLevel: `${WATER_LEVEL_LABELS[raw.waterLevel] || "нет оценки"} (косвенная оценка по осадкам); за 72 ч до ${formatTimestamp(raw.referenceAt)}: ${raw.precipitation72hMm ?? "-"} мм`
   };
 
   return info[factor.id] || "";
@@ -221,11 +221,10 @@ function getDetailedAnalytics(day) {
     parts.push(`Температура воды (${raw.estimatedWaterTemperatureC} °C) ограничивает активность, даже если часть остальных факторов выглядит неплохо.`);
   }
 
-  if (factor.pressure >= 75 && window.TroutEngine.isStableWeather(raw)) {
-    parts.push(`Давление ${pressureToMmHg(raw.pressureHPa)} мм рт. ст. и спокойная динамика дают устойчивый погодный фон.`);
-  } else if (factor.pressure < 60 || factor.weatherChange < 60) {
-    const label = factor.pressure < 60 && factor.weatherChange < 60 ? "Погодный блок снижает индекс" : "Оценки уровня давления и динамики различаются";
-    parts.push(`${label}: давление ${pressureToMmHg(raw.pressureHPa)} мм рт. ст. (${factor.pressure}/100), динамика ${factor.weatherChange}/100, изменение за сутки ${pressureDeltaLabel(raw)}.`);
+  if (window.TroutEngine.isStableWeather(raw)) {
+    parts.push("Температура воздуха, ветер и давление меняются без выраженных скачков. Это благоприятный погодный фон по правилам модели.");
+  } else if (factor.weatherChange < 60) {
+    parts.push(`Погодный переход снижает индекс: динамика ${factor.weatherChange}/100. Уровень давления ${pressureToMmHg(raw.pressureHPa)} мм рт. ст. не получает отдельной оценки.`);
   }
 
   const pressureInterpretation = getPressureWeatherInterpretation(raw);
@@ -246,9 +245,9 @@ function getDetailedAnalytics(day) {
   }
 
   if (factor.wind >= 80) {
-    parts.push(`Ветер благоприятный: ${windLabel(raw.windDirection)}, ${raw.windSpeedMs} м/с.`);
+    parts.push(`Сила ветра не создает выраженных помех: ${raw.windSpeedMs} м/с, порывы до ${raw.windGustsMs} м/с. Направление ${windLabel(raw.windDirection)} дано справочно.`);
   } else if (factor.wind < 60) {
-    parts.push(`Ветер работает против прогноза: ${windLabel(raw.windDirection)}, ${raw.windSpeedMs} м/с.`);
+    parts.push(`Сила ветра или порывы затрудняют ловлю: ${raw.windSpeedMs} м/с, порывы до ${raw.windGustsMs} м/с.`);
   }
 
   return parts.slice(0, 4);
@@ -379,8 +378,8 @@ function renderIndexPanel(day) {
           <span class="meta-value">${raw.estimatedWaterTemperatureC ?? "-"} °C</span>
         </div>
         <div class="meta-item">
-          <span class="meta-label">Давление</span>
-          <span class="meta-value">${pressureToMmHg(raw.pressureHPa)} мм</span>
+          <span class="meta-label">Давление (справочно)</span>
+          <span class="meta-value">${pressureToMmHg(raw.pressureHPa)} мм рт. ст.</span>
         </div>
         <div class="meta-item">
           <span class="meta-label">Ветер</span>
@@ -401,18 +400,7 @@ function renderIndexPanel(day) {
 function renderCalculation(day) {
   if (!Number.isFinite(day.indexRaw)) return "";
   const number = (value) => new Intl.NumberFormat("ru-RU", { maximumFractionDigits: 2 }).format(value);
-  let value = day.indexRaw;
-  const steps = [`Сумма вкладов: ${number(value)}`];
-  for (const correction of day.appliedCaps || []) {
-    if (Number.isFinite(correction.limit)) {
-      value = Math.min(value, correction.limit);
-      steps.push(`ограничение до ${number(correction.limit)} (${correction.reason})`);
-    } else if (Number.isFinite(correction.value)) {
-      value -= correction.value;
-      steps.push(`штраф −${number(correction.value)} (${correction.reason})`);
-    }
-  }
-  if (value < 0) steps.push("нижняя граница 0");
+  const steps = [`Сумма вкладов: ${number(day.indexRaw)}`];
   steps.push(`итог после округления: ${day.index}`);
   return `<p class="calculation">${steps.join(" → ")}</p>`;
 }

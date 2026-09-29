@@ -32,7 +32,7 @@ function dataset() {
 }
 
 test("weights remain exactly the agreed 100%", () => {
-  assert.deepEqual(engine.FACTOR_WEIGHTS, { waterTemperature: .22, season: .21, weatherChange: .22, pressure: .07, waterClarity: .10, light: .08, wind: .05, waterLevel: .03, moon: .02 });
+  assert.deepEqual(engine.FACTOR_WEIGHTS, { waterTemperature: .30, season: .20, weatherChange: .15, waterClarity: .12, light: .12, waterLevel: .06, wind: .05 });
   assert.equal(Math.round(Object.values(engine.FACTOR_WEIGHTS).reduce((a, b) => a + b, 0) * 100), 100);
 });
 
@@ -65,14 +65,14 @@ test("all-null pressure has no score, no fake zero, no stability", () => {
   assert.equal(c.raw.pressureHPa, null);
   assert.equal(c.raw.pressureChange24hMmHg, null);
   assert.equal(c.raw.pressureAmplitude72hMmHg, null);
-  assert.equal(c.factorScores.pressure, null);
+  assert.equal(Object.hasOwn(c.factorScores, "pressure"), false);
   assert.equal(c.factorScores.weatherChange, null);
   assert.equal(c.confidence, "low");
   assert.ok(!c.flags.includes("stable_pressure"));
   const result = engine.calculateIndex(c);
   assert.equal(result.index, null);
   assert.equal(result.positiveDrivers.length, 0);
-  assert.ok(result.factors.some((f) => f.id === "pressure" && f.contribution === null));
+  assert.ok(result.factors.some((f) => f.id === "weatherChange" && f.contribution === null));
 });
 
 test("invalid ranges are missing values rather than valid weather", () => {
@@ -180,22 +180,163 @@ test("a high composite weather score is not described as guaranteed stability", 
   assert.ok(!engine.isStableWeather(c.raw));
 });
 
-test("index matches weighted sum, penalties and caps", () => {
+test("heat and flood warnings do not apply additional penalties or caps", () => {
   const c = conditions();
   c.raw.waterLevel = "flood_risk";
   const r = engine.calculateIndex(c);
-  assert.equal(r.index, Math.round(r.indexRaw - 12));
+  assert.equal(r.index, Math.round(r.indexRaw));
+  assert.deepEqual(r.appliedCaps, []);
+  assert.ok(r.warnings.some((w) => w.includes("паводок")));
+  assert.ok(r.recommendations.join(" ").includes("безопасность"));
+  assert.ok(!r.recommendations.join(" ").includes("активную подачу"));
   c.raw.estimatedWaterTemperatureC = 21;
   c.raw.waterLevel = "critically_low";
   const warm = engine.calculateIndex(c);
-  assert.equal(warm.index, 30);
+  assert.equal(warm.index, Math.round(warm.indexRaw));
+  assert.deepEqual(warm.appliedCaps, []);
+  assert.ok(warm.warnings.some((w) => w.includes("тепловой стресс")));
+  assert.ok(warm.recommendations.join(" ").includes("отложить ловлю"));
 });
 
-test("moon neutral contribution stays 1.1 and never becomes driver", () => {
-  const r = engine.calculateIndex(conditions());
-  assert.equal(r.factors.find((f) => f.id === "moon").contribution, 1.1);
-  assert.ok(r.factors.find((f) => f.id === "moon").explanation.includes("не рассчитывается"));
-  assert.ok(![...r.positiveDrivers, ...r.negativeDrivers].some((f) => f.factor === "Луна"));
+test("moon and absolute pressure have no independent factor or hidden constant", () => {
+  const c = conditions();
+  const baseline = engine.calculateIndex(c);
+  const r = engine.calculateIndex({ ...c, factorScores: { ...c.factorScores, pressure: 0, moon: 100 } });
+  assert.equal(r.factors.length, 7);
+  assert.ok(!r.factors.some((f) => ["moon", "pressure"].includes(f.id)));
+  assert.equal(r.indexRaw, baseline.indexRaw);
+  assert.ok(![...r.positiveDrivers, ...r.negativeDrivers].some((f) => ["Луна", "Атмосферное давление"].includes(f.factor)));
+});
+
+test("all seven equal scores reproduce the same total, without bonuses or caps", () => {
+  for (const score of [0, 25, 50, 60, 80, 100]) {
+    const c = conditions();
+    c.factorScores = Object.fromEntries(Object.keys(engine.FACTOR_WEIGHTS).map((id) => [id, score]));
+    const result = engine.calculateIndex(c);
+    assert.equal(result.indexRaw, score);
+    assert.equal(result.index, score);
+    assert.equal(result.factors.length, 7);
+  }
+});
+
+test("rounding the displayed sum at .50 is not corrupted by binary floating point", () => {
+  const c = conditions();
+  c.factorScores = { waterTemperature: 76, season: 94, weatherChange: 42, waterClarity: 3, light: 32, waterLevel: 90, wind: 80 };
+  const result = engine.calculateIndex(c);
+  assert.equal(result.indexRaw, 61.5);
+  assert.equal(result.index, 62);
+  const data = dataset();
+  data.regions.south_west.forecast[0] = { ...result, raw: c.raw };
+  assert.ok(cache.usableData(data, NOW));
+});
+
+test("timing advice follows water and light without making pressure decisive", () => {
+  const c = conditions();
+  const text = engine.calculateIndex(c).recommendations.find((r) => r.startsWith("Когда ловить:"));
+  assert.ok(!text.includes("давление"));
+  c.raw.estimatedWaterTemperatureC = 7;
+  assert.ok(engine.calculateIndex(c).recommendations.find((r) => r.startsWith("Когда ловить:")).includes("прогреться"));
+  c.date = "2026-04-15";
+  c.raw.estimatedWaterTemperatureC = 18;
+  assert.ok(engine.calculateIndex(c).recommendations.find((r) => r.startsWith("Когда ловить:")).includes("прохладного утра"));
+});
+
+test("stable absolute pressure from 720 to 790 mm has no effect on index", () => {
+  const baseline = engine.calculateIndex(conditions());
+  for (const mm of [720, 730, 745, 760, 775, 790]) {
+    const c = conditions({ pressure_msl: () => mm / .750062 });
+    const result = engine.calculateIndex(c);
+    assert.equal(result.indexRaw, baseline.indexRaw);
+    assert.deepEqual(result.factors, baseline.factors);
+    assert.deepEqual(result.recommendations, baseline.recommendations);
+    assert.ok(!result.warnings.some((w) => w.includes("низкое атмосферное")));
+  }
+});
+
+test("pressure dynamics occupy at most five index points and cannot alter other weather components", () => {
+  const c = conditions();
+  const totals = [];
+  const baseline = engine.scoreWeatherComponents(c.raw);
+  for (const delta of [-20, -8, -4, -1, 0, 1, 4, 8, 20]) {
+    for (const kind of ["stable", "directional", "unstable", "saw", "strong_saw"]) {
+      const raw = { ...c.raw, pressureChange24hMmHg: delta, pressureAmplitude72hMmHg: Math.abs(delta) + 2, pressureTrendKind: kind };
+      const components = engine.scoreWeatherComponents(raw);
+      assert.equal(components.temperature, baseline.temperature);
+      assert.equal(components.wind, baseline.wind);
+      assert.ok(components.pressure >= 0 && components.pressure <= 100);
+      const result = engine.calculateIndex({ ...c, raw, factorScores: { ...c.factorScores, weatherChange: engine.scoreWeatherChange(raw) } });
+      totals.push(result.indexRaw);
+    }
+  }
+  assert.ok(Math.max(...totals) - Math.min(...totals) <= 5);
+});
+
+test("weather component is exactly the mean of pressure, temperature and wind dynamics", () => {
+  const raw = { ...conditions().raw, pressureChange24hMmHg: 8, pressureTrendKind: "saw", pressureAmplitude72hMmHg: 8, temperatureChange24hC: 8, windDirectionChangeDegrees: 180, windSpeedChange24hMs: 6 };
+  const parts = engine.scoreWeatherComponents(raw);
+  assert.equal(parts.temperature, 40);
+  assert.equal(parts.wind, 46);
+  assert.equal(engine.scoreWeatherChange(raw), Math.round((parts.pressure + parts.temperature + parts.wind) / 3 * 100) / 100);
+});
+
+test("rain and current gusts do not produce an extra weather dynamics penalty", () => {
+  const raw = conditions().raw;
+  const score = engine.scoreWeatherChange(raw);
+  for (const rain of [0, 10, 25, 50, null]) {
+    assert.equal(engine.scoreWeatherChange({ ...raw, precipitation24hMm: rain, precipitation72hMm: rain, windGustsMs: 25 }), score);
+  }
+  assert.ok(engine.scoreWind(2, 25) < engine.scoreWind(2, 3));
+});
+
+test("season is a calendar food background independent of current water temperature", () => {
+  for (let month = 1; month <= 12; month++) {
+    const date = `2026-${String(month).padStart(2, "0")}-15`;
+    assert.equal(engine.scoreSeason(date, 3), engine.scoreSeason(date, 21));
+  }
+  assert.equal(engine.scoreSeason("2026-04-15"), 55);
+  assert.equal(engine.scoreSeason("2026-07-15"), 78);
+  assert.equal(engine.scoreSeason("2026-08-15"), 82);
+});
+
+test("equally steady winds have identical scores regardless of compass direction", () => {
+  const baseline = engine.calculateIndex(conditions());
+  for (const direction of [0, 45, 90, 135, 180, 225, 270, 315]) {
+    const result = engine.calculateIndex(conditions({ wind_direction_10m: () => direction }));
+    assert.equal(result.indexRaw, baseline.indexRaw);
+    assert.deepEqual(result.recommendations, baseline.recommendations);
+    assert.ok(!result.flags.some((f) => /^(un)?favorable_wind$/.test(f)));
+  }
+});
+
+test("wind score decreases with sustained wind or gusts and requires both inputs", () => {
+  for (let speed = 1; speed <= 30; speed++) assert.ok(engine.scoreWind(speed, 35) <= engine.scoreWind(speed - 1, 35));
+  for (let gust = 1; gust <= 30; gust++) assert.ok(engine.scoreWind(2, gust) <= engine.scoreWind(2, gust - 1));
+  assert.equal(engine.scoreWind(null, 3), null);
+  assert.equal(engine.scoreWind(2, null), null);
+});
+
+test("missing gusts are unavailable wind, not invented calm, while dynamics stay available", () => {
+  const c = conditions({ wind_gusts_10m: () => null });
+  assert.equal(c.factorScores.wind, null);
+  assert.ok(Number.isFinite(c.factorScores.weatherChange));
+  assert.equal(engine.calculateIndex(c).index, null);
+});
+
+test("cache rejects obsolete factor sets, false weights, arithmetic and hidden corrections", () => {
+  const mutations = [
+    (d) => { d.factors.push({ id: "moon", weight: .02, score: 55, contribution: 1.1 }); },
+    (d) => { d.factors[0].weight = .22; },
+    (d) => { d.factors[0].contribution += 1; },
+    (d) => { d.index -= 12; },
+    (d) => { d.indexRaw -= 12; },
+    (d) => { d.appliedCaps = [{ value: 12 }]; }
+  ];
+  for (const mutate of mutations) {
+    const data = dataset();
+    mutate(data.regions.south_west.forecast[0]);
+    assert.equal(cache.usableData(data, NOW), null);
+  }
+  assert.equal(cache.CACHE_KEY, `trout-forecast-v${engine.MODEL_VERSION}`);
 });
 
 test("Node pipeline and browser use the same model", () => {
@@ -221,7 +362,7 @@ test("five regions and five days reconcile; no NaN or false missing values", () 
 test("fresh cache works; old April, wrong model, future timestamps rejected", () => {
   const data = dataset();
   assert.ok(cache.usableData(data, NOW));
-  for (const metadata of [{ ...data.metadata, generatedAt: "2026-04-29T12:00:00Z" }, { ...data.metadata, modelVersion: "0.4" }, { ...data.metadata, generatedAt: "2026-09-29T12:00:00Z" }]) assert.equal(cache.usableData({ ...data, metadata }, NOW), null);
+  for (const metadata of [{ ...data.metadata, generatedAt: "2026-04-29T12:00:00Z" }, { ...data.metadata, modelVersion: "0.5" }, { ...data.metadata, generatedAt: "2026-09-29T12:00:00Z" }]) assert.equal(cache.usableData({ ...data, metadata }, NOW), null);
   assert.equal(cache.usableData(data, new Date(NOW.getTime() + cache.MAX_AGE_MS + 1)), null);
   assert.ok(cache.needsRefresh(data, new Date(NOW.getTime() + cache.REFRESH_MS)));
 });
@@ -288,6 +429,20 @@ test("UI: successful response is saved; repeat click really refreshes", async ()
   assert.equal(calls, 2);
 });
 
+test("UI: seven weights, reference-only pressure and three weather components", async () => {
+  const app = await mountApp(async () => dataset());
+  const factors = app.node("#factorsList").innerHTML;
+  assert.equal((factors.match(/class="factor-row"/g) || []).length, 7);
+  for (const weight of [30, 20, 15, 12, 6, 5]) assert.ok(factors.includes(`Вес ${weight}%`));
+  assert.ok(!factors.includes("Луна"));
+  assert.ok(!factors.includes("Атмосферное давление"));
+  assert.ok(factors.includes("Баллы компонентов"));
+  assert.ok(factors.includes("порывы"));
+  const index = app.node("#indexPanel").innerHTML;
+  assert.ok(index.includes("Давление (справочно)"));
+  assert.ok(!index.includes("undefined"));
+});
+
 test("UI: failed refresh keeps fresh cache with an explicit warning", async () => {
   const app = await mountApp(async () => { throw Error("offline"); }, { saved: dataset() });
   assert.ok(app.node("#dataStatusText").textContent.includes("Сохраненный прогноз"));
@@ -319,13 +474,14 @@ test("UI: unavailable factor has no numeric index or misleading recommendations"
   assert.ok(app.node("#warningsBlock").innerHTML.includes("Веса не перераспределялись"));
 });
 
-test("UI: all corrections remain visible regardless of analytic bullet limit", async () => {
+test("UI: flood remains visible as a warning, not a subtraction", async () => {
   const data = dataset();
   const c = conditions(); c.raw.waterLevel = "flood_risk";
   const day = { ...engine.calculateIndex(c), raw: c.raw };
   data.regions.south_west.forecast[0] = day;
   const app = await mountApp(async () => data);
-  assert.ok(app.node("#indexPanel").innerHTML.includes("штраф −12"));
+  assert.ok(!app.node("#indexPanel").innerHTML.includes("штраф"));
+  assert.ok(app.node("#warningsBlock").innerHTML.includes("паводок"));
   assert.ok(app.node("#indexPanel").innerHTML.includes(`итог после округления: ${day.index}`));
 });
 

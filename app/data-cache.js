@@ -3,7 +3,8 @@
   if (typeof module === "object" && module.exports) module.exports = cache;
   else root.TroutCache = cache;
 })(typeof window !== "undefined" ? window : globalThis, function (engine) {
-  const CACHE_KEY = "trout-forecast-v0.5";
+  const CACHE_KEY = `trout-forecast-v${engine.MODEL_VERSION}`;
+  const FACTOR_COUNT = Object.keys(engine.FACTOR_WEIGHTS).length;
   const REFRESH_MS = 60 * 60 * 1000;
   const MAX_AGE_MS = 6 * REFRESH_MS;
 
@@ -20,14 +21,18 @@
       const forecast = region.forecast.filter((day) => day && day.date >= today && day.date <= lastDate);
       if (!forecast.length || !forecast.some((day) => day.date === today) || new Set(forecast.map((day) => day.date)).size !== forecast.length) return null;
       for (const day of forecast) {
-        if (!/^\d{4}-\d{2}-\d{2}$/.test(day.date) || !Array.isArray(day.factors) || day.factors.length !== 9 || !day.raw) return null;
+        if (!/^\d{4}-\d{2}-\d{2}$/.test(day.date) || !Array.isArray(day.factors) || day.factors.length !== FACTOR_COUNT || !day.raw) return null;
         if (!(day.index === null || Number.isFinite(day.index) && day.index >= 0 && day.index <= 100)) return null;
         if (![day.recommendations, day.warnings, day.positiveDrivers, day.negativeDrivers, day.appliedCaps].every(Array.isArray)) return null;
-        if (new Set(day.factors.map((factor) => factor?.id)).size !== 9) return null;
+        if (new Set(day.factors.map((factor) => factor?.id)).size !== FACTOR_COUNT || day.appliedCaps.length) return null;
         if (day.factors.some((factor) => !factor || !Object.hasOwn(engine.FACTOR_WEIGHTS, factor.id) || factor.weight !== engine.FACTOR_WEIGHTS[factor.id]
           || !(factor.score === null || Number.isFinite(factor.score) && factor.score >= 0 && factor.score <= 100)
           || !(factor.contribution === null || Number.isFinite(factor.contribution)))) return null;
         if (day.factors.some((factor) => factor.score === null) !== (day.index === null)) return null;
+        if (day.factors.some((factor) => factor.score === null ? factor.contribution !== null
+          : factor.contribution !== Math.round(factor.score * factor.weight * 100) / 100)) return null;
+        const total = Math.round(day.factors.reduce((sum, factor) => sum + (factor.contribution ?? 0), 0) * 100) / 100;
+        if (day.index !== null && (day.index !== Math.round(total) || day.indexRaw !== total)) return null;
       }
       regions[id] = { ...region, forecast: [...forecast].sort((a, b) => a.date.localeCompare(b.date)) };
     }
