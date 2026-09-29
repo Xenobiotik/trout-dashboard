@@ -4,13 +4,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Индекс клева ручьевой форели</title>
-    <link rel="stylesheet" href="./styles.css?v=0.5" />
+    <link rel="stylesheet" href="./styles.css?v=0.7" />
   </head>
   <body>
     <main class="app-shell">
       <header class="topbar">
         <div>
-          <p class="eyebrow">Ленинградская область</p>
+          <p class="eyebrow">Ленинградская область и юг Карелии</p>
           <h1>Индекс клева ручьевой форели</h1>
         </div>
         <div class="top-actions">
@@ -25,6 +25,22 @@
       </header>
 
       <nav class="region-tabs" aria-label="Районы мониторинга" id="regionTabs"></nav>
+
+      <section class="custom-location" id="customLocation" aria-label="Своя точка" hidden>
+        <form id="locationForm" class="location-form" novalidate>
+          <label>Координаты (широта, долгота)
+            <input id="locationCoordinates" type="text" inputmode="text" placeholder="60.557705, 30.253624" maxlength="80" autocomplete="off" spellcheck="false" aria-describedby="locationError locationPrivacy" required />
+          </label>
+          <label>Название (необязательно)
+            <input id="locationName" type="text" placeholder="Моё место" maxlength="60" autocomplete="off" />
+          </label>
+          <button type="submit" class="location-submit" id="locationSubmit">Рассчитать</button>
+          <button type="button" class="location-remove" id="locationRemove" hidden>Удалить точку</button>
+        </form>
+        <p id="locationError" class="location-error" role="alert"></p>
+        <p id="locationMessage" class="location-message" role="status" aria-live="polite"></p>
+        <p id="locationPrivacy" class="location-note">Точка сохраняется только в этом браузере. Координаты передаются Open-Meteo для получения погоды, название не передается. Температура воды, прозрачность и уровень остаются расчетными, а не измеренными в ручье. Время указано по Москве.</p>
+      </section>
 
       <section class="dashboard-grid">
         <article class="index-panel" id="indexPanel"></article>
@@ -71,8 +87,9 @@
     </main>
 
     <script src="./live-data.js?v=0.6"></script>
-    <script src="./online-engine.js?v=0.6"></script>
-    <script src="./data-cache.js?v=0.6"></script>
-    <script src="./app.js?v=0.6"></script>
+    <script src="./online-engine.js?v=0.7"></script>
+    <script src="./data-cache.js?v=0.7"></script>
+    <script src="./custom-location.js?v=0.7"></script>
+    <script src="./app.js?v=0.7"></script>
   </body>
 </html>

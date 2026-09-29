@@ -58,6 +58,14 @@ let lastAttempt = 0;
 let lastError = "";
 let selectedRegionId = "south_west";
 let selectedDayIndex = 0;
+let customPoint = null;
+let customData = null;
+let customStatus = "idle";
+let customError = "";
+let customPromise = null;
+let customRequest = 0;
+let customLastAttempt = 0;
+const CUSTOM_CACHE_KEY = `trout-custom-forecast-v${window.TroutEngine.MODEL_VERSION}`;
 
 const elements = {
   regionTabs: document.querySelector("#regionTabs"),
@@ -69,8 +77,136 @@ const elements = {
   forecastStrip: document.querySelector("#forecastStrip"),
   factorsList: document.querySelector("#factorsList"),
   recommendationsList: document.querySelector("#recommendationsList"),
-  warningsBlock: document.querySelector("#warningsBlock")
+  warningsBlock: document.querySelector("#warningsBlock"),
+  customLocation: document.querySelector("#customLocation"),
+  locationForm: document.querySelector("#locationForm"),
+  locationCoordinates: document.querySelector("#locationCoordinates"),
+  locationName: document.querySelector("#locationName"),
+  locationSubmit: document.querySelector("#locationSubmit"),
+  locationRemove: document.querySelector("#locationRemove"),
+  locationError: document.querySelector("#locationError"),
+  locationMessage: document.querySelector("#locationMessage")
 };
+
+function escapeHtml(value) {
+  return String(value).replace(/[&<>"']/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[character]);
+}
+
+function getActiveData() { return selectedRegionId === "custom" ? customData : appData; }
+function getActiveStatus() { return selectedRegionId === "custom" ? customStatus : onlineStatus; }
+function getRegionLabel() {
+  return selectedRegionId === "custom" && customPoint
+    ? `${customPoint.settlement} (${customPoint.latitude}, ${customPoint.longitude})` : REGION_LABELS[selectedRegionId];
+}
+
+function usableCustomData(data) {
+  return customPoint ? window.TroutCache.usableData(data, new Date(), [customPoint]) : null;
+}
+
+function getStoredCustomData() {
+  try { return customPoint ? window.TroutCache.read(window.localStorage, new Date(), [customPoint], CUSTOM_CACHE_KEY) : null; }
+  catch { return null; }
+}
+
+function refreshSelected() { return selectedRegionId === "custom" ? refreshCustomData() : refreshData(); }
+
+async function refreshCustomData() {
+  if (!customPoint) return;
+  if (customPromise) return customPromise;
+  const point = { ...customPoint };
+  const request = ++customRequest;
+  const previousDate = customData?.regions.custom?.forecast[selectedDayIndex]?.date;
+  customLastAttempt = Date.now();
+  customStatus = "loading";
+  customData = usableCustomData(customData);
+  render();
+  customPromise = (async () => {
+    try {
+      const result = await window.fetchOnlineResults([point]);
+      if (request !== customRequest) return;
+      const data = usableCustomData(result);
+      if (!data) throw new Error("Неполный ответ по точке");
+      customData = data;
+      customStatus = "online";
+      customError = "";
+      try { window.TroutCache.save(window.localStorage, data, CUSTOM_CACHE_KEY); } catch {}
+    } catch (error) {
+      if (request !== customRequest) return;
+      customError = error.name === "AbortError" ? "Источник погоды не ответил за 15 секунд." : "Не удалось обновить погоду для этой точки.";
+      customData = usableCustomData(customData) || getStoredCustomData();
+      customStatus = customData ? "fallback" : "error";
+    } finally {
+      // An earlier point's request must never overwrite a replacement or deletion.
+      if (request === customRequest) {
+        if (selectedRegionId === "custom") {
+          const date = getCurrentDay()?.date || previousDate;
+          selectedDayIndex = Math.max(0, customData?.regions.custom?.forecast.findIndex((day) => day.date === date) ?? 0);
+        }
+        customPromise = null;
+        render();
+      }
+    }
+  })();
+  return customPromise;
+}
+
+async function submitLocation(event) {
+  event.preventDefault();
+  let point;
+  try { point = window.TroutLocation.create(elements.locationCoordinates.value, elements.locationName.value); }
+  catch (error) {
+    elements.locationError.textContent = error.message;
+    elements.locationCoordinates.setAttribute("aria-invalid", "true");
+    return;
+  }
+  elements.locationError.textContent = "";
+  elements.locationCoordinates.setAttribute("aria-invalid", "false");
+  ++customRequest;
+  customPromise = null;
+  customPoint = point;
+  customData = getStoredCustomData();
+  selectedRegionId = "custom";
+  selectedDayIndex = 0;
+  elements.locationCoordinates.value = `${point.latitude}, ${point.longitude}`;
+  elements.locationName.value = point.settlement;
+  let saved = false;
+  try { saved = window.TroutLocation.save(window.localStorage, point); } catch {}
+  elements.locationMessage.textContent = saved ? "Точка сохранена в этом браузере." : "Браузер не разрешил сохранение. Расчет доступен, но после закрытия страницы точку придется ввести заново.";
+  return refreshCustomData();
+}
+
+function removeLocation() {
+  ++customRequest;
+  customPromise = null;
+  customPoint = null;
+  customData = null;
+  customStatus = "idle";
+  customError = "";
+  selectedDayIndex = 0;
+  elements.locationCoordinates.value = "";
+  elements.locationName.value = "";
+  elements.locationError.textContent = "";
+  elements.locationCoordinates.setAttribute("aria-invalid", "false");
+  let removed = false;
+  try {
+    removed = window.TroutLocation.remove(window.localStorage);
+    window.localStorage.removeItem(CUSTOM_CACHE_KEY);
+  } catch { removed = false; }
+  elements.locationMessage.textContent = removed ? "Точка удалена из этого браузера." : "Точка убрана с экрана, но браузер не разрешил удалить сохраненные данные.";
+  render();
+}
+
+function setupLocation() {
+  elements.locationForm.addEventListener("submit", submitLocation);
+  elements.locationRemove.addEventListener("click", removeLocation);
+  try { customPoint = window.TroutLocation.read(window.localStorage); } catch {}
+  if (customPoint) {
+    elements.locationCoordinates.value = `${customPoint.latitude}, ${customPoint.longitude}`;
+    elements.locationName.value = customPoint.settlement;
+    selectedRegionId = "custom";
+    customData = getStoredCustomData();
+  }
+}
 
 function scoreColor(score) {
   if (!Number.isFinite(score)) return "#657066";
@@ -254,7 +390,7 @@ function getDetailedAnalytics(day) {
 }
 
 function getCurrentDay() {
-  return appData?.regions[selectedRegionId]?.forecast[selectedDayIndex];
+  return getActiveData()?.regions[selectedRegionId]?.forecast[selectedDayIndex];
 }
 
 function formatTimestamp(value) {
@@ -271,6 +407,7 @@ function getStoredData() {
 async function refreshData() {
   if (refreshPromise) return refreshPromise;
   const previousDate = getCurrentDay()?.date;
+  const previousRegion = selectedRegionId;
   lastAttempt = Date.now();
   onlineStatus = "loading";
   appData = window.TroutCache.usableData(appData);
@@ -292,7 +429,10 @@ async function refreshData() {
       appData = candidates[0] || null;
       onlineStatus = appData ? "fallback" : "error";
     } finally {
-      selectedDayIndex = Math.max(0, appData?.regions[selectedRegionId]?.forecast.findIndex((day) => day.date === previousDate) ?? 0);
+      if (selectedRegionId !== "custom") {
+        const date = getCurrentDay()?.date || (selectedRegionId === previousRegion ? previousDate : null);
+        selectedDayIndex = Math.max(0, appData?.regions[selectedRegionId]?.forecast.findIndex((day) => day.date === date) ?? 0);
+      }
       refreshPromise = null;
       render();
     }
@@ -301,21 +441,34 @@ async function refreshData() {
 }
 
 function renderModeSwitch() {
+  const status = getActiveStatus();
+  const data = getActiveData();
+  const error = selectedRegionId === "custom" ? customError : lastError;
   elements.modeButtons.forEach((button) => {
-    button.disabled = onlineStatus === "loading";
-    button.setAttribute("aria-busy", String(onlineStatus === "loading"));
-    button.textContent = onlineStatus === "loading" ? "Обновление..." : "Обновить погоду";
+    button.disabled = status === "loading" || selectedRegionId === "custom" && !customPoint;
+    button.setAttribute("aria-busy", String(status === "loading"));
+    button.textContent = status === "loading" ? "Обновление..." : "Обновить погоду";
   });
-  let label = "Загружаю погоду...";
-  if (onlineStatus === "loading" && appData) label = `Обновляю. Предыдущие данные: ${formatTimestamp(appData.metadata.generatedAt)}`;
-  else if (onlineStatus === "online") label = `Open-Meteo · обновлено ${formatTimestamp(appData?.metadata.generatedAt)}`;
-  else if (onlineStatus === "fallback") label = `${lastError} Сохраненный прогноз от ${formatTimestamp(appData.metadata.generatedAt)}.`;
-  else if (onlineStatus === "error") label = `${lastError} Актуального сохраненного прогноза нет.`;
+  let label = status === "idle" && selectedRegionId === "custom" ? "Точка не выбрана" : "Загружаю погоду...";
+  if (status === "loading" && data) label = `Обновляю. Предыдущие данные: ${formatTimestamp(data.metadata.generatedAt)}`;
+  else if (status === "online") label = `Open-Meteo · обновлено ${formatTimestamp(data?.metadata.generatedAt)}`;
+  else if (status === "fallback") label = `${error} Сохраненный прогноз от ${formatTimestamp(data.metadata.generatedAt)}.`;
+  else if (status === "error") label = `${error} Актуального сохраненного прогноза нет.`;
   elements.dataStatusText.textContent = label;
-  elements.dataStatusText.parentElement.dataset.status = onlineStatus;
+  elements.dataStatusText.parentElement.dataset.status = status;
 }
 
 function checkRefresh() {
+  if (selectedRegionId === "custom") {
+    if (document.visibilityState === "hidden" || customPromise || !customPoint) return;
+    const previousDate = getCurrentDay()?.date;
+    customData = usableCustomData(customData);
+    selectedDayIndex = Math.max(0, customData?.regions.custom?.forecast.findIndex((day) => day.date === previousDate) ?? 0);
+    if (!customData) { customStatus = "error"; customError = "Сохраненный прогноз устарел."; }
+    render();
+    if (window.TroutCache.needsRefresh(customData, new Date(), [customPoint]) && Date.now() - customLastAttempt >= 5 * 60000) refreshCustomData();
+    return;
+  }
   if (document.visibilityState === "hidden" || refreshPromise) return;
   const previousDates = appData?.regions[selectedRegionId]?.forecast.map((day) => day.date).join(",");
   appData = window.TroutCache.usableData(appData);
@@ -328,18 +481,18 @@ function checkRefresh() {
 }
 
 function setupModeSwitch() {
-  elements.modeButtons.forEach((button) => button.addEventListener("click", refreshData));
+  elements.modeButtons.forEach((button) => button.addEventListener("click", refreshSelected));
   document.addEventListener("visibilitychange", checkRefresh);
   window.addEventListener("focus", checkRefresh);
-  window.addEventListener("online", () => refreshData());
+  window.addEventListener("online", () => refreshSelected());
   window.setInterval(checkRefresh, 60000);
 }
 
 function renderRegionTabs() {
-  elements.regionTabs.innerHTML = Object.keys(REGION_LABELS)
+  elements.regionTabs.innerHTML = [...Object.keys(REGION_LABELS), "custom"]
     .map((regionId) => {
       const active = regionId === selectedRegionId ? " active" : "";
-      return `<button class="region-tab${active}" type="button" data-region="${regionId}">${REGION_SHORT_LABELS[regionId]}</button>`;
+      return `<button class="region-tab${active}" type="button" data-region="${regionId}" aria-pressed="${regionId === selectedRegionId}">${regionId === "custom" ? "Своя точка" : REGION_SHORT_LABELS[regionId]}</button>`;
     })
     .join("");
 
@@ -348,6 +501,7 @@ function renderRegionTabs() {
       selectedRegionId = button.dataset.region;
       selectedDayIndex = 0;
       render();
+      checkRefresh();
     });
   });
 }
@@ -366,7 +520,7 @@ function renderIndexPanel(day) {
       </div>
     </div>
     <div class="index-copy">
-      <p class="region-name">${REGION_LABELS[selectedRegionId]} · ${formatDate(day.date)}</p>
+      <p class="region-name">${escapeHtml(getRegionLabel())} · ${formatDate(day.date)}</p>
       <div class="rating-row">
         <h2>${day.rating}</h2>
         <span class="pill">уверенность: ${CONFIDENCE_LABELS[day.confidence] || day.confidence}</span>
@@ -424,7 +578,7 @@ function renderDrivers(listElement, drivers, emptyText) {
 }
 
 function renderForecast() {
-  const region = appData?.regions[selectedRegionId];
+  const region = getActiveData()?.regions[selectedRegionId];
   if (!region) { elements.forecastStrip.innerHTML = '<p class="empty-state">Прогноз пока недоступен.</p>'; return; }
   selectedDayIndex = Math.min(selectedDayIndex, region.forecast.length - 1);
 
@@ -487,12 +641,18 @@ function renderRecommendations(day) {
 }
 
 function render() {
+  elements.customLocation.hidden = selectedRegionId !== "custom";
+  elements.locationRemove.hidden = !customPoint;
+  elements.locationSubmit.disabled = customStatus === "loading";
+  elements.locationSubmit.textContent = customStatus === "loading" ? "Расчет..." : "Рассчитать";
   renderModeSwitch();
   renderRegionTabs();
   renderForecast();
   const day = getCurrentDay();
   if (!day) {
-    elements.indexPanel.innerHTML = `<div class="index-copy"><h2>${onlineStatus === "loading" ? "Загружаю свежую погоду" : "Нет актуального прогноза"}</h2><p class="summary">${onlineStatus === "loading" ? "" : "Старые оценки скрыты. Повтори обновление после восстановления связи."}</p></div>`;
+    const emptyPoint = selectedRegionId === "custom" && !customPoint;
+    const loading = getActiveStatus() === "loading";
+    elements.indexPanel.innerHTML = `<div class="index-copy"><h2>${emptyPoint ? "Своя точка" : loading ? "Загружаю свежую погоду" : "Нет актуального прогноза"}</h2><p class="summary">${emptyPoint ? "Ленинградская область и юг Карелии" : loading ? "" : "Старые оценки скрыты. Повтори обновление после восстановления связи."}</p></div>`;
     elements.positiveDrivers.innerHTML = '<li class="empty-state">Нет актуальных данных.</li>';
     elements.negativeDrivers.innerHTML = '<li class="empty-state">Нет актуальных данных.</li>';
     elements.factorsList.innerHTML = '<p class="empty-state">Оценки появятся после загрузки погоды.</p>';
@@ -509,8 +669,11 @@ function render() {
 
 async function init() {
   setupModeSwitch();
+  setupLocation();
   appData = getStoredData();
-  await refreshData();
+  const fixedRefresh = refreshData();
+  if (customPoint) await refreshCustomData();
+  await fixedRefresh;
 }
 
 init();

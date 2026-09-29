@@ -24,16 +24,19 @@
     waterLevel: ["по осадкам не ожидается крайних изменений потока", "возможны выраженные отклонения водного режима", "состояние потока требует проверки на месте"]
   };
 
-  async function fetchOnlineResults() {
-    const weather = await fetchWeather();
+  async function fetchOnlineResults(regions = REGIONS) {
+    const weather = await fetchWeather(regions);
     const conditions = buildConditions(weather);
     return buildResults(conditions);
   }
 
-  async function fetchWeather() {
+  async function fetchWeather(regions) {
+    if (!Array.isArray(regions) || !regions.length || regions.length > 6 || new Set(regions.map((region) => region.id)).size !== regions.length
+      || regions.some((region) => !/^[a-z_]+$/.test(region.id) || !Number.isFinite(region.latitude) || Math.abs(region.latitude) > 90
+        || !Number.isFinite(region.longitude) || Math.abs(region.longitude) > 180)) throw new Error("Некорректные координаты точки");
     const params = new URLSearchParams({
-      latitude: REGIONS.map((region) => region.latitude).join(","),
-      longitude: REGIONS.map((region) => region.longitude).join(","),
+      latitude: regions.map((region) => region.latitude).join(","),
+      longitude: regions.map((region) => region.longitude).join(","),
       hourly: HOURLY.join(","),
       timezone: "Europe/Moscow",
       past_days: "4",
@@ -44,14 +47,14 @@
 
     const payload = await fetchJson(`https://api.open-meteo.com/v1/forecast?${params.toString()}`);
     const locations = Array.isArray(payload) ? payload : [payload];
-    if (locations.length !== REGIONS.length || locations.some((location) => !location?.hourly?.time?.length)) {
+    if (locations.length !== regions.length || locations.some((location) => !location?.hourly?.time?.length)) {
       throw new Error("Неполный ответ Open-Meteo по районам");
     }
 
     return {
-      metadata: { source: "open-meteo-online", generatedAt: new Date().toISOString() },
+      metadata: { source: "open-meteo-online", generatedAt: new Date().toISOString(), locations: regions.map(({ id, latitude, longitude }) => ({ id, latitude, longitude })) },
       regions: locations.map((location, index) => {
-        const region = REGIONS[index];
+        const region = regions[index];
         return {
           regionId: region.id,
           direction: region.direction,
@@ -173,7 +176,7 @@
 
   function buildConditions(weather) {
     return {
-      metadata: { version: "0.1", dataType: "online-conditions", modelVersion: MODEL_VERSION, generatedAt: weather.metadata.generatedAt, source: weather.metadata.source },
+      metadata: { version: "0.1", dataType: "online-conditions", modelVersion: MODEL_VERSION, generatedAt: weather.metadata.generatedAt, source: weather.metadata.source, locations: weather.metadata.locations },
       regions: Object.fromEntries(weather.regions.map((region) => [
         region.regionId,
         {
@@ -237,7 +240,7 @@
 
   function buildResults(conditions) {
     return {
-      metadata: { version: "0.1", dataType: "online-results", modelVersion: MODEL_VERSION, generatedAt: conditions.metadata.generatedAt, source: conditions.metadata.source },
+      metadata: { version: "0.1", dataType: "online-results", modelVersion: MODEL_VERSION, generatedAt: conditions.metadata.generatedAt, source: conditions.metadata.source, locations: conditions.metadata.locations },
       regions: Object.fromEntries(Object.entries(conditions.regions).map(([regionId, region]) => [
         regionId,
         { summary: region.summary, forecast: region.forecast.map((day) => ({ ...calculateIndex(day), raw: day.raw })) }

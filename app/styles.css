@@ -148,7 +148,7 @@ h2 {
 
 .region-tabs {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: 8px;
   margin-bottom: 16px;
 }
@@ -177,6 +177,22 @@ h2 {
   color: white;
   border-color: var(--accent);
 }
+
+[hidden] { display: none !important; }
+.custom-location { margin: 0 0 20px; padding: 4px 0 16px; border-bottom: 1px solid var(--line); }
+.location-form { display: flex; flex-wrap: wrap; align-items: end; gap: 12px; }
+.location-form label { flex: 1 1 230px; min-width: 0; display: grid; gap: 6px; font-size: 14px; font-weight: 700; }
+.location-form input { min-width: 0; width: 100%; min-height: 44px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 6px; background: white; color: var(--ink); }
+.location-form button { min-height: 44px; padding: 10px 16px; border: 1px solid var(--accent); border-radius: 6px; cursor: pointer; font-weight: 700; }
+.location-submit { background: var(--accent); color: white; }
+.location-remove { background: transparent; color: var(--accent-deep); }
+.location-form button:disabled { opacity: .65; cursor: wait; }
+.location-form input[aria-invalid="true"] { border-color: var(--red); }
+button:focus-visible, input:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; }
+.location-error { color: var(--red); font-size: 14px; line-height: 1.5; }
+.location-message, .location-note { color: var(--muted); font-size: 13px; line-height: 1.5; }
+.location-error:not(:empty), .location-message:not(:empty), .location-note { margin-top: 8px; }
+.region-name { overflow-wrap: anywhere; }
 
 .dashboard-grid {
   display: grid;

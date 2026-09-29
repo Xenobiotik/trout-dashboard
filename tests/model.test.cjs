@@ -4,6 +4,7 @@ const fs = require("node:fs");
 const vm = require("node:vm");
 const engine = require("../app/online-engine");
 const cache = require("../app/data-cache");
+const locations = require("../app/custom-location");
 const adapter = require("../src/weatherAdapter");
 const NOW = new Date("2026-09-28T09:00:00Z");
 
@@ -385,7 +386,7 @@ test("fetch timeout aborts a hanging request", async () => {
   finally { global.fetch = original; }
 });
 
-async function mountApp(fetcher, { saved = null, backup = null, blockedStorage = false } = {}) {
+async function mountApp(fetcher, { saved = null, backup = null, blockedStorage = false, point = null, customSaved = null } = {}) {
   let time = NOW.getTime();
   class Clock extends Date {
     constructor(...args) { super(...(args.length ? args : [time])); }
@@ -393,19 +394,23 @@ async function mountApp(fetcher, { saved = null, backup = null, blockedStorage =
   }
   const nodes = new Map();
   function node(id) {
-    if (!nodes.has(id)) nodes.set(id, { innerHTML: "", textContent: "", dataset: {}, disabled: false, parentElement: { dataset: {} }, style: { setProperty() {} }, classList: { toggle() {} }, handlers: {}, setAttribute() {}, addEventListener(event, handler) { this.handlers[event] = handler; }, querySelectorAll() { return []; } });
+    if (!nodes.has(id)) nodes.set(id, { innerHTML: "", textContent: "", value: "", dataset: {}, disabled: false, parentElement: { dataset: {} }, style: { setProperty() {} }, classList: { toggle() {} }, handlers: {}, setAttribute() {}, addEventListener(event, handler) { this.handlers[event] = handler; }, querySelectorAll() { return []; } });
     return nodes.get(id);
   }
   const button = node("button"); button.dataset.mode = "live";
   const stored = new Map(saved ? [[cache.CACHE_KEY, JSON.stringify(saved)]] : []);
+  if (point) stored.set(locations.STORAGE_KEY, JSON.stringify(point));
+  if (customSaved) stored.set(`trout-custom-forecast-v${engine.MODEL_VERSION}`, JSON.stringify(customSaved));
   const document = { visibilityState: "visible", querySelector: node, querySelectorAll: () => [button], addEventListener() {} };
-  const window = { LIVE_RESULTS: backup, addEventListener() {}, setInterval() {}, localStorage: { getItem(key) { if (blockedStorage) throw Error("blocked"); return stored.get(key) || null; }, setItem(key, value) { if (blockedStorage) throw Error("blocked"); stored.set(key, value); } } };
+  const window = { LIVE_RESULTS: backup, addEventListener() {}, setInterval() {}, localStorage: { getItem(key) { if (blockedStorage) throw Error("blocked"); return stored.get(key) || null; }, setItem(key, value) { if (blockedStorage) throw Error("blocked"); stored.set(key, value); }, removeItem(key) { if (blockedStorage) throw Error("blocked"); stored.delete(key); } } };
   const context = vm.createContext({ window, document, Date: Clock, Intl, URLSearchParams, console });
   vm.runInContext(fs.readFileSync(require.resolve("../app/online-engine"), "utf8"), context);
   vm.runInContext(fs.readFileSync(require.resolve("../app/data-cache"), "utf8"), context);
+  vm.runInContext(fs.readFileSync(require.resolve("../app/custom-location"), "utf8"), context);
   window.fetchOnlineResults = fetcher;
   vm.runInContext(fs.readFileSync(require.resolve("../app/app"), "utf8"), context);
   await vm.runInContext("refreshPromise", context);
+  await vm.runInContext("customPromise", context);
   return { node, button, stored, context, advance(ms) { time += ms; } };
 }
 
@@ -497,4 +502,167 @@ test("UI: concurrent refreshes share one request", async () => {
   resolve(dataset());
   await Promise.all([a, b]);
   assert.equal(app.button.disabled, false);
+});
+
+const CUSTOM_KEY = `trout-custom-forecast-v${engine.MODEL_VERSION}`;
+const pointA = locations.create("60.557705, 30.253624", "Сосново");
+const pointB = locations.create("61.035979, 30.115589", "Приозерск");
+function customDataset(point = pointA) {
+  const data = dataset();
+  data.metadata.locations = [{ id: "custom", latitude: point.latitude, longitude: point.longitude }];
+  data.regions = { custom: data.regions.south_west };
+  return data;
+}
+function submit(app, coordinates = "60.557705, 30.253624", name = "Сосново") {
+  app.node("#locationCoordinates").value = coordinates;
+  app.node("#locationName").value = name;
+  return app.node("#locationForm").handlers.submit({ preventDefault() {} });
+}
+
+for (const input of ["60.557705, 30.253624", "60.557705 30.253624", "60,557705; 30,253624", " 60,557705 30,253624 ", "60,557705, 30,253624", "+60.557705; +30.253624"]) {
+  test(`coordinates: supported format ${input}`, () => {
+    assert.deepEqual(locations.parseCoordinates(input), { latitude: 60.557705, longitude: 30.253624 });
+  });
+}
+test("coordinates: reject malformed, extra, out-of-range and out-of-model values", () => {
+  for (const input of ["", "60.557705", "60,30,40", "NaN, 30", "Infinity, 30", "91, 30", "60, 181", "60x,30", "60 30 trailing", "60° 30°", "<img>,30"]) assert.throws(() => locations.parseCoordinates(input));
+  for (const input of ["30.253624, 60.557705", "-33, 151", "55.75, 37.61"]) assert.throws(() => locations.create(input), /сезонную модель/);
+  assert.equal(locations.create("61.8, 33.5").settlement, "Моё место");
+  assert.equal(locations.create("60.123456789, 30.123456789").latitude, 60.123457);
+});
+test("coordinates: restore validates saved data and storage failures are harmless", () => {
+  for (const value of ["{", "null", '{"latitude":null,"longitude":30}', JSON.stringify({ ...pointA, latitude: 91 }), JSON.stringify({ ...pointA, latitude: "60" })]) assert.equal(locations.read({ getItem: () => value }), null);
+  assert.deepEqual(locations.read({ getItem: () => JSON.stringify(pointA) }), pointA);
+  assert.equal(locations.save({ setItem() { throw Error("blocked"); } }, pointA), false);
+  assert.equal(locations.remove({ removeItem() { throw Error("blocked"); } }), false);
+});
+test("cache: a custom forecast requires exact requested coordinates and remains separate", () => {
+  const data = customDataset();
+  assert.ok(cache.usableData(data, NOW, [pointA]));
+  assert.equal(cache.usableData(data, NOW, [pointB]), null);
+  assert.equal(cache.usableData(data, NOW), null);
+  assert.equal(cache.usableData(dataset(), NOW, [pointA]), null);
+  delete data.metadata.locations;
+  assert.equal(cache.usableData(data, NOW, [pointA]), null);
+  for (const malformed of ["bad", {}, [null]]) {
+    data.metadata.locations = malformed;
+    assert.equal(cache.usableData(data, NOW, [pointA]), null);
+  }
+});
+test("engine: custom query uses supplied coordinates, past days, same model and no place name", async () => {
+  const original = global.fetch;
+  let requested;
+  global.fetch = async (url) => { requested = new URL(url); return { ok: true, json: async () => ({ hourly: fixture() }) }; };
+  try {
+    const data = await engine.fetchOnlineResults([pointA]);
+    assert.equal(requested.searchParams.get("latitude"), String(pointA.latitude));
+    assert.equal(requested.searchParams.get("longitude"), String(pointA.longitude));
+    assert.equal(requested.searchParams.get("past_days"), "4");
+    assert.equal(requested.searchParams.get("forecast_days"), "5");
+    assert.equal(requested.searchParams.get("timezone"), "Europe/Moscow");
+    assert.ok(!requested.href.includes(encodeURIComponent(pointA.settlement)));
+    assert.deepEqual(Object.keys(data.regions), ["custom"]);
+    assert.deepEqual(data.metadata.locations, [{ id: "custom", latitude: pointA.latitude, longitude: pointA.longitude }]);
+    assert.equal(data.metadata.modelVersion, "0.6");
+    await assert.rejects(engine.fetchOnlineResults([{ ...pointA, latitude: null }]), /координаты/);
+  } finally { global.fetch = original; }
+});
+test("UI: custom point is calculated, saved and leaves the five regions untouched", async () => {
+  const requests = [];
+  const app = await mountApp(async (points) => { requests.push(points); return points ? customDataset(points[0]) : dataset(); });
+  const original = app.stored.get(cache.CACHE_KEY);
+  await submit(app);
+  assert.equal(requests.length, 2);
+  assert.equal(requests[1][0].latitude, pointA.latitude);
+  assert.equal(app.stored.get(cache.CACHE_KEY), original);
+  assert.ok(app.stored.has(CUSTOM_KEY));
+  assert.ok(app.stored.has(locations.STORAGE_KEY));
+  assert.ok(app.node("#indexPanel").innerHTML.includes("Сосново (60.557705, 30.253624)"));
+  assert.equal(vm.runInContext("getCurrentDay().index", app.context), customDataset().regions.custom.forecast[0].index);
+  assert.equal(app.node("#customLocation").hidden, false);
+  assert.equal((app.node("#regionTabs").innerHTML.match(/data-region=/g) || []).length, 6);
+});
+test("UI: invalid coordinates leave the current point and forecast unchanged", async () => {
+  let calls = 0;
+  const app = await mountApp(async (points) => { calls++; return points ? customDataset(points[0]) : dataset(); });
+  await submit(app);
+  const before = app.node("#indexPanel").innerHTML;
+  await submit(app, "30.25, 60.55");
+  assert.equal(calls, 2);
+  assert.equal(app.node("#indexPanel").innerHTML, before);
+  assert.ok(app.node("#locationError").textContent.includes("сначала широта"));
+});
+test("UI: restored point uses its own fresh offline cache, not a fixed-region forecast", async () => {
+  const app = await mountApp(async () => { throw Error("offline"); }, { saved: dataset(), point: pointA, customSaved: customDataset() });
+  assert.ok(app.node("#dataStatusText").textContent.includes("Сохраненный прогноз"));
+  assert.ok(app.node("#indexPanel").innerHTML.includes("Сосново (60.557705, 30.253624)"));
+  assert.equal(app.node("#locationCoordinates").value, "60.557705, 30.253624");
+  const wrong = await mountApp(async () => { throw Error("offline"); }, { saved: dataset(), point: pointB, customSaved: customDataset() });
+  assert.ok(wrong.node("#indexPanel").innerHTML.includes("Нет актуального прогноза"));
+});
+test("UI: failing a new point cannot fall back to the previous point", async () => {
+  const app = await mountApp(async (points) => points ? customDataset(points[0]) : dataset());
+  await submit(app);
+  app.context.window.fetchOnlineResults = async () => { throw Error("offline"); };
+  await submit(app, "61.035979, 30.115589", "Приозерск");
+  assert.ok(app.node("#indexPanel").innerHTML.includes("Нет актуального прогноза"));
+  assert.ok(!app.node("#indexPanel").innerHTML.includes("Сосново"));
+});
+test("UI: place names are escaped and cannot inject markup", async () => {
+  const app = await mountApp(async (points) => points ? customDataset(points[0]) : dataset());
+  await submit(app, "60.557705, 30.253624", '<img src=x onerror="alert(1)">');
+  assert.ok(app.node("#indexPanel").innerHTML.includes("&lt;img"));
+  assert.ok(!app.node("#indexPanel").innerHTML.includes("<img"));
+});
+test("UI: custom point remains usable when local storage is blocked", async () => {
+  const app = await mountApp(async (points) => points ? customDataset(points[0]) : dataset(), { blockedStorage: true });
+  await submit(app);
+  assert.ok(app.node("#dataStatusText").textContent.includes("Open-Meteo"));
+  assert.ok(app.node("#locationMessage").textContent.includes("не разрешил сохранение"));
+});
+test("UI: late response cannot restore a deleted point", async () => {
+  const app = await mountApp(async () => dataset());
+  let resolve;
+  app.context.window.fetchOnlineResults = () => new Promise((r) => { resolve = r; });
+  const pending = submit(app);
+  app.node("#locationRemove").handlers.click();
+  resolve(customDataset());
+  await pending;
+  assert.equal(vm.runInContext("customPoint", app.context), null);
+  assert.equal(vm.runInContext("customData", app.context), null);
+  assert.equal(app.stored.has(CUSTOM_KEY), false);
+  assert.equal(app.stored.has(locations.STORAGE_KEY), false);
+  assert.equal(app.node("#locationSubmit").disabled, false);
+});
+test("UI: newer coordinates win when two point requests finish out of order", async () => {
+  const app = await mountApp(async () => dataset());
+  const pending = [];
+  app.context.window.fetchOnlineResults = () => new Promise((resolve) => pending.push(resolve));
+  const first = submit(app);
+  const second = submit(app, "61.035979, 30.115589", "Приозерск");
+  pending[1](customDataset(pointB));
+  await second;
+  pending[0](customDataset(pointA));
+  await first;
+  assert.ok(app.node("#indexPanel").innerHTML.includes("Приозерск (61.035979, 30.115589)"));
+  assert.equal(JSON.parse(app.stored.get(CUSTOM_KEY)).metadata.locations[0].latitude, pointB.latitude);
+});
+test("UI: expired custom forecast is hidden and retried without touching regional data", async () => {
+  let customCalls = 0;
+  const app = await mountApp(async (points) => { if (points) { customCalls++; throw Error("offline"); } return dataset(); }, { point: pointA, customSaved: customDataset() });
+  app.advance(cache.MAX_AGE_MS + 1);
+  vm.runInContext("checkRefresh()", app.context);
+  await vm.runInContext("customPromise", app.context);
+  assert.equal(customCalls, 2);
+  assert.ok(app.node("#indexPanel").innerHTML.includes("Нет актуального прогноза"));
+});
+test("UI: refreshing regions in background cannot reset the custom date", async () => {
+  const app = await mountApp(async (points) => points ? customDataset(points[0]) : dataset());
+  await submit(app);
+  vm.runInContext("selectedDayIndex = 3", app.context);
+  const date = vm.runInContext("getCurrentDay().date", app.context);
+  await vm.runInContext("refreshData()", app.context);
+  assert.equal(vm.runInContext("getCurrentDay().date", app.context), date);
+  await app.button.handlers.click();
+  assert.equal(vm.runInContext("getCurrentDay().date", app.context), date);
 });
