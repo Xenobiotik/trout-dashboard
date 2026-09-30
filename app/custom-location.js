@@ -18,20 +18,21 @@
     return { latitude: Math.round(latitude * 1e6) / 1e6, longitude: Math.round(longitude * 1e6) / 1e6 };
   }
 
-  function create(value, name = "") {
+  function create(value) {
     const coordinates = parseCoordinates(value);
     // A conservative operational area, not an administrative or scientific boundary.
     if (coordinates.latitude < 58 || coordinates.latitude > 63 || coordinates.longitude < 27 || coordinates.longitude > 36) {
       throw new Error("Эта версия рассчитана на Ленинградскую область и юг Карелии: рабочая область 58–63° с. ш., 27–36° в. д. Для других широт нужно адаптировать сезонную модель. Проверь также порядок: сначала широта.");
     }
-    return { id: "custom", direction: "Своя точка", settlement: String(name).replace(/[\u0000-\u001f\u007f]/g, "").trim().slice(0, 60) || "Моё место", ...coordinates };
+    return { id: "custom", direction: "Своя точка", settlement: "Своя точка", ...coordinates };
   }
 
   function read(storage) {
     try {
       const point = JSON.parse(storage.getItem(STORAGE_KEY));
-      if (!point || !Number.isFinite(point.latitude) || !Number.isFinite(point.longitude) || typeof point.settlement !== "string") return null;
-      return create(`${point.latitude}; ${point.longitude}`, point.settlement);
+      if (!point || !Number.isFinite(point.latitude) || !Number.isFinite(point.longitude)) return null;
+      // Keep existing coordinates, but no longer use previously entered names.
+      return create(`${point.latitude}; ${point.longitude}`);
     } catch { return null; }
   }
 

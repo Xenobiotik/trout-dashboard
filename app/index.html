@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Индекс клева ручьевой форели</title>
-    <link rel="stylesheet" href="./styles.css?v=0.7" />
+    <link rel="stylesheet" href="./styles.css?v=0.8" />
   </head>
   <body>
     <main class="app-shell">
@@ -31,15 +31,12 @@
           <label>Координаты (широта, долгота)
             <input id="locationCoordinates" type="text" inputmode="text" placeholder="60.557705, 30.253624" maxlength="80" autocomplete="off" spellcheck="false" aria-describedby="locationError locationPrivacy" required />
           </label>
-          <label>Название (необязательно)
-            <input id="locationName" type="text" placeholder="Моё место" maxlength="60" autocomplete="off" />
-          </label>
           <button type="submit" class="location-submit" id="locationSubmit">Рассчитать</button>
           <button type="button" class="location-remove" id="locationRemove" hidden>Удалить точку</button>
         </form>
         <p id="locationError" class="location-error" role="alert"></p>
         <p id="locationMessage" class="location-message" role="status" aria-live="polite"></p>
-        <p id="locationPrivacy" class="location-note">Точка сохраняется только в этом браузере. Координаты передаются Open-Meteo для получения погоды, название не передается. Температура воды, прозрачность и уровень остаются расчетными, а не измеренными в ручье. Время указано по Москве.</p>
+        <p id="locationPrivacy" class="location-note">Точка сохраняется только в этом браузере. Координаты передаются Open-Meteo для получения погоды. Температура воды, прозрачность и уровень остаются расчетными, а не измеренными в ручье. Время указано по Москве.</p>
       </section>
 
       <section class="dashboard-grid">
@@ -79,7 +76,21 @@
             <h2>Рекомендации</h2>
             <p>Тактика, приманки и предупреждения.</p>
           </div>
+          <section class="fishing-care" aria-labelledby="fishingCareTitle">
+            <h3 id="fishingCareTitle">Ограничения и бережное отношение</h3>
+            <p>Любительская ловля ручьевой форели в природных водоемах Ленинградской области и Карелии запрещена. Высокий индекс не означает разрешения на ловлю. Принцип «поймал и отпустил» не отменяет запрет.</p>
+            <p><strong>Отпускайте, пожалуйста, рыбу.</strong> При случайной поимке запрещенного вида немедленно верните рыбу в воду с наименьшими повреждениями. Не продолжайте целенаправленно ловить ее.</p>
+            <p id="spawningAdvice" class="spawning-advice" hidden></p>
+            <p>Для разрешенной ловли выбирайте одинарные безбородые крючки: их проще извлечь, меньше времени уходит на освобождение рыбы. Они не исключают травм. Не держите рыбу вне воды без необходимости.</p>
+            <details class="care-sources">
+              <summary>Основания и источники</summary>
+              <p>Западный бассейн, включая Ладогу: <a href="https://fish.gov.ru/wp-content/uploads/2025/11/zapadnye.pdf" target="_blank" rel="noopener">правила рыболовства, пункты 25.2, 26.3 и 28.3</a>. Остальная Карелия: <a href="https://fish.gov.ru/wp-content/uploads/2025/11/severnye.pdf" target="_blank" rel="noopener">пункт 6 правил Северного бассейна</a> запрещает вылов видов региональных Красных книг; <a href="https://www.zapkivach.ru/company/projects/fauna/ikhtiofauna-zapovednika/" target="_blank" rel="noopener">ручьевая форель включена в Красную книгу Карелии</a>.</p>
+              <p>О гнездах с икрой и риске вытаптывания: <a href="https://www.wildtrout.org/wttblog/life-between-gravel-grains" target="_blank" rel="noopener">Wild Trout Trust</a>; о бережном освобождении рыбы: <a href="https://www.wildtrout.org/trout-facts" target="_blank" rel="noopener">Trout Facts</a>.</p>
+              <p>Проверено 30.09.2026 (ср). Сроки нереста различаются между ручьями. Сезонное предупреждение носит предосторожный характер, а не устанавливает срок запрета. Для конкретного водоема проверьте также местные ограничения и режим охраны. Координаты не определяют правовой статус места автоматически.</p>
+            </details>
+          </section>
           <div id="warningsBlock"></div>
+          <p class="tactics-scope" id="tacticsScope" hidden>Общие приемы ниже применимы только там, где ловля соответствующего вида разрешена.</p>
           <ul class="recommendation-list" id="recommendationsList"></ul>
         </aside>
       </section>
@@ -89,7 +100,7 @@
     <script src="./live-data.js?v=0.6"></script>
     <script src="./online-engine.js?v=0.7"></script>
     <script src="./data-cache.js?v=0.7"></script>
-    <script src="./custom-location.js?v=0.7"></script>
-    <script src="./app.js?v=0.7"></script>
+    <script src="./custom-location.js?v=0.8"></script>
+    <script src="./app.js?v=0.8"></script>
   </body>
 </html>

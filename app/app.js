@@ -78,10 +78,11 @@ const elements = {
   factorsList: document.querySelector("#factorsList"),
   recommendationsList: document.querySelector("#recommendationsList"),
   warningsBlock: document.querySelector("#warningsBlock"),
+  spawningAdvice: document.querySelector("#spawningAdvice"),
+  tacticsScope: document.querySelector("#tacticsScope"),
   customLocation: document.querySelector("#customLocation"),
   locationForm: document.querySelector("#locationForm"),
   locationCoordinates: document.querySelector("#locationCoordinates"),
-  locationName: document.querySelector("#locationName"),
   locationSubmit: document.querySelector("#locationSubmit"),
   locationRemove: document.querySelector("#locationRemove"),
   locationError: document.querySelector("#locationError"),
@@ -153,7 +154,7 @@ async function refreshCustomData() {
 async function submitLocation(event) {
   event.preventDefault();
   let point;
-  try { point = window.TroutLocation.create(elements.locationCoordinates.value, elements.locationName.value); }
+  try { point = window.TroutLocation.create(elements.locationCoordinates.value); }
   catch (error) {
     elements.locationError.textContent = error.message;
     elements.locationCoordinates.setAttribute("aria-invalid", "true");
@@ -168,7 +169,6 @@ async function submitLocation(event) {
   selectedRegionId = "custom";
   selectedDayIndex = 0;
   elements.locationCoordinates.value = `${point.latitude}, ${point.longitude}`;
-  elements.locationName.value = point.settlement;
   let saved = false;
   try { saved = window.TroutLocation.save(window.localStorage, point); } catch {}
   elements.locationMessage.textContent = saved ? "Точка сохранена в этом браузере." : "Браузер не разрешил сохранение. Расчет доступен, но после закрытия страницы точку придется ввести заново.";
@@ -184,7 +184,6 @@ function removeLocation() {
   customError = "";
   selectedDayIndex = 0;
   elements.locationCoordinates.value = "";
-  elements.locationName.value = "";
   elements.locationError.textContent = "";
   elements.locationCoordinates.setAttribute("aria-invalid", "false");
   let removed = false;
@@ -202,7 +201,6 @@ function setupLocation() {
   try { customPoint = window.TroutLocation.read(window.localStorage); } catch {}
   if (customPoint) {
     elements.locationCoordinates.value = `${customPoint.latitude}, ${customPoint.longitude}`;
-    elements.locationName.value = customPoint.settlement;
     selectedRegionId = "custom";
     customData = getStoredCustomData();
   }
@@ -217,10 +215,18 @@ function scoreColor(score) {
 }
 
 function formatDate(dateString) {
-  return new Intl.DateTimeFormat("ru-RU", {
+  const date = new Date(`${dateString}T12:00:00+03:00`);
+  if (!Number.isFinite(date.getTime())) return "нет данных";
+  const label = new Intl.DateTimeFormat("ru-RU", {
+    timeZone: "Europe/Moscow",
     day: "numeric",
     month: "short"
-  }).format(new Date(`${dateString}T12:00:00`));
+  }).format(date);
+  return `${label} (${formatWeekday(date)})`;
+}
+
+function formatWeekday(date) {
+  return new Intl.DateTimeFormat("ru-RU", { timeZone: "Europe/Moscow", weekday: "short" }).format(date);
 }
 
 function pressureToMmHg(hPa) {
@@ -396,7 +402,35 @@ function getCurrentDay() {
 function formatTimestamp(value) {
   const date = new Date(value);
   if (!value || !Number.isFinite(date.getTime())) return "нет данных";
-  return new Intl.DateTimeFormat("ru-RU", { timeZone: "Europe/Moscow", day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" }).format(date) + " МСК";
+  const label = new Intl.DateTimeFormat("ru-RU", { timeZone: "Europe/Moscow", day: "2-digit", month: "2-digit", year: "numeric" }).format(date);
+  const time = new Intl.DateTimeFormat("ru-RU", { timeZone: "Europe/Moscow", hour: "2-digit", minute: "2-digit" }).format(date);
+  return `${label} (${formatWeekday(date)}), ${time} МСК`;
+}
+
+function getConfidenceExplanation(day) {
+  const raw = day.raw || {};
+  let reason = "Температура воды, прозрачность и уровень оценены по погоде, без измерений в ручье.";
+  if (day.confidence === "low") {
+    if (day.index === null || day.factors.some((factor) => factor.score === null) || raw.incompleteDailyData) {
+      reason = "В погодных данных есть пропуски. Для части выводов не хватает исходной информации.";
+    } else {
+      reason = "Обильные осадки, предполагаемая сильная мутность или риск паводка затрудняют оценку конкретного ручья по погоде.";
+    }
+  }
+  return `${reason} Уверенность — условная отметка надежности исходных оценок, а не измеренная точность прогноза и не вероятность улова.`;
+}
+
+function getSpawningAdvice(dateString) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(dateString)) return "";
+  const monthDay = dateString.slice(5);
+  // Precautionary windows, not legal dates or a local observation of spawning.
+  if (monthDay >= "09-20" && monthDay <= "11-30") {
+    return "Нерест и гнезда: с конца сентября и осенью у форели возможен нерест. Если разрешена ловля других видов: ловите, пожалуйста, с берега, не заходите в воду, чтобы не нарушать гнезда форели. Икра скрыта в гравии и остается там после нереста. Не тревожьте нерестящуюся рыбу.";
+  }
+  if (monthDay >= "12-01" || monthDay <= "04-30") {
+    return "Икра в грунте: после осеннего нереста гнезда остаются уязвимыми. Зимой и весной икра и личинки могут находиться в гравии. При разрешенной ловле других видов оставайтесь на берегу у потенциальных нерестилищ и не наступайте на гравийные гнезда. Точные сроки развития зависят от температуры воды.";
+  }
+  return "";
 }
 
 function getStoredData() {
@@ -523,8 +557,9 @@ function renderIndexPanel(day) {
       <p class="region-name">${escapeHtml(getRegionLabel())} · ${formatDate(day.date)}</p>
       <div class="rating-row">
         <h2>${day.rating}</h2>
-        <span class="pill">уверенность: ${CONFIDENCE_LABELS[day.confidence] || day.confidence}</span>
+        <span class="pill">Уверенность модели: ${CONFIDENCE_LABELS[day.confidence] || day.confidence}</span>
       </div>
+      <p class="confidence-note">${getConfidenceExplanation(day)}</p>
       <p class="summary">${day.summary}</p>
       <div class="meta-grid">
         <div class="meta-item">
@@ -649,6 +684,10 @@ function render() {
   renderRegionTabs();
   renderForecast();
   const day = getCurrentDay();
+  const spawningAdvice = getSpawningAdvice(day?.date || window.TroutEngine.moscowDate(new Date()));
+  elements.spawningAdvice.textContent = spawningAdvice;
+  elements.spawningAdvice.hidden = !spawningAdvice;
+  elements.tacticsScope.hidden = !day?.recommendations?.length;
   if (!day) {
     const emptyPoint = selectedRegionId === "custom" && !customPoint;
     const loading = getActiveStatus() === "loading";

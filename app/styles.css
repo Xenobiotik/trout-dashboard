@@ -295,6 +295,28 @@ button:focus-visible, input:focus-visible { outline: 3px solid var(--blue); outl
   line-height: 1.5;
 }
 
+.confidence-note {
+  margin-bottom: 12px;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.fishing-care {
+  margin-bottom: 20px;
+  padding-left: 14px;
+  border-left: 3px solid #aa6727;
+}
+
+.fishing-care h3 { font-size: 17px; line-height: 1.35; }
+.fishing-care p, .tactics-scope { margin-top: 10px; font-size: 14px; line-height: 1.55; }
+.spawning-advice { color: #71421b; font-weight: 600; }
+.care-sources { margin-top: 12px; color: var(--muted); font-size: 13px; }
+.care-sources summary { cursor: pointer; color: var(--accent-deep); }
+.care-sources p { font-size: 13px; }
+.care-sources a { color: var(--accent-deep); overflow-wrap: anywhere; }
+.tactics-scope { margin-bottom: 12px; color: var(--muted); }
+
 .analytics-block {
   margin-top: 18px;
   padding: 14px;
