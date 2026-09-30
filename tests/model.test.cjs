@@ -685,23 +685,25 @@ test("UI: all date formats include the Moscow weekday, even across UTC midnight"
   assert.match(app.node("#factorsList").innerHTML, /28\.09\.2026 \(пн\)/);
 });
 
-test("UI: confidence explains estimates and missing data without claiming a success probability", async () => {
+test("UI: confidence is hidden for normal, incomplete and rainy forecasts without changing scores", async () => {
   const app = await mountApp(async () => dataset());
-  assert.match(app.node("#indexPanel").innerHTML, /Уверенность модели: средняя/);
-  assert.match(app.node("#indexPanel").innerHTML, /без измерений в ручье/);
-  assert.match(app.node("#indexPanel").innerHTML, /не вероятность улова/);
-  for (const override of [{ pressure_msl: () => null }, { temperature_2m: (i) => i === 205 ? null : 10 }]) {
-    const c = conditions(override);
+  const checkPanel = (html) => {
+    assert.doesNotMatch(html, /Уверенность|confidence-note|надежности исходных оценок|без измерений в ручье/);
+    assert.match(html, /Вода \(расчет\)/);
+  };
+  checkPanel(app.node("#indexPanel").innerHTML);
+  for (const overrides of [{}, { pressure_msl: () => null }, { temperature_2m: (i) => i === 205 ? null : 10 }, { precipitation: () => 1 }]) {
+    const c = conditions(overrides);
+    const data = dataset();
     const day = { ...engine.calculateIndex(c), raw: c.raw };
-    // Incomplete data is handled even when the final factor score remains available.
-    day.confidence = "low";
-    day.raw.incompleteDailyData = true;
-    app.context.sampleDay = day;
-    assert.match(vm.runInContext("getConfidenceExplanation(sampleDay)", app.context), /пропуски/);
+    data.regions.south_west.forecast[0] = day;
+    const before = JSON.stringify(day);
+    const sample = await mountApp(async () => data);
+    const html = sample.node("#indexPanel").innerHTML;
+    checkPanel(html);
+    assert.ok(html.includes(`<strong>${day.index ?? "-"}</strong>`));
+    assert.equal(JSON.stringify(day), before);
   }
-  const c = conditions({ precipitation: () => 1 });
-  app.context.sampleDay = { ...engine.calculateIndex(c), raw: c.raw };
-  assert.match(vm.runInContext("getConfidenceExplanation(sampleDay)", app.context), /осадки.*мутность.*паводка/);
 });
 
 test("UI: precautionary spawning windows cover autumn and subsequent incubation", async () => {

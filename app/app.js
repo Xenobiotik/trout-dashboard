@@ -44,12 +44,6 @@ const WATER_LEVEL_LABELS = {
   flood_risk: "риск паводка"
 };
 
-const CONFIDENCE_LABELS = {
-  high: "высокая",
-  medium: "средняя",
-  low: "низкая"
-};
-
 let appData;
 let onlineData;
 let onlineStatus = "idle";
@@ -407,19 +401,6 @@ function formatTimestamp(value) {
   return `${label} (${formatWeekday(date)}), ${time} МСК`;
 }
 
-function getConfidenceExplanation(day) {
-  const raw = day.raw || {};
-  let reason = "Температура воды, прозрачность и уровень оценены по погоде, без измерений в ручье.";
-  if (day.confidence === "low") {
-    if (day.index === null || day.factors.some((factor) => factor.score === null) || raw.incompleteDailyData) {
-      reason = "В погодных данных есть пропуски. Для части выводов не хватает исходной информации.";
-    } else {
-      reason = "Обильные осадки, предполагаемая сильная мутность или риск паводка затрудняют оценку конкретного ручья по погоде.";
-    }
-  }
-  return `${reason} Уверенность — условная отметка надежности исходных оценок, а не измеренная точность прогноза и не вероятность улова.`;
-}
-
 function getSpawningAdvice(dateString) {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(dateString)) return "";
   const monthDay = dateString.slice(5);
@@ -557,9 +538,7 @@ function renderIndexPanel(day) {
       <p class="region-name">${escapeHtml(getRegionLabel())} · ${formatDate(day.date)}</p>
       <div class="rating-row">
         <h2>${day.rating}</h2>
-        <span class="pill">Уверенность модели: ${CONFIDENCE_LABELS[day.confidence] || day.confidence}</span>
       </div>
-      <p class="confidence-note">${getConfidenceExplanation(day)}</p>
       <p class="summary">${day.summary}</p>
       <div class="meta-grid">
         <div class="meta-item">
