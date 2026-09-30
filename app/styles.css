@@ -146,6 +146,50 @@ h2 {
 .model-note { margin-top: 24px; color: var(--muted); font-size: 13px; line-height: 1.6; }
 .model-note a { color: var(--accent-deep); }
 
+.feedback-button,
+.feedback-close {
+  min-height: 42px;
+  padding: 8px 14px;
+  border: 1px solid var(--accent);
+  border-radius: 6px;
+  background: white;
+  color: var(--accent-deep);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.feedback-button:hover,
+.feedback-close:hover { background: var(--surface-soft); }
+.feedback-button:focus-visible,
+.feedback-close:focus-visible,
+.feedback-header a:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; }
+.feedback-dialog {
+  width: min(900px, calc(100% - 24px));
+  height: min(900px, calc(100dvh - 24px));
+  max-width: none;
+  max-height: none;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: white;
+  color: var(--ink);
+}
+.feedback-dialog[open] { display: grid; grid-template-rows: auto minmax(0, 1fr); }
+.feedback-dialog::backdrop { background: rgba(15, 22, 18, .55); }
+body:has(.feedback-dialog[open]) { overflow: hidden; }
+.feedback-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--line);
+}
+.feedback-header h2 { font-size: 18px; }
+.feedback-header a { grid-column: 1 / -1; color: var(--accent-deep); font-size: 13px; }
+.feedback-body { min-height: 0; }
+.feedback-body iframe { display: block; width: 100%; height: 100%; border: 0; }
+
 .region-tabs {
   display: grid;
   grid-template-columns: repeat(6, minmax(0, 1fr));

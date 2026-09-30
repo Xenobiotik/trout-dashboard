@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Индекс клева ручьевой форели</title>
-    <link rel="stylesheet" href="./styles.css?v=0.8.1" />
+    <link rel="stylesheet" href="./styles.css?v=0.9" />
   </head>
   <body>
     <main class="app-shell">
@@ -14,6 +14,7 @@
           <h1>Индекс клева ручьевой форели</h1>
         </div>
         <div class="top-actions">
+          <button class="feedback-button" id="feedbackOpen" type="button" data-feedback-url="https://docs.google.com/forms/d/e/1FAIpQLSfwTraA5kHzZnJAEGCwaQiVefHgDDD7_S6n1bqVIfUKngwlSg/viewform" hidden>Отчет о рыбалке</button>
           <div class="mode-switch" aria-label="Обновление данных">
             <button class="mode-button active" type="button" data-mode="live">Обновить погоду</button>
           </div>
@@ -97,10 +98,20 @@
       <footer class="model-note">Модель 0.6 · Погода: <a href="https://open-meteo.com/">Open-Meteo</a>. Вода, прозрачность и уровень оценены косвенно. Индекс не является вероятностью улова. <a href="../docs/methodology.pdf" target="_blank" rel="noopener">На чем основан прогноз? Пособие с источниками (PDF)</a> · <a href="https://github.com/Xenobiotik/trout-dashboard/blob/main/docs/model-v0.6.md">Правила расчета</a></footer>
     </main>
 
+    <dialog class="feedback-dialog" id="feedbackDialog" aria-labelledby="feedbackTitle">
+      <header class="feedback-header">
+        <h2 id="feedbackTitle">Отчет о рыбалке</h2>
+        <button id="feedbackClose" class="feedback-close" type="button" autofocus>Закрыть</button>
+        <a id="feedbackExternal" target="_blank" rel="noopener noreferrer">Открыть форму в отдельной вкладке</a>
+      </header>
+      <div class="feedback-body" id="feedbackBody"></div>
+    </dialog>
+
     <script src="./live-data.js?v=0.6"></script>
     <script src="./online-engine.js?v=0.7"></script>
     <script src="./data-cache.js?v=0.7"></script>
     <script src="./custom-location.js?v=0.8"></script>
     <script src="./app.js?v=0.8.1"></script>
+    <script src="./feedback.js?v=0.9"></script>
   </body>
 </html>
